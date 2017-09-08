@@ -7,7 +7,7 @@ class Dispatcher
 
 	function __construct()
 	{
-		// echo "construct Dispatcher";
+		echo "construct Dispatcher";
 		$this->request = new Request();
 		Router::parse($this->request->url, $this->request);
 		$controller = $this->loadController();
@@ -18,6 +18,7 @@ class Dispatcher
 		}
 		else
 		{
+			echo "CHOCOLAT";
 			call_user_func_array(array($controller, $this->request->action),$this->request->params);
 		}
 	}

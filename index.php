@@ -1,5 +1,5 @@
-
-<<?php
+Index.php loaded !
+<?php
 	// define()
 	define('DIRSEP', DIRECTORY_SEPARATOR);
 	define('WEBROOT', dirname(__FILE__));
@@ -9,9 +9,8 @@
 	require CORE.DIRSEP."includes.php";
 
 	new Dispatcher();
-	
+
 	echo "BYEBYE\n";
 	die();
-
 
 ?>
