@@ -1,6 +1,6 @@
 <?php
 
-class Comment extends Model
+class Comments extends Model
 {
 	function truc()
 	{

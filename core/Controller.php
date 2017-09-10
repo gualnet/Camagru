@@ -16,6 +16,7 @@ class controller
 	{
 		extract($this->vars);
 		$viewPath = ROOT.DIRSEP."view".DIRSEP.$this->request->controller.DIRSEP.$viewName.".php";
+		// echo " RENDER VIEWPATH = ".$viewPath;
 		require $viewPath;
 	}
 
@@ -28,6 +29,20 @@ class controller
 		else
 		{
 			$this->vars[$key] = $value;
+		}
+	}
+
+	public function loadModel($modelName)
+	{
+		$filePath = ROOT.DIRSEP."model".DIRSEP.$modelName.".php";
+		require_once($filePath);
+		if(!isset($this->$modelName))
+		{
+			$this->$modelName = new $modelName();
+		}
+		else
+		{
+			echo " -Le model ".$modelName." a deja ete chargé- ";
 		}
 	}
 

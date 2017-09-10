@@ -2,11 +2,15 @@ Index.php loaded !
 <?php
 	// define()
 	define('DIRSEP', DIRECTORY_SEPARATOR);
-	define('WEBROOT', dirname(__FILE__));
+	define('WEBROOT', __FILE__.DIRSEP);
 	define('ROOT', dirname(WEBROOT));
 	define('CORE', ROOT.DIRSEP.'core');
-
+	// print_r($_SERVER);
+	// echo " --> WEBROOT ".WEBROOT;
+	// echo " --> CORE ".CORE;
+	// echo " --> ".CORE.DIRSEP."includes.php";
 	require CORE.DIRSEP."includes.php";
+
 
 	new Dispatcher();
 
@@ -14,3 +18,6 @@ Index.php loaded !
 	die();
 
 ?>
+<pre>
+	<?php print_r($_SERVER); ?>
+</pre>
