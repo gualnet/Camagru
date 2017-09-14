@@ -8,9 +8,21 @@ class PagesController extends Controller
 		$this->render("acceuil");
 	}
 
-	function vue()
+	function vue($id=false)
 	{
-		$this->loadModel("comments");
+		$this->loadModel("Comments");
+		if($id)
+		{
+			$findRet = $this->Comments->findFirst(array(
+				"conditions" => "id=".$id));
+		}
+		else
+		{
+			$findRet = $this->Comments->findFirst(array());
+		}
+
+		$this->setVars("Comments", $findRet);
+		// print_r($findRet);
 	}
 
 	// function view($name)

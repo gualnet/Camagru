@@ -27,9 +27,8 @@ class Controller
 		else
 		{
 			$viewPath = ROOT."view".DIRSEP.$this->request->controller.DIRSEP
-			.$viewName.".php";
+				.$viewName.".php";
 		}
-
 		// echo "!-->".$viewName;
 		// echo "!-->".$viewPath;
 		require $viewPath;
@@ -48,7 +47,7 @@ class Controller
 		}
 	}
 
-	function loadModel($modelName=null)
+	function loadModel($modelName)
 	{
 		// echo "MODEL NAME:".$modelName." | ";
 		$modelPath = ROOT."model".DIRSEP.$modelName.".php";
