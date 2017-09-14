@@ -4,7 +4,7 @@
 class Model
 {
 
-	public $table = false;
+	private $table = false;
 	private $connexionStatus = false;
 	private $dbPdo = false;
 
@@ -19,6 +19,7 @@ class Model
 		try
 		{
 			$pdo = new PDO($dbConf["DB_DSN"], $dbConf["DB_USER"], $dbConf["DB_PASSWORD"]);
+			$pdo->setAttribute(PDO::ERRMODE_EXCEPTION);
 			$this->dbPdo = $pdo;
 			$this->$connexionStatus = true;
 		}
@@ -38,14 +39,19 @@ class Model
 	{
 		// print_r($request);
 		// echo "--->>".$this->$table."<<-- ";
-		$sqlReq = "SELECT * FROM ".$this->$table." WHERE ".$request["conditions"];
+		if($this->dbPdo->connect_error)
+		{
+			die("Erreur de connection a la db : ".$this->dbPdo->connect_error);
+		}
+		$sqlReq = "SELECT * FROM ".$this->$table;
+		if(isset($request["conditions"]))
+		{
+			$sqlReq .= " WHERE ".$request["conditions"];
+		}
 		echo "MA REQUETE [".$sqlReq."] ";
 		$prep = $this->dbPdo->prepare($sqlReq);
 		$prep->execute();
 		return $prep->fetchAll(PDO::FETCH_OBJ);
-		echo " PREP -> OK <- ";
-
-
 
 	}
 

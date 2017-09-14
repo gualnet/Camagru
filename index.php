@@ -9,8 +9,12 @@ Index.php loaded !
 	// echo " --> WEBROOT ".WEBROOT;
 	// echo " --> CORE ".CORE;
 	// echo " --> ".CORE.DIRSEP."includes.php";
-	require CORE.DIRSEP."includes.php";
 
+	error_reporting(E_ALL);
+	ini_set('display_errors', 1);
+
+	require CORE.DIRSEP."includes.php";
+	// phpinfo();
 
 	new Dispatcher();
 
