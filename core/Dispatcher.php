@@ -34,10 +34,8 @@ class Dispatcher
 
 	function error($errMsg)
 	{
-		header("HTTP/1.0 404 NOT FOUND");
 		$controller = new Controller($this->request);
-		$controller->setVars("errMsg", $errMsg);
-		$controller->render("/errors/404");
+		$controller->e404($err);
 		die();
 	}
 

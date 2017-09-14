@@ -57,9 +57,16 @@ class Controller
 		{
 			$this->$modelName = new $modelName();
 		}
-
-
 	}
+
+	function e404($errMsg)
+	{
+		// header("HTTP/1.0 404 NOT FOUND");
+		$this->setVars("errMsg", $errMsg);
+		$this->render("/errors/404");
+		die();
+	}
+
 
 }
 

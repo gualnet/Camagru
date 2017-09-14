@@ -20,18 +20,16 @@ class Model
 		{
 			$pdo = new PDO($dbConf->DB_DSN, $dbConf->DB_USER, $dbConf->DB_PASSWORD);
 			Model::$connexions[$this->dbName] = $pdo;
+			$pdo->setAttribute(PDO::ATTR_ERRMODE , PDO::ERRMODE_EXCEPTION);
 		}
 		catch(PDOException $e)
 		{
 			die($e->getMessage());
 		}
-
 		if($this->table === false)
 		{
 			$this->table = strtolower(get_class($this));
 		}
-
-
 
 	}
 
@@ -39,13 +37,36 @@ class Model
 	{
 		$pdoConnexion = Model::$connexions[$this->dbName];
 		$sqlReq = "SELECT * FROM ".$this->table;
+
 		if(isset($req["conditions"]))
 		{
-			$sqlReq .= " WHERE ".$req["conditions"];
+			$sqlReq .= " WHERE ";
+			if(is_array($req["conditions"]))
+			{
+				$cond = array();
+				foreach ($req["conditions"] as $key => $val)
+				{
+					$val = $val;
+					$cond[] = "$key=$val";
+				}
+				$sqlReq .= implode(" AND ", $cond);
+				die($sqlReq);
+			}
+			else
+			{
+				$sqlReq .= $req["conditions"];
+			}
 		}
-		// echo $sqlReq;
-		$prep = $pdoConnexion->prepare($sqlReq);
-		$prep->execute();
+		// echo " '".$sqlReq."' ";
+		try
+		{
+			$prep = $pdoConnexion->prepare($sqlReq);
+			$prep->execute();
+		}
+		catch(PDOException $e)
+		{
+			die($e->getMessage());
+		}
 		return $prep->fetchAll(PDO::FETCH_OBJ);
 	}
 

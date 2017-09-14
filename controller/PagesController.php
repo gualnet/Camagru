@@ -11,16 +11,17 @@ class PagesController extends Controller
 	function vue($id=false)
 	{
 		$this->loadModel("Comments");
-		if($id)
+		if(!$id)
 		{
-			$findRet = $this->Comments->findFirst(array(
-				"conditions" => "id=".$id));
+			$this->e404("PAGE INTROUVABLE");
 		}
-		else
-		{
-			$findRet = $this->Comments->findFirst(array());
-		}
+		$findRet = $this->Comments->findFirst(array(
+			"conditions" => "id=".$id));
 
+		if(empty($findRet))
+		{
+			$this->e404("PAGE INTROUVABLE");
+		}
 		$this->setVars("Comments", $findRet);
 		// print_r($findRet);
 	}
