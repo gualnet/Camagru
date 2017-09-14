@@ -13,7 +13,7 @@ class Dispatcher
 
 		$controller = $this->loadController();
 
-		print_r($controller);
+		// print_r($controller);
 		if(!in_array($this->request->action, get_class_methods($controller)))
 		{
 			$this->error("Controller ".$this->request->controller

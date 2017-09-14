@@ -22,9 +22,7 @@ class Controller
 
 		if(strpos($viewName, "/") === 0)
 		{
-
 			$viewPath = rtrim(ROOT, "/").DIRSEP."view".$viewName.".php";
-			echo "CAS1->";
 		}
 		else
 		{
@@ -32,8 +30,8 @@ class Controller
 			.$viewName.".php";
 		}
 
-		echo "!-->".$viewName;
-		echo "!-->".$viewPath;
+		// echo "!-->".$viewName;
+		// echo "!-->".$viewPath;
 		require $viewPath;
 		$this->rendered = true;
 	}
@@ -50,7 +48,19 @@ class Controller
 		}
 	}
 
+	function loadModel($modelName=null)
+	{
+		// echo "MODEL NAME:".$modelName." | ";
+		$modelPath = ROOT."model".DIRSEP.$modelName.".php";
+		// echo "MODEL PATH:".$modelPath." | ";
+		require_once($modelPath);
+		if(!isset($this->$modelName))
+		{
+			$this->$modelName = new $modelName();
+		}
 
+
+	}
 
 }
 

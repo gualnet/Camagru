@@ -3,14 +3,14 @@
 class PagesController extends Controller
 {
 
-	function index()
+	function acceuil()
 	{
-		$this->render("index");
+		$this->render("acceuil");
 	}
 
-	function vueTest()
+	function vue()
 	{
-		
+		$this->loadModel("comments");
 	}
 
 	// function view($name)

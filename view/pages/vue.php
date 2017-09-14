@@ -2,7 +2,7 @@ vueTest.php loaded !
 <div>
 	<p>
 		<?php
-			echo $test;
+			// echo $test;
 		?>
 	</p>
 </div>
