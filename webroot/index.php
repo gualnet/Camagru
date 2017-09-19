@@ -1,4 +1,4 @@
-Index.php loaded !
+
 
 <?php
 
@@ -12,6 +12,7 @@ Index.php loaded !
 	define('BASE_URL', dirname(WEBROOT).DIRSEP);
 
 	require CORE."includes.php";
+	require ROOT."view/pages/header.php";
 
 	new Dispatcher();
 

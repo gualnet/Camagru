@@ -7,30 +7,28 @@ class Controller
 	private $vars = array();
 	private $rendered = false;
 
-	function __construct($request)
+	function __construct($request=null)
 	{
-		$this->request = $request;
+		if($request)
+		{
+			$this->request = $request;
+		}
 	}
 
 	public function render($viewName)
 	{
 		if($this->rendered)
-		{
 			return false;
-		}
 		extract($this->vars);
-
 		if(strpos($viewName, "/") === 0)
-		{
 			$viewPath = rtrim(ROOT, "/").DIRSEP."view".$viewName.".php";
-		}
 		else
 		{
 			$viewPath = ROOT."view".DIRSEP.$this->request->controller.DIRSEP
 				.$viewName.".php";
 		}
-		// echo "!-->".$viewName;
-		// echo "!-->".$viewPath;
+		// echo "!-->".$viewName." ";
+		// echo "!-->".$viewPath." ";
 		require $viewPath;
 		$this->rendered = true;
 	}
@@ -38,13 +36,9 @@ class Controller
 	public function setVars($key, $value=null)
 	{
 		if(is_array($key))
-		{
 			$this->vars += $key;
-		}
 		else
-		{
 			$this->vars[$key] = $value;
-		}
 	}
 
 	function loadModel($modelName)
@@ -54,9 +48,7 @@ class Controller
 		// echo "MODEL PATH:".$modelPath." | ";
 		require_once($modelPath);
 		if(!isset($this->$modelName))
-		{
 			$this->$modelName = new $modelName();
-		}
 	}
 
 	function e404($errMsg)
@@ -66,6 +58,21 @@ class Controller
 		$this->render("/errors/404");
 		die();
 	}
+
+
+	// /**
+	// * Request : Permet d'appeller un controller directement depuis une view.
+	// **/
+	// function request($ctlrName, $action)
+	// {
+	// 	$ctlrName .= "Controller";
+	// 	$ctlrPath = ROOT."controller".DIRSEP.$ctlrName.".php";
+	// 	// echo "--->".$ctlrPath;
+	// 	require_once $ctlrPath;
+	// 	$c = new $ctlrName();
+	// 	print_r($c->$request);
+	// 	return $c->$action();
+	// }
 
 
 }

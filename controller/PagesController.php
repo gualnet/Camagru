@@ -13,27 +13,24 @@ class PagesController extends Controller
 		$this->loadModel("Comments");
 		if(!$id)
 		{
-			$this->e404("PAGE INTROUVABLE");
+			// $this->e404("PAGE INTROUVABLE");
+			$this->setVars("Comments", false);
+			$this->render("vue");
+			die();
 		}
 		$findRet = $this->Comments->findFirst(array(
 			"conditions" => "id=".$id));
 
 		if(empty($findRet))
-		{
 			$this->e404("PAGE INTROUVABLE");
-		}
 		$this->setVars("Comments", $findRet);
 		// print_r($findRet);
 	}
 
-	// function view($name)
-	// {
-	// 	$this->setVars(
-	// 		array(
-	// 			"test" => "Be good on ".$name
-	// 			));
-	// 	$this->render("index");
-	// }
+	function header()
+	{
+		// $this->render("user_visu");
+	}
 
 
 }

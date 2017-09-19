@@ -12,10 +12,10 @@ class Model
 		require_once "DbConf.php";
 		$dbConf = new DbConf();
 		$this->dbName = $dbConf->DB_NAME;
+		if($this->table === false)
+			$this->table = strtolower(get_class($this));
 		if(isset(Model::$connexions[$this->dbName]))
-		{
 			return true;
-		}
 		try
 		{
 			$pdo = new PDO($dbConf->DB_DSN, $dbConf->DB_USER, $dbConf->DB_PASSWORD);
@@ -26,11 +26,6 @@ class Model
 		{
 			die($e->getMessage());
 		}
-		if($this->table === false)
-		{
-			$this->table = strtolower(get_class($this));
-		}
-
 	}
 
 	public function find($req)
@@ -53,11 +48,8 @@ class Model
 				die($sqlReq);
 			}
 			else
-			{
 				$sqlReq .= $req["conditions"];
-			}
 		}
-		// echo " '".$sqlReq."' ";
 		try
 		{
 			$prep = $pdoConnexion->prepare($sqlReq);
