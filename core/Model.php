@@ -41,25 +41,33 @@ class Model
 				$cond = array();
 				foreach ($req["conditions"] as $key => $val)
 				{
-					$val = $val;
+					if(!is_numeric($val))
+					{
+						$val = $pdoConnexion->quote($val);
+					}
 					$cond[] = "$key=$val";
 				}
 				$sqlReq .= implode(" AND ", $cond);
-				die($sqlReq);
+				// die($sqlReq);
 			}
 			else
 				$sqlReq .= $req["conditions"];
 		}
+		// print($sqlReq);
 		try
 		{
 			$prep = $pdoConnexion->prepare($sqlReq);
+			// print_r($prep);
 			$prep->execute();
 		}
 		catch(PDOException $e)
 		{
 			die($e->getMessage());
 		}
-		return $prep->fetchAll(PDO::FETCH_OBJ);
+		$test = $prep->fetchAll(PDO::FETCH_OBJ);
+		// print_r($test);
+		return $test;
+		// return $prep->fetchAll(PDO::FETCH_OBJ);
 	}
 
 	public function findFirst($req)

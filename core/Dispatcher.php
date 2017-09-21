@@ -25,6 +25,7 @@ class Dispatcher
 		$ctlrName = ucfirst($this->request->controller)."Controller";
 		$ctlrPath = ROOT."controller".DIRSEP.$ctlrName.".php";
 		// echo "--> ".$ctlrName;
+		// echo "--> ".$ctlrPath;
 		if(file_exists($ctlrPath))
 			require $ctlrPath;
 		else

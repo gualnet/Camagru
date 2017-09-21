@@ -20,16 +20,25 @@ class PagesController extends Controller
 		}
 		$findRet = $this->Comments->findFirst(array(
 			"conditions" => "id=".$id));
-
 		if(empty($findRet))
 			$this->e404("PAGE INTROUVABLE");
 		$this->setVars("Comments", $findRet);
 		// print_r($findRet);
 	}
 
-	function header()
+	function profil($id=false)
 	{
-		// $this->render("user_visu");
+		$this->loadModel("Users");
+		if(!$id)
+		{
+			$this->e404("PAGE INTROUVABLE");
+			die("no id");
+		}
+		$findRet = $this->Users->findFirst(array(
+			"conditions" => "id=".$id));
+		if(empty($findRet))
+			$this->e404("PAGE INTROUVABLE");
+		$this->setVars("User", $findRet);
 	}
 
 

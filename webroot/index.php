@@ -1,5 +1,3 @@
-
-
 <?php
 
 	error_reporting(E_ALL);
@@ -24,14 +22,7 @@
 	// echo " --> CORE ".CORE;
 	// echo " --> BASE_URL ".BASE_URL;
 
-
+	require ROOT."view/pages/footer.php";
 	// echo "BYEBYE\n";
 
 ?>
-
-<pre>
-	<?php
-	// print_r($_SERVER);
-
-	?>
-</pre>

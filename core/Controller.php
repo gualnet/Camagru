@@ -56,23 +56,24 @@ class Controller
 		// header("HTTP/1.0 404 NOT FOUND");
 		$this->setVars("errMsg", $errMsg);
 		$this->render("/errors/404");
+		require ROOT."view/pages/footer.php";
 		die();
 	}
 
 
-	// /**
-	// * Request : Permet d'appeller un controller directement depuis une view.
-	// **/
-	// function request($ctlrName, $action)
-	// {
-	// 	$ctlrName .= "Controller";
-	// 	$ctlrPath = ROOT."controller".DIRSEP.$ctlrName.".php";
-	// 	// echo "--->".$ctlrPath;
-	// 	require_once $ctlrPath;
-	// 	$c = new $ctlrName();
-	// 	print_r($c->$request);
-	// 	return $c->$action();
-	// }
+	/**
+	* Request : Permet d'appeller un controller directement depuis une view.
+	**/
+	function request($ctlrName, $action)
+	{
+		$ctlrName .= "Controller";
+		$ctlrPath = ROOT."controller".DIRSEP.$ctlrName.".php";
+		// echo "--->".$ctlrPath;
+		require_once $ctlrPath;
+		$c = new $ctlrName();
+		print_r($c->$request);
+		return $c->$action();
+	}
 
 
 }
