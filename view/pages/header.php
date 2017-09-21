@@ -1,4 +1,4 @@
-
+header
 <HTML>
 	<HEAD>
 		<meta charset="utf-8">
@@ -80,16 +80,39 @@
 			text-align: center;
 		}
 
+		.errLoginMsg p
+		{
+			margin: 0;
+			padding: 0;
+			block-size: 2em;
+			color: red;
+			text-align: center;
+			padding-top: 1em;
+		}
+
 		</style>
 	</HEAD>
 
 	<BODY>
 		<div class="topMenu">
 			<ul>
-			  <li class="menuLeft"><a href="http://localhost:8888/pages/acceuil">Home</a></li>
-			  <li class="menuLeft"><a href="http://localhost:8888/pages/vue/1">Comment</a></li>
-			  <li class="menuLeft"><a href="http://localhost:8888/pages/profil/2">Profil</a></li>
-			  <li class="menuRight"><a href="http://localhost:8888/users/login">Sign-in</a></li>
+			<li class="menuLeft"><a href="http://localhost:8888/pages/acceuil">Home</a></li>
+			<li class="menuLeft"><a href="http://localhost:8888/pages/vue/1">Comment</a></li>
+			<li class="menuLeft"><a href="http://localhost:8888/pages/profil/2">Profil</a></li>
+			<?php
+				if($_SESSION["login"] === "none")
+				{
+					?>
+					<li class="menuRight"><a href="http://localhost:8888/pages/login">Sign-in</a></li>
+					<?php
+				}
+				else
+				{
+					?>
+					<li class="menuRight"><a href="http://localhost:8888/pages/logout">Sign-out</a></li>
+					<?php
+				}
+				?>
 			  <li class="menuRight">Sign-up</li>
 			</ul>
 		</div>

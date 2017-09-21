@@ -41,6 +41,32 @@ class PagesController extends Controller
 		$this->setVars("User", $findRet);
 	}
 
+	function login()
+	{
+		$this->setVars("displayErrMsg", false);
+		if($_POST)
+		{
+			$this->loadModel("Users");
+			$loginRes = $this->Users->checkLogin();
+			// echo " --".$loginRes."-- ";
+			if($loginRes === true)
+			{
+				// echo "login OK";
+				echo "je set session[\"login\"] = longinOK";
+				$_SESSION["login"] = "LoginOK";
+			}
+			else
+			{
+				$this->setVars("displayErrMsg", true);
+			}
+		}
+	}
+
+	function logout()
+	{
+		$_SESSION["login"] = "none";
+		$this->acceuil();
+	}
 
 }
 

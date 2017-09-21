@@ -1,4 +1,16 @@
 <?php
+	session_start();
+?>
+index
+<pre>
+	<?php
+		echo "SESSION:";
+		print_r($_SESSION);
+		// print_r($_SERVER);x
+	?>
+</pre>
+<?php
+
 
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
@@ -11,6 +23,12 @@
 
 	require CORE."includes.php";
 	require ROOT."view/pages/header.php";
+
+	if(!isset($_SESSION["login"]))
+	{
+		echo "je set session[\"login\"] = none";
+		$_SESSION["login"] = "none";
+	}
 
 	new Dispatcher();
 

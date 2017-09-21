@@ -27,8 +27,9 @@ class Controller
 			$viewPath = ROOT."view".DIRSEP.$this->request->controller.DIRSEP
 				.$viewName.".php";
 		}
-		// echo "!-->".$viewName." ";
-		// echo "!-->".$viewPath." ";
+		echo "!-->".$viewName." ";
+		echo " - ".$this->request->controller." - ";
+		echo "!-->".$viewPath." ";
 		require $viewPath;
 		$this->rendered = true;
 	}
