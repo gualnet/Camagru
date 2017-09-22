@@ -26,50 +26,67 @@ class PagesController extends Controller
 		// print_r($findRet);
 	}
 
-	function profil($id=false)
+	function profil()
 	{
 		$this->loadModel("Users");
-		if(!$id)
-		{
-			$this->e404("PAGE INTROUVABLE");
-			die("no id");
-		}
 		$findRet = $this->Users->findFirst(array(
-			"conditions" => "id=".$id));
+			"conditions" => "id=".$_SESSION["user_id"]));
 		if(empty($findRet))
 			$this->e404("PAGE INTROUVABLE");
 		$this->setVars("User", $findRet);
 	}
 
-	function login()
+	function signup()
 	{
-		$this->setVars("displayErrMsg", false);
+		$this->setVars("displayErrMsg", false); //enable error message in case of login failure
+		$this->setVars("loginRedir", false); //Enable home redirection in case of login success
+		$this->setVars("inUse", array(
+			"login" => false,
+			"mail" => false
+		)); //enable error message in case of mail already used
+
 		if($_POST)
 		{
 			$this->loadModel("Users");
-			$loginRes = $this->Users->checkLogin();
-			// echo " --".$loginRes."-- ";
-			if($loginRes === true)
+			$checkRet = $this->Users->checkSignupValidity();
+			$this->setVars("inUse", $checkRet);
+			if($checkRet["login"] === false and $checkRet["mail"] === false)
 			{
-				// echo "login OK";
-				echo "je set session[\"login\"] = longinOK";
-				$_SESSION["login"] = "LoginOK";
+				$this->Users->registerNewUser();
+			}
+		}
+	}
+
+	function login()
+	{
+		$this->setVars("displayErrMsg", false); //enable error message in case of login failure
+		$this->setVars("loginRedir", false); //Enable home redirection in case of login success
+		if($_POST)
+		{
+			$this->loadModel("Users");
+			$loginRes = $this->Users->checkSignin();
+			// echo " --".$loginRes."-- ";
+			if($loginRes === false)
+			{
+				$this->setVars("displayErrMsg", true);
 			}
 			else
 			{
-				$this->setVars("displayErrMsg", true);
+				$_SESSION["user_id"] = $loginRes[0]->id;
+				$_SESSION["login"] = $loginRes[0]->login;
+				$this->setVars("loginRedir", true);
 			}
 		}
 	}
 
 	function logout()
 	{
+		header("Location:acceuil");
 		$_SESSION["login"] = "none";
 		$this->acceuil();
+		ob_end_flush();
 	}
 
 }
-
-
 
 ?>

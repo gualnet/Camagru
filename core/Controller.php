@@ -27,9 +27,9 @@ class Controller
 			$viewPath = ROOT."view".DIRSEP.$this->request->controller.DIRSEP
 				.$viewName.".php";
 		}
-		echo "!-->".$viewName." ";
-		echo " - ".$this->request->controller." - ";
-		echo "!-->".$viewPath." ";
+		// echo "!-->".$viewName." ";
+		// echo " - ".$this->request->controller." - ";
+		// echo "!-->".$viewPath." ";
 		require $viewPath;
 		$this->rendered = true;
 	}
@@ -72,7 +72,7 @@ class Controller
 		// echo "--->".$ctlrPath;
 		require_once $ctlrPath;
 		$c = new $ctlrName();
-		print_r($c->$request);
+		// print_r($c->$request);
 		return $c->$action();
 	}
 

@@ -1,4 +1,4 @@
-header
+
 <HTML>
 	<HEAD>
 		<meta charset="utf-8">
@@ -53,7 +53,8 @@ header
 			/*border: solid 1px red;*/
 			text-align: center;
 			width: 90%;
-			margin-top: 2%;
+			padding-top: 2%;
+			padding-bottom: 2%;
 			margin-left: 5%;
 			margin-right: 5%;
 		}
@@ -74,22 +75,6 @@ header
 			margin-right: 5%;
 		}
 
-		.centralView form /*pour la vue login*/
-		{
-			/*background-color: rgb(240, 240, 245);*/
-			text-align: center;
-		}
-
-		.errLoginMsg p
-		{
-			margin: 0;
-			padding: 0;
-			block-size: 2em;
-			color: red;
-			text-align: center;
-			padding-top: 1em;
-		}
-
 		</style>
 	</HEAD>
 
@@ -98,22 +83,22 @@ header
 			<ul>
 			<li class="menuLeft"><a href="http://localhost:8888/pages/acceuil">Home</a></li>
 			<li class="menuLeft"><a href="http://localhost:8888/pages/vue/1">Comment</a></li>
-			<li class="menuLeft"><a href="http://localhost:8888/pages/profil/2">Profil</a></li>
 			<?php
 				if($_SESSION["login"] === "none")
 				{
 					?>
 					<li class="menuRight"><a href="http://localhost:8888/pages/login">Sign-in</a></li>
+					<li class="menuRight"><a href="http://localhost:8888/pages/signup">Sign-up</a></li>
 					<?php
 				}
 				else
 				{
 					?>
 					<li class="menuRight"><a href="http://localhost:8888/pages/logout">Sign-out</a></li>
+					<li class="menuRight"><a href="http://localhost:8888/pages/profil">Profil</a></li>
 					<?php
 				}
 				?>
-			  <li class="menuRight">Sign-up</li>
 			</ul>
 		</div>
 	</BODY>

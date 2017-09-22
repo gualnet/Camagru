@@ -1,11 +1,13 @@
 <?php
+	ob_start();
 	session_start();
+
 ?>
-index
+
 <pre>
 	<?php
-		echo "SESSION:";
-		print_r($_SESSION);
+		// echo "SESSION:";
+		// print_r($_SESSION);
 		// print_r($_SERVER);x
 	?>
 </pre>
