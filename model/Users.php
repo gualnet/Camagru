@@ -15,7 +15,7 @@ class Users extends Model
 			$req = array(
 				"conditions" => array(
 					"login" => $_POST["login"],
-					"password" => $_POST["pwd"]
+					"password" => hash("sha1", $_POST["pwd"])
 			));
 			$retFind = $this->find($req);
 			if(!isset($retFind) or $retFind === array())
@@ -77,10 +77,10 @@ class Users extends Model
 				"name"		=> $_POST["name"],
 				"surname"	=> $_POST["surname"],
 				"mail"		=> $_POST["mail"],
-				"password"	=> password_hash($_POST["pwd"], PASSWORD_BCRYPT)
+				"password"	=> hash("sha1", $_POST["pwd"])
 			));
-		print_r($req["conditions"]);
-		$this->addUser($req);
+		// print_r($req["conditions"]);
+		return $this->addUser($req); //return true if process ends ok
 	}
 
 }

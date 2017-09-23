@@ -53,7 +53,7 @@ class Model
 			else
 				$sqlReq .= $req["conditions"];
 		}
-		// print($sqlReq);
+		print($sqlReq);
 		try
 		{
 			$prep = $pdoConnexion->prepare($sqlReq);
@@ -83,13 +83,23 @@ class Model
 		foreach ($req["conditions"] as $key => $val)
 		{
 			$val = $pdoConnexion->quote($val);
-			$sqlReq .= " $val";
+			if($key !== "password")
+				$sqlReq .= " $val,";
+			else
+				$sqlReq .= " $val";
 		}
-		$sqlReq .= " );";
-		
-		echo $sqlReq;
+		$sqlReq .= ");";
+		// echo $sqlReq;
+		try
+		{
+			$prep = $pdoConnexion->prepare($sqlReq);
+			$prep->execute();
+		}
+		catch(PDOException $e)
+		{
+			die($e->getMessage());
+		}
 	}
-
 }
 
 

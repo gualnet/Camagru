@@ -1,4 +1,9 @@
 <HEAD>
+
+	<?php
+
+		ob_end_flush();
+	?>
 	<style>
 		.signupForm
 		{
@@ -52,13 +57,14 @@
 </HEAD>
 
 <!-- VARS
+	$displayErrMsg
 	$loginRedir
-	$loginUsed
-	$mailUsed
+	$inUse["login"]
+	$inUse["mail"]
 -->
 <div class="centralView">
 
-		<form class="signupForm" method="post" action="">
+		<form class="signupForm" method="post" action="" onsubmit="">
 			<h2>SIGN-UP</h2>
 			<?php
 				if($inUse["login"] === false)
@@ -95,8 +101,17 @@
 			?>
 			<input type="text" name="mail" required="required"/>
 			<label>Password </label>
-			<input type="password" name="pwd"  required="required"/>
-			<button type="submit">OK</button>
+			<input type="password" name="pwd" required="required"/>
+			<button type="submit" value="submit">OK</button>
 		</form>
+		<?php
+		if($loginRedir)
+		{?><script>
+			var form = document.getElementsByClassName("signupForm")[0];
+			var centralView = document.getElementsByClassName("centralView")[0];
+			centralView.removeChild(form);
+			alert("Success ! you will soon receive a mail to confirm your registration");
+		</script><?php
+	}?>
 
 </div>

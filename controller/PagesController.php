@@ -44,8 +44,10 @@ class PagesController extends Controller
 			"login" => false,
 			"mail" => false
 		)); //enable error message in case of mail already used
-
-		if(isset($_POST["login"]), isset($_POST["name"]), isset($_POST["surname"]), isset($_POST["mail"]), isset($_POST["pwd"]))
+		// print_r($_POST);
+		if(isset($_POST["login"]) and isset($_POST["name"]) and
+		isset($_POST["surname"]) and isset($_POST["mail"]) and
+		isset($_POST["pwd"]))
 		{
 			$this->loadModel("Users");
 			$checkRet = $this->Users->checkSignupValidity();
@@ -53,9 +55,10 @@ class PagesController extends Controller
 			if($checkRet["login"] === false and $checkRet["mail"] === false)
 			{
 				$this->Users->registerNewUser();
+				$this->setVars("loginRedir", true);
 			}
 		}
-		else
+		else if($_POST !== array())
 		{
 			$this->e404("JOUE PAS AU CON !!!!");
 		}
