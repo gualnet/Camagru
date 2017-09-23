@@ -80,6 +80,7 @@ class Users extends Model
 				"password"	=> password_hash($_POST["pwd"], PASSWORD_BCRYPT)
 			));
 		print_r($req["conditions"]);
+		$this->addUser($req);
 	}
 
 }

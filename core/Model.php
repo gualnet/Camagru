@@ -75,6 +75,21 @@ class Model
 		return current($this->find($req));
 	}
 
+	public function addUser($req)
+	{
+		$pdoConnexion = Model::$connexions[$this->dbName];
+		$sqlReq = "INSERT INTO ".$this->table." (login, nom, prenom, mail, password)"
+		." VALUES (";
+		foreach ($req["conditions"] as $key => $val)
+		{
+			$val = $pdoConnexion->quote($val);
+			$sqlReq .= " $val";
+		}
+		$sqlReq .= " );";
+		
+		echo $sqlReq;
+	}
+
 }
 
 
