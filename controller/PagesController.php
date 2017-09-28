@@ -55,6 +55,7 @@ class PagesController extends Controller
 			if($checkRet["login"] === false and $checkRet["mail"] === false)
 			{
 				$this->Users->registerNewUser();
+				$this->Users->sendConfirmMail();
 				$this->setVars("loginRedir", true);
 			}
 		}

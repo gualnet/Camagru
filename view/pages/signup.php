@@ -5,23 +5,30 @@
 		ob_end_flush();
 	?>
 	<style>
+
 		.signupForm
 		{
-			margin: 0;padding: 0;
+			margin: 0;
+			padding: 0;
 			background-color: rgb(240, 240, 245);
-			height: 100%;
-			width: 10%;
-			padding-left: 45%;
-			padding-right: 45%;
-			display: inline-grid;
+			display: flex;
+			flex-direction: column;
+			height: 70%;
+			width: 30%;
+			padding-left: 35%;
+			padding-right: 35%;
 			text-align: center;
-			align-content: center;
 		}
 
 		.signupForm input/*pour la vue login*/
 		{
 			/*background-color: rgb(240, 240, 245);*/
 			margin: 0;padding: 0;
+			margin: 0;
+			padding: 0;
+			width: 70%;
+			margin-left: 15%;
+			margin-right: 15%;
 		}
 
 		.signupForm h2/*pour la vue login*/

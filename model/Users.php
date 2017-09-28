@@ -83,6 +83,25 @@ class Users extends Model
 		return $this->addUser($req); //return true if process ends ok
 	}
 
+	function sendConfirmMail()
+	{
+		$to = $_POST["mail"];
+		$subject = "CAMAGROu - Confirmation of registration";
+		$headers = "From: webmaster@camagrou.com\r\n";
+		$headers .= "Reply-To: no-reply@camagrou.com \r\n";
+		$message = "Dear ".$_POST["login"]."\r\n
+			WELCOME...\r\n
+			BLABLABLA.. click -=> HERE <=- \r\n";
+
+		$ret = imap_mail($to, $subject, $message, $headers);
+		if($ret)
+			echo "MAIL ENVOYE a $to";
+		else
+			echo "MAIL NOK";
+
+
+	}
+
 }
 
 
