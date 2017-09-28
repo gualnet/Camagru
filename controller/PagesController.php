@@ -29,6 +29,7 @@ class PagesController extends Controller
 	function profil()
 	{
 		$this->loadModel("Users");
+		if(isset($_SESSION["user_id"]))
 		$findRet = $this->Users->findFirst(array(
 			"conditions" => "id=".$_SESSION["user_id"]));
 		if(empty($findRet))
@@ -54,8 +55,11 @@ class PagesController extends Controller
 			$this->setVars("inUse", $checkRet);
 			if($checkRet["login"] === false and $checkRet["mail"] === false)
 			{
-				$this->Users->registerNewUser();
-				$this->Users->sendConfirmMail();
+				$activator = $this->Users->registerNewUser();
+				if(!$this->Users->sendConfirmMail($_POST["login"], $activator))
+				{
+					$this->e404("An error occur, Confirmation mail not sent.<p>please contact the customer services !</p>");
+				}
 				$this->setVars("loginRedir", true);
 			}
 		}
@@ -95,6 +99,35 @@ class PagesController extends Controller
 		ob_end_flush();
 	}
 
+	function accountActivation()
+	{
+		$ul = empty($_GET["ul"]) ? NULL : $_GET["ul"];
+		$ua = empty($_GET["ua"]) ? NULL : $_GET["ua"];
+		$this->loadModel("Users");
+		$reqCond["conditions"] = array(
+			"login"				=> $ul,
+			"activation_hash"	=> $ua
+		);
+		$userRet = $this->Users->find($reqCond);
+		if(count($userRet) != 1)
+		{
+			$this->e404("!^!^!");
+			die();
+		}
+		if($this->Users->confirmActivation($userRet[0]) === false)
+		{
+			$this->e404("Authentication not allowed");
+			die();
+		}
+		$_SESSION["user_id"] = $userRet[0]->id;
+		$_SESSION["login"] = $userRet[0]->login;
+		$this->setVars("loginRedir", true);
+	}
+
+	function webcamTest()
+	{
+		$this->render("webcamTest");
+	}
 }
 
 ?>

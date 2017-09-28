@@ -7,7 +7,7 @@
 			<p>Nom : <?php echo $User->nom ?></p>
 			<p>Prenom : <?php echo $User->prenom ?></p>
 			<p>Mail : <?php echo $User->mail ?></p>
-			<p>Password : <?php echo $User->password ?></p>
+			<p>Password : <?php echo "*****" ?></p>
 		</div>
 
 	</BODY>

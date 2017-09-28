@@ -4,13 +4,6 @@
 
 ?>
 
-<pre>
-	<?php
-		// echo "SESSION:";
-		// print_r($_SESSION);
-		// print_r($_SERVER);x
-	?>
-</pre>
 <?php
 
 

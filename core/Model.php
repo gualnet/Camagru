@@ -32,7 +32,6 @@ class Model
 	{
 		$pdoConnexion = Model::$connexions[$this->dbName];
 		$sqlReq = "SELECT * FROM ".$this->table;
-
 		if(isset($req["conditions"]))
 		{
 			$sqlReq .= " WHERE ";
@@ -53,7 +52,7 @@ class Model
 			else
 				$sqlReq .= $req["conditions"];
 		}
-		print($sqlReq);
+		// print($sqlReq);
 		try
 		{
 			$prep = $pdoConnexion->prepare($sqlReq);
@@ -64,10 +63,8 @@ class Model
 		{
 			die($e->getMessage());
 		}
-		$test = $prep->fetchAll(PDO::FETCH_OBJ);
-		// print_r($test);
-		return $test;
-		// return $prep->fetchAll(PDO::FETCH_OBJ);
+		// $prep->fetchAll(PDO::FETCH_OBJ);
+		return $prep->fetchAll(PDO::FETCH_OBJ);
 	}
 
 	public function findFirst($req)
@@ -75,31 +72,7 @@ class Model
 		return current($this->find($req));
 	}
 
-	public function addUser($req)
-	{
-		$pdoConnexion = Model::$connexions[$this->dbName];
-		$sqlReq = "INSERT INTO ".$this->table." (login, nom, prenom, mail, password)"
-		." VALUES (";
-		foreach ($req["conditions"] as $key => $val)
-		{
-			$val = $pdoConnexion->quote($val);
-			if($key !== "password")
-				$sqlReq .= " $val,";
-			else
-				$sqlReq .= " $val";
-		}
-		$sqlReq .= ");";
-		// echo $sqlReq;
-		try
-		{
-			$prep = $pdoConnexion->prepare($sqlReq);
-			$prep->execute();
-		}
-		catch(PDOException $e)
-		{
-			die($e->getMessage());
-		}
-	}
+	
 }
 
 

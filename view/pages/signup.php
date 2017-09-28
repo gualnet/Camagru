@@ -27,8 +27,9 @@
 			margin: 0;
 			padding: 0;
 			width: 70%;
-			margin-left: 15%;
-			margin-right: 15%;
+			max-width: 200px;
+			margin-left: auto;
+			margin-right: auto;
 		}
 
 		.signupForm h2/*pour la vue login*/
@@ -40,10 +41,11 @@
 
 		.signupForm button
 		{
-			margin: 0;padding: 0;
+			margin: auto;padding: 0;
 			margin-top: 10%;
-			margin-left: 25%;
+			margin-bottom: 0%;
 			width: 50%;
+			max-width: 50px;
 		}
 
 		.signupForm label

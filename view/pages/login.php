@@ -29,8 +29,9 @@
 			margin: 0;
 			padding: 0;
 			width: 70%;
-			margin-left: 15%;
-			margin-right: 15%;
+			max-width: 200px;
+			margin-left: auto;
+			margin-right: auto;
 		}
 
 		.signinForm h2/*pour la vue login*/
@@ -42,10 +43,11 @@
 
 		.signinForm button
 		{
-			margin: 0;padding: 0;
+			margin: auto;padding: 0;
 			margin-top: 10%;
-			margin-left: 25%;
+			margin-bottom: 0%;
 			width: 50%;
+			max-width: 50px;
 		}
 
 		.errLoginMsg p
@@ -63,21 +65,22 @@
 <div class="centralView">
 	<form class="signinForm" method="post" action="">
 		<h2>Please Sign-in</h2>
+		<?php
+			if($displayErrMsg === true)
+			{
+				?>
+				<div class="errLoginMsg">
+					<p>Login or password incorrect</p>
+				</div>
+				<?php
+			}
+		?>
 		<label>Login </label>
 		<input type="text" name="login" required="required"/>
 		<label>Password </label>
 		<input type="password" name="pwd"  required="required"/>
 		<button type="submit">OK</button>
 	</form>
-<?php
-	if($displayErrMsg === true)
-	{
-		?>
-		<div class="errLoginMsg">
-			<p>Login or password incorrect</p>
-		</div>
-		<?php
-	}
-?>
+
 
 </div>

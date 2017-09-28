@@ -1,4 +1,3 @@
-
 <HTML>
 	<HEAD>
 		<meta charset="utf-8">
@@ -83,6 +82,7 @@
 			<ul>
 			<li class="menuLeft"><a href="http://localhost:8888/pages/acceuil">Home</a></li>
 			<li class="menuLeft"><a href="http://localhost:8888/pages/vue/1">Comment</a></li>
+			<li class="menuLeft"><a href="http://localhost:8888/pages/webcamTest">test webcam</a></li>
 			<?php
 				if($_SESSION["login"] === "none")
 				{
@@ -101,5 +101,3 @@
 				?>
 			</ul>
 		</div>
-	</BODY>
-</HTML>
