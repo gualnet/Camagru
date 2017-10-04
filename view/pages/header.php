@@ -12,6 +12,7 @@
 			margin-right: 5vw;
 			margin-top: 0vh;
 			margin-bottom: 0vh;
+			border-bottom: 1px dotted white;
 		}
 
 		.menuLeft {
@@ -34,7 +35,7 @@
 			padding: 0;
 			list-style-type: none;
 			float: right;
-			background: rgb(235, 235, 245);
+			background: #ebebf5;
 			height: 4vh;
 			padding-left: 0.5vw;
 			padding-right: 0.5vw;
@@ -56,6 +57,8 @@
 			padding-bottom: 2%;
 			margin-left: 5%;
 			margin-right: 5%;
+			border-top: 2px dotted white;
+
 		}
 
 		.footer p
@@ -67,7 +70,7 @@
 		.centralView
 		{
 			/*border: 1px solid blue;*/
-			background-color: rgb(240, 240, 245);
+			background-color: #f0f0f5;
 			height: 80%;
 			width: 90%;
 			margin-left: 5%;
