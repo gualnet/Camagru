@@ -52,7 +52,7 @@ class Model
 			else
 				$sqlReq .= $req["conditions"];
 		}
-		// print($sqlReq);
+		print($sqlReq);
 		try
 		{
 			$prep = $pdoConnexion->prepare($sqlReq);
@@ -63,7 +63,6 @@ class Model
 		{
 			die($e->getMessage());
 		}
-		// $prep->fetchAll(PDO::FETCH_OBJ);
 		return $prep->fetchAll(PDO::FETCH_OBJ);
 	}
 
@@ -72,7 +71,47 @@ class Model
 		return current($this->find($req));
 	}
 
-	
+	public function insert($req)
+	{
+		$pdoConnexion = Model::$connexions[$this->dbName];
+		$sqlReq = "INSERT INTO ".$this->table
+		." (";
+		if(isset($req["conditions"]))
+		{
+			$column = array();
+			foreach($req["conditions"] as $key => $val)
+			{
+				// $key = $pdoConnexion->quote($key);
+				$column[] = "$key";
+			}
+			$sqlReq .= implode(", ", $column);
+			$sqlReq .= ") VALUES (";
+			$cond = array();
+			foreach($req["conditions"] as $key => $val)
+			{
+				if(!is_numeric($val))
+				{
+					$val = $pdoConnexion->quote($val);
+				}
+				$cond[] = "$val";
+			}
+			$sqlReq .= implode(", ", $cond);
+			$sqlReq .= ");";
+		}
+		echo "<p>-->".$sqlReq."<--</p>";
+		try
+		{
+			$prep = $pdoConnexion->prepare($sqlReq);
+			// print_r($prep);
+			$prep->execute();
+		}
+		catch(PDOException $e)
+		{
+			die($e->getMessage());
+		}
+		return true;
+	}
+
 }
 
 

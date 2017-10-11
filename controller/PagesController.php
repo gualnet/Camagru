@@ -3,6 +3,11 @@
 class PagesController extends Controller
 {
 
+	function index()
+	{
+		$this->render("acceuil");
+	}
+
 	function acceuil()
 	{
 		$this->render("acceuil");
@@ -35,6 +40,7 @@ class PagesController extends Controller
 		if(empty($findRet))
 			$this->e404("PAGE INTROUVABLE");
 		$this->setVars("User", $findRet);
+		$this->render("profil");
 	}
 
 	function signup()
@@ -126,7 +132,41 @@ class PagesController extends Controller
 
 	function webcamTest()
 	{
+		$this->loadModel("Pictures");
+		$this->loadModel("Calcs");
+		$retCalcs = $this->Calcs->getCalcs();
+		$retUserPics = $this->Pictures->getUserPics();
+		$userPics = array();
+		$calcsUrl = array();
+		if ($retUserPics != false)
+		{
+			for ($i = 0; $i < count($retUserPics); $i++)
+			{
+				$userPics[] .= $retUserPics[$i]->file_url;
+			}
+			$this->setVars("userPics", $userPics);
+		}
+		if($retCalcs != false)
+		{
+			for($i = 0; $i < count($retCalcs); $i++)
+			{
+				$calcsUrl[] .= $retCalcs[$i]->file_url;
+				print($retCalcs[$i]->file_url);
+			}
+			$this->setVars("calcsUrl", $calcsUrl);
+		}
 		$this->render("webcamTest");
+	}
+
+	function picRegistration()
+	{
+		$this->loadModel("Pictures");
+		$this->Pictures->picRegistration();
+		$this->render("picRegistration");
+
+		// die("ICICICICICICICIC");
+		header("Location:webcamTest");
+
 	}
 }
 

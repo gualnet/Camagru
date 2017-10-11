@@ -15,6 +15,34 @@ class Controller
 		}
 	}
 
+	private function getCssJs($viewName)
+	{
+		if(strpos($viewName, "/") === 0)
+		{
+			$cssPath = rtrim(ROOT, "/").DIRSEP."view".DIRSEP."css".DIRSEP.$viewName.".css";
+			$jsPath = rtrim(ROOT, "/").DIRSEP."view".DIRSEP."js".DIRSEP.$viewName.".js";
+		}
+		else
+		{
+			$cssPath = ROOT."view".DIRSEP."css".DIRSEP.$viewName.".css";
+			$jsPath = ROOT."view".DIRSEP."js".DIRSEP.$viewName.".js";
+		}
+		if(file_exists($cssPath))
+		{
+			echo "<style>";
+			require_once $cssPath;
+			echo "</style>";
+			// echo "$cssPath";
+		}
+		if(file_exists($jsPath))
+		{
+			echo "<script>";
+			require_once $jsPath;
+			echo "</script>";
+			// echo "$jsPath";
+		}
+	}
+
 	public function render($viewName)
 	{
 		if($this->rendered)
@@ -27,9 +55,7 @@ class Controller
 			$viewPath = ROOT."view".DIRSEP.$this->request->controller.DIRSEP
 				.$viewName.".php";
 		}
-		// echo "!-->".$viewName." ";
-		// echo " - ".$this->request->controller." - ";
-		// echo "!-->".$viewPath." ";
+		$this->getCssJs($viewName);
 		require $viewPath;
 		$this->rendered = true;
 	}

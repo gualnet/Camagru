@@ -1,0 +1,95 @@
+
+.centralView
+{
+	display: grid;
+	/*width: auto;height: auto;*/
+	grid-template-columns: repeat(20, 10%);
+	grid-template-rows: repeat(20, 10%);
+}
+
+.videoBox ul
+{
+	/*display: none;*/
+	margin: 0px; padding: 0px;
+}
+.videoBox li
+{
+	list-style-type: none;
+	margin: 0px; padding: 0px;
+	transition-property: all;
+	transition-duration: 1s;
+	width: 20%;
+	margin-left: 40%;
+	padding: 8px;
+	text-align: center;
+	margin-bottom: 7px;
+	background-color: #ebebf5;
+	color: #33b5e5;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.videoBox li:hover
+{
+	list-style-type: none;
+	width: 40%;
+	margin-left: 30%;
+	background-color: #33b5e5;
+	color: #ebebf5;
+}
+
+.videoBox
+{
+	border: 2px solid red;
+	grid-column: 1/8;
+	grid-row: 1/8;
+}
+.videoBox video
+{
+	/*position: absolute;*/
+	z-index: 0;
+	width: 100%;
+	max-height: 100%;
+	height: auto;
+	/*background: none;*/
+}
+.videoBox #videoAlpha
+{
+	position: absolute;
+	z-index: 0;
+	/*padding: auto;*/
+}
+
+
+.galerieBox
+{
+	border: 5px dotted #e0e0f2;
+	grid-column: 8/11;
+	grid-row: 1/9;
+}
+.galerieBox canvas
+{
+	width: 70%;
+	height: auto;
+	margin-left: 15%;
+}
+.galerieBox img
+{
+	margin: 0px; padding: 0px;
+	width: 90%; height: auto;
+	margin-left: 5%;
+}
+
+.calquesBox
+{
+	/*border: 2px solid black;*/
+	grid-column: 1/11;
+	grid-row: 9/11;
+}
+.calquesBox img
+{
+	height: 100%;width: auto;
+}
+
+.hiddenForm
+{
+	display: none;
+}

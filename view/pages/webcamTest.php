@@ -1,193 +1,198 @@
-<HEAD>
-	<style>
-
-	.centralView
-	{
-		display: grid;
-		grid-template-columns: repeat(10, 10%);
-		grid-template-rows: repeat(10, 10%);
-	}
-
-	.btnBox
-	{
-		border: 2px solid blue;
-		grid-column: 1/3;
-		grid-row: 2/6;
-	}
-	.btnBox ul
-	{
-		list-style-type: none;
-	}
-	.btnBox li
-	{
-		width: 70%;
-		padding: 8px;
-		margin-bottom: 7px;
-		background-color: #33b5e5;
-		color: #ebebf5;
-		box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-	}
-	.btnBox li:hover
-	{
-		background-color: #ebebf5;
-		color: #33b5e5;
-	}
-
-	.videoBox
-	{
-		border: 2px solid red;
-		grid-column: 3/8;
-		grid-row: 1/8;
-	}
-	.videoBox video
-	{
-		width: 100%;
-		height: auto;
-		background: none;
-	}
-
-	.galerieBox
-	{
-		border: 2px solid green;
-		grid-column: 8/11;
-		grid-row: 1/8;
-	}
-	.galerieBox canvas
-	{
-		width: 70%;
-		height: auto;
-		margin-left: 15%;
-	}
-
-	.calquesBox
-	{
-		border: 2px solid black;
-		grid-column: 1/11;
-		grid-row: 8/11;
-	}
-	.calquesBox img
-	{
-		height: 100%;width: auto;
-	}
-
-
-	</style>
-</HEAD>
 
 		<div class="centralView">
-			<dic  class="btnBox">
+			<!-- <dic  class="btnBox"> -->
 				<!-- <button >Prendre une photo</button> -->
-				<ul>
-					<li id="pictureBtn">Prendre une photo</li>
-					<li>inactif 1</li>
-					<li>inactif 2</li>
-					<li>inactif 3</li>
-				</ul>
-			</dic>
+				<!-- <ul> -->
+					<!-- <li id="picTakeBtn">Prendre une photo</li> -->
+					<!-- <li>inactif 1</li> -->
+				<!-- </ul> -->
+			<!-- </dic> -->
 			<div class="videoBox">
-				<!-- <img  id="calcs" src="http://pngimg.com/uploads/bat/bat_PNG35.png" alt="TRUC" style="width=300px;height=150px;"/> -->
 				<video id="video"></video>
+				<ul>
+					<li id="picTakeBtn">Prendre une photo</li>
+					<!-- <li>inactif 1</li> -->
+				</ul>
 
 			</div>
 			<div class="galerieBox">
-				<canvas id="photo"></canvas>
-				<canvas id="photo"></canvas>
-				<canvas id="photo"></canvas>
-				<canvas id="photo"></canvas>
-			</div>
-			<picture class="calquesBox"	>
 				<?php
-					$path = ROOT."ressources/calcs/CALC06.png";
-					if(!file_exists($path))
+					if(isset($userPics))
 					{
-						echo "ERROR";
-						echo $path00;
+						// print_r($userPics);
+						for ($i = 0; $i < count($userPics); $i++)
+						{
+							echo "<img src=\"".$userPics[$i]."\" />";
+							// print("<p>".$pic."</p>");
+						}
 					}
 
+
+
 				?>
-				<img id="calcs" src="http://pngimg.com/uploads/bat/bat_PNG35.png" alt="TRUC" style="width=300px;height=150px;"></img>
-			</picture>
+				<canvas id="photo"></canvas>
+					<!-- <ul>
+						<li class-"picRegBtn" id="picRegBtn" onclick="hiddenForm.submit()">Register</li>
+					</ul> -->
+				<!-- <script>
+					document.querySelector("#picRegBtn").style.display = "none";
+				</script> -->
+			</div>
+			<div class="calquesBox"	>
+				<?php
+					if(isset($calcsUrl))
+					{
+						for($i=0; $i < count($calcsUrl); $i++)
+						{
+							echo "<img src=\"".$calcsUrl[$i]."\"/>";
+						}
+					}
+				?>
+				<!-- <img class="calcImg" onClick="calcSelector(this)" src="http://pngimg.com/uploads/bat/bat_PNG35.png" alt="TRUC" style="width=300px;height=150px;"></img>
+				<img class="calcImg" onClick="calcSelector(this)" src="http://i2.wp.com/gallery.yopriceville.com/var/albums/Frames/Beautiful_Brown_Transparent_Frame%20with_Transparent_Round_Window_and_Chair.png?m=1365462000" alt="TRUC" style="width=300px;height=150px;"></img>
+				<img class="calcImg" onClick="calcSelector(this)" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEWNNlU3t11aHL3ebu-wklQlCSrKNloyd9hFkR-vAUKabsDkzf" alt="TRUC" style="width=300px;height=150px;"></img> -->
+			</div>
 		</div>
+		<form class="hiddenForm" method="POST" action="/pages/picRegistration">
+			<input id="dataSendPic" type="image/png" name="picData" value="none"/>
+			<input id="dataSendCalc" type="image/png" name="calcData" value="none"/>
+		</form>
 
-		<script type="text/javascript">
+<script type="text/javascript">
 
-		(function()
-		{
-			var streaming = false,
-			video	= document.querySelector("#video"),
-			// cover	= document.querySelector("#cover"),
-			// canvas	= document.querySelector("#canvas"),
-			photo	= document.querySelector("#photo"),
-			pictureBtn	= document.querySelector("#pictureBtn"),
-			width = 300,
-			height = 0;
+(function()
+{
+	var streaming = false,
+	video	= document.querySelector("#video"),
+	// videoAlpha	= document.querySelector("#videoAlpha"),
+	photo	= document.querySelector("#photo"),
+	picTakeBtn	= document.querySelector("#picTakeBtn"),
+	width = 1024,
+	height = 0;
 
-			navigator.getMedia	= (navigator.getUserMedia ||
-				navigator.webkitGetUserMedia ||
-				navigator.mozGetUserMedia ||
-				navigator.msGetUserMedia);
+	navigator.getMedia	= (navigator.getUserMedia ||
+		navigator.webkitGetUserMedia ||
+		navigator.mozGetUserMedia ||
+		navigator.msGetUserMedia);
 
-			navigator.getMedia(
-			{
-				video: true,
-				audio: false
-			},
-		function(stream)
-		{
-			if (navigator.mozGetUserMedia)
-			{
-				video.mozSrcObject = stream;
-			}
-			else
-			{
-				var vendorURL = window.URL || window.webkitURL;
-				console.log("->"+vendorURL.createObjectURL(stream));
-				videoBox = document.querySelector(".videoBox");
-				console.log("videoBox"+videoBox);
-				video.style.background = vendorURL.createObjectURL(stream);
-				// video.src = vendorURL.createObjectURL(stream);
-			}
-			video.play();
-		},
-		function(err)
-		{
-			console.log("An error occured! " + err);
-		}
-	);
-
-	video.addEventListener("canplay",
-		function(ev)
-		{
-			if (!streaming)
-			{
-				height = video.videoHeight / (video.videoWidth/width);
-				video.setAttribute("width", width);
-				video.setAttribute("height", height);
-				photo.setAttribute("width", width);
-				photo.setAttribute("height", height);
-				streaming = true;
-			}
-		},
-		false);
-
-	function takepicture()
+	navigator.getMedia(
 	{
-		// photo.width = width;
-		// photo.height = height;
-		photo.getContext("2d").drawImage(video, 0, 0, width, height);
-		var data = photo.toDataURL("image/png");
-		console.log("data="+data);
-		photo.setAttribute("src", data);
+		video: true,
+		audio: false
+	},
+function(stream)
+{
+	if (navigator.mozGetUserMedia)
+	{
+		video.mozSrcObject = stream;
 	}
+	else
+	{
+		var vendorURL = window.URL || window.webkitURL;
+		video.src = vendorURL.createObjectURL(stream);
+	}
+	video.play();
+},
+function(err)
+{
+	console.log("An error occured! " + err);
+}
+);
 
-	pictureBtn.addEventListener("click",
-		function(ev)
-		{
-			takepicture();
-			ev.preventDefault();
-		},
-		false);
+video.addEventListener("canplay",
+function(ev)
+{
+	if (!streaming)
+	{
+		height = video.videoHeight / (video.videoWidth/width);
+		video.setAttribute("width", width);
+		video.setAttribute("height", height);
+		photo.setAttribute("width", width);
+		photo.setAttribute("height", height);
+		// videoAlpha.setAttribute("width", video.offsetWidth);
+		// videoAlpha.setAttribute("height", video.offsetHeight);
+		streaming = true;
+	}
+},
+false);
 
-	})();
+picTakeBtn.addEventListener("click",
+function(ev)
+{
+	// width = 1024;
+	photo.getContext("2d", {alpha: true}).drawImage(video, 0, 0, width, height);
+	var data = photo.toDataURL("image/png");
+	photo.setAttribute("src", data);
+	// document.querySelector("#picRegBtn").style.display = "list-item";
+	var picData = document.querySelector("#photo").getAttribute("src");
+	document.querySelector("#dataSendPic").setAttribute("value", picData);
+	document.querySelector(".hiddenForm").submit();
+	ev.preventDefault();
+},
+false);
 
-		</script>
+})();
+
+function calcSelector(me)
+{
+	var calcs = document.getElementsByClassName("calcImg");
+	var calcUrl = me.getAttribute("src");
+	//je set la visualisation de la selection du calc
+	for (i = 0; i < calcs.length; i++)
+	{
+		calcs[i].style.border = "none";
+		calcs[i].style.opacity = "0.3";
+	}
+	me.style.border = "1px dotted #ffffff";
+	me.style.opacity = "1";
+
+
+	document.querySelector("#dataSendCalc").setAttribute("value", calcData);
+
+	var btnTakePic = document.querySelector(".videoBox ul");
+	btnTakePic.style.display = "block";
+}
+
+	// function truc(me)
+	// {
+	// 	video	= document.querySelector(".videoBox #video")
+	// 	var videoWidth = video.offsetWidth;
+	// 	var videoHeight = video.offsetHeight;
+	// 	//je set la visualisation de la selection du calc
+	// 	var calcs = document.getElementsByClassName("calcImg");
+	// 	// console.log(calcs);
+	// 	// console.log(calcs.length);
+	// 	for (i = 0; i < calcs.length; i++)
+	// 	{
+	// 		calcs[i].style.border = "0px";
+	// 	}
+	// 	me.style.border = "1px solid #0c1cf1";
+	//
+	// 	//j'insere mon calque sur la video
+	// 	var source = me.getAttribute("src");
+	// 	var sourceW = me.offsetWidth;
+	// 	var sourceH = me.offsetHeight;
+	// 	// console.log("SOURCE=>"+source);
+	// 	// console.log("PHOTO=>"+photo);
+	// 	console.log(videoWidth+"X"+videoHeight);
+	// 	console.log(sourceW+"X"+sourceH);
+	// 	// var photo = document.querySelector("#videoAlpha");
+	// 	var videoBox = document.querySelector(".videoBox");
+	// 	var toRemove = document.querySelector("#videoAlpha");
+	// 	console.log("la:"+toRemove);
+	// 	if(toRemove != null)
+	// 	{
+	// 		videoBox.removeChild(toRemove);
+	// 	}
+	// 	var oldContent = videoBox.innerHTML;
+	// 	console.log("-->"+oldContent);
+	// 	videoBox.innerHTML = "<img id=\"videoAlpha\" width=\""
+	// 	+videoWidth+"\" height=\""+videoHeight+"\"/>"+oldContent;
+	// 	var alpha = document.querySelector("#videoAlpha");
+	// 	alpha.setAttribute("src", source);
+	//
+	// 	// photo.setAttribute("max-height", videoHeight);
+	// 	// photo.setAttribute("max-width", videoWidth);
+	// }
+
+</script>

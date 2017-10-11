@@ -12,7 +12,7 @@
 
 	define('DIRSEP', DIRECTORY_SEPARATOR);
 	define('WEBROOT', dirname(__FILE__).DIRSEP);
-	define('ROOT', dirname(WEBROOT).DIRSEP);
+	define('ROOT', dirname(WEBROOT).DIRSEP."Camagru".DIRSEP);
 	define('CORE', ROOT.'core'.DIRSEP);
 	define('BASE_URL', dirname(WEBROOT).DIRSEP);
 
@@ -28,12 +28,12 @@
 	new Dispatcher();
 
 
-	// print_r($_SERVER);
 	// echo " --> FILE ".__FILE__;
 	// echo " --> WEBROOT ".WEBROOT;
 	// echo " --> ROOT ".ROOT;
 	// echo " --> CORE ".CORE;
 	// echo " --> BASE_URL ".BASE_URL;
+	// print_r($_SERVER);
 
 	require ROOT."view/pages/footer.php";
 	// echo "BYEBYE\n";

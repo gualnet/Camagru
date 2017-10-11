@@ -1,4 +1,3 @@
-
 <?php
 
 /** Les Variables
@@ -96,7 +95,7 @@ class Users extends Model
 			"<h4>Dear ".$_POST["login"]."</h4>\r\n"
 			."<p>WELCOME...</p>\r\n"
 			."<p>BLABLABLA.. click -=>"
-			."<a href=http://localhost:8888/pages/accountActivation/?"."ul=".$login."&ua=".$activator.">"
+			."<a href=http://localhost:8888/inter/accountActivation/?"."ul=".$login."&ua=".$activator.">"
 			."<span>HERE</span></a>  <=- </p>\r\n";
 
 		$ret = imap_mail($to, $subject, $message, $headers);
@@ -148,8 +147,6 @@ class Users extends Model
 			"activation_hash" => "active"
 		);
 		$this->updateUser($usr->id, $req);
-
-
 		// return false;
 	}
 
@@ -191,9 +188,6 @@ class Users extends Model
 		}
 		return false;
 	}
-
-
-
 }
 
 

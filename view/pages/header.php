@@ -87,7 +87,7 @@
 			<li class="menuLeft"><a href="http://localhost:8888/pages/vue/1">Comment</a></li>
 			<li class="menuLeft"><a href="http://localhost:8888/pages/webcamTest">test webcam</a></li>
 			<?php
-				if($_SESSION["login"] === "none")
+				if(isset($_SESSION["login"]) and $_SESSION["login"] === "none")
 				{
 					?>
 					<li class="menuRight"><a href="http://localhost:8888/pages/login">Sign-in</a></li>
