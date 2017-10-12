@@ -6,29 +6,72 @@
 	?>
 </pre>
 
+<BODY>
+
+	<div>
+		<p>Mon image</p>
+		<img height="300px" width="auto" src=" <?php echo $_POST["picData"];?> "/>
+		<p>Mon calc</p>
+		<img height="300px" width="auto" src=" <?php echo $_POST["calcData"];?> "/>
+		<p>Les deux</p>
+	</div>
+
+
 <?php
-	// $userForlder = $_SESSION["user_id"]."_".$_SESSION["login"];
-	// $filePath = ROOT."ressources".DIRSEP."pics".DIRSEP.$userForlder.DIRSEP;
-	// if(!file_exists($filePath))//verif path
-	// {
-	// 	mkdir($filePath, 0777, true);
-	// }
-	// $fileName = microtime(true);
-	// // $i = 0;
-	// // while(file_exists($filePath.$fileName.".png"))
-	// // {
-	// // 	$fileName = $fileName.i;
-	// // 	$i += 1;
-	// // }
-	// $fileName = $fileName.".png";
-	// $expl = explode(",", $_POST["picData"]);
-	// $picContent = base64_decode($expl[1]);
-	// $picFile = fopen($filePath.$fileName, "w");
-	// if($picFile === false)
-	// {
-	// 	echo "MARTE !!!!!";
-	// 	die();
-	// }
-	// fwrite($picFile, $picContent);
-	// fclose($picFile);
+
+$pic = imagecreatefrompng($_POST["picData"]);
+imagesavealpha($pic, true);
+$picWidth = imagesx($pic);
+$picHeight = imagesy($pic);
+$picSRatio = $picWidth / $picHeight;
+$calc = imagecreatefrompng($_POST["calcData"]);
+imagesavealpha($calc, true);
+$calcWidth = imagesx($calc);
+$calcHeight = imagesy($calc);
+$calcSRatio = $calcHeight / $calcWidth;
+
+//resize du calc
+if($calcWidth < $calcHeight) // format portrait
+{
+	$newCalcHeight = $picHeight;
+	$newCalcWidth = $picWidth * $calcSRatio;
+}
+else
+{
+	echo "PAYSAGE > ";
+	$newCalcWidth = $picWidth;
+	$newCalcHeight = $picHeight * $calcSRatio;
+}
+
+$resizedCalc = imagecreate($newCalcWidth, $newCalcHeight);
+imagesavealpha($resizedCalc, true);
+$alphaBackground = imagecolorallocatealpha($resizedCalc, 0, 0, 0, 127);
+imagefill($resizedCalc, 0, 0, $alphaBackground);
+imagecopyresampled($resizedCalc, $calc, 0, 0, 0, 0, $newCalcWidth, $newCalcHeight, $calcWidth, $calcHeight);
+
+
+
+
+
+
+
+$final_img = imagecreatetruecolor($picWidth, $picHeight);
+imagesavealpha($final_img, true);
+$alphaBackground = imagecolorallocatealpha($final_img, 0, 0, 0, 127);
+imagefill($final_img, 0, 0, $alphaBackground);
+
+imagecopy($final_img, $pic, 0, 0, 0, 0, $picWidth, $picHeight);
+imagecopy($final_img, $resizedCalc, 0, 0, 0, 0, $picWidth, $picHeight);
+
+imagepng($final_img, 'final_img.png');
+
+
+
+
+
 ?>
+
+<img height="700px" width="auto" src=" <?php echo "http://localhost:8888/final_img.png";?> "/>
+
+
+</BODY>

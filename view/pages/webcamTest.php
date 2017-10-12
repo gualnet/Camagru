@@ -112,7 +112,6 @@ false);
 function calcSelector(me)
 {
 	var calcs = document.getElementsByClassName("calcImg");
-	console.log("-->"+calcs+"<--"+calcs.length);
 	var calcUrl = me.getAttribute("src");
 	//je set la visualisation de la selection du calc
 	for (i = 0; i < calcs.length; i++)
@@ -122,54 +121,11 @@ function calcSelector(me)
 	}
 	me.style.border = "1px dotted #ffffff";
 	me.style.opacity = "1";
-	console.log("003");
-	var calcData = me.
+	var calcData = me.getAttribute("src");
 	document.querySelector("#dataSendCalc").setAttribute("value", calcData);
 
 	var btnTakePic = document.querySelector(".videoBox ul");
 	btnTakePic.style.display = "block";
 }
-
-	// function truc(me)
-	// {
-	// 	video	= document.querySelector(".videoBox #video")
-	// 	var videoWidth = video.offsetWidth;
-	// 	var videoHeight = video.offsetHeight;
-	// 	//je set la visualisation de la selection du calc
-	// 	var calcs = document.getElementsByClassName("calcImg");
-	// 	// console.log(calcs);
-	// 	// console.log(calcs.length);
-	// 	for (i = 0; i < calcs.length; i++)
-	// 	{
-	// 		calcs[i].style.border = "0px";
-	// 	}
-	// 	me.style.border = "1px solid #0c1cf1";
-	//
-	// 	//j'insere mon calque sur la video
-	// 	var source = me.getAttribute("src");
-	// 	var sourceW = me.offsetWidth;
-	// 	var sourceH = me.offsetHeight;
-	// 	// console.log("SOURCE=>"+source);
-	// 	// console.log("PHOTO=>"+photo);
-	// 	console.log(videoWidth+"X"+videoHeight);
-	// 	console.log(sourceW+"X"+sourceH);
-	// 	// var photo = document.querySelector("#videoAlpha");
-	// 	var videoBox = document.querySelector(".videoBox");
-	// 	var toRemove = document.querySelector("#videoAlpha");
-	// 	console.log("la:"+toRemove);
-	// 	if(toRemove != null)
-	// 	{
-	// 		videoBox.removeChild(toRemove);
-	// 	}
-	// 	var oldContent = videoBox.innerHTML;
-	// 	console.log("-->"+oldContent);
-	// 	videoBox.innerHTML = "<img id=\"videoAlpha\" width=\""
-	// 	+videoWidth+"\" height=\""+videoHeight+"\"/>"+oldContent;
-	// 	var alpha = document.querySelector("#videoAlpha");
-	// 	alpha.setAttribute("src", source);
-	//
-	// 	// photo.setAttribute("max-height", videoHeight);
-	// 	// photo.setAttribute("max-width", videoWidth);
-	// }
 
 </script>

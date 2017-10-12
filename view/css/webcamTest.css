@@ -16,7 +16,7 @@
 }
 .videoBox ul
 {
-	/*display: none;*/
+	display: none;
 	margin: 0px; padding: 0px;
 }
 .videoBox li

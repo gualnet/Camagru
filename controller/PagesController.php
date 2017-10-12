@@ -164,7 +164,7 @@ class PagesController extends Controller
 		$this->Pictures->picRegistration();
 		$this->render("picRegistration");
 
-		// die("ICICICICICICICIC");
+		die("ICICICICICICICIC");
 		header("Location:webcamTest");
 
 	}

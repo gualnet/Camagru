@@ -62,8 +62,8 @@ class Pictures extends Model
 
 	function picRegistration()
 	{
-		$this->picToFolder();
-		$this->picToDatabase();
+		// $this->picToFolder();
+		// $this->picToDatabase();
 	}
 
 	function getUserPics()
