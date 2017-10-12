@@ -1,57 +1,38 @@
 
 		<div class="centralView">
-			<!-- <dic  class="btnBox"> -->
-				<!-- <button >Prendre une photo</button> -->
-				<!-- <ul> -->
-					<!-- <li id="picTakeBtn">Prendre une photo</li> -->
-					<!-- <li>inactif 1</li> -->
-				<!-- </ul> -->
-			<!-- </dic> -->
+
 			<div class="videoBox">
 				<video id="video"></video>
 				<ul>
 					<li id="picTakeBtn">Prendre une photo</li>
-					<!-- <li>inactif 1</li> -->
 				</ul>
-
 			</div>
+
 			<div class="galerieBox">
 				<?php
 					if(isset($userPics))
 					{
-						// print_r($userPics);
 						for ($i = 0; $i < count($userPics); $i++)
 						{
 							echo "<img src=\"".$userPics[$i]."\" />";
-							// print("<p>".$pic."</p>");
 						}
 					}
-
-
-
 				?>
 				<canvas id="photo"></canvas>
-					<!-- <ul>
-						<li class-"picRegBtn" id="picRegBtn" onclick="hiddenForm.submit()">Register</li>
-					</ul> -->
-				<!-- <script>
-					document.querySelector("#picRegBtn").style.display = "none";
-				</script> -->
 			</div>
+
 			<div class="calquesBox"	>
 				<?php
 					if(isset($calcsUrl))
 					{
 						for($i=0; $i < count($calcsUrl); $i++)
 						{
-							echo "<img src=\"".$calcsUrl[$i]."\"/>";
+							echo "<img class=\"calcImg\" src=\"".$calcsUrl[$i]."\" onclick=\"calcSelector(this)\"/>";
 						}
 					}
 				?>
-				<!-- <img class="calcImg" onClick="calcSelector(this)" src="http://pngimg.com/uploads/bat/bat_PNG35.png" alt="TRUC" style="width=300px;height=150px;"></img>
-				<img class="calcImg" onClick="calcSelector(this)" src="http://i2.wp.com/gallery.yopriceville.com/var/albums/Frames/Beautiful_Brown_Transparent_Frame%20with_Transparent_Round_Window_and_Chair.png?m=1365462000" alt="TRUC" style="width=300px;height=150px;"></img>
-				<img class="calcImg" onClick="calcSelector(this)" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQEWNNlU3t11aHL3ebu-wklQlCSrKNloyd9hFkR-vAUKabsDkzf" alt="TRUC" style="width=300px;height=150px;"></img> -->
 			</div>
+
 		</div>
 		<form class="hiddenForm" method="POST" action="/pages/picRegistration">
 			<input id="dataSendPic" type="image/png" name="picData" value="none"/>
@@ -64,7 +45,6 @@
 {
 	var streaming = false,
 	video	= document.querySelector("#video"),
-	// videoAlpha	= document.querySelector("#videoAlpha"),
 	photo	= document.querySelector("#photo"),
 	picTakeBtn	= document.querySelector("#picTakeBtn"),
 	width = 1024,
@@ -109,8 +89,6 @@ function(ev)
 		video.setAttribute("height", height);
 		photo.setAttribute("width", width);
 		photo.setAttribute("height", height);
-		// videoAlpha.setAttribute("width", video.offsetWidth);
-		// videoAlpha.setAttribute("height", video.offsetHeight);
 		streaming = true;
 	}
 },
@@ -119,11 +97,9 @@ false);
 picTakeBtn.addEventListener("click",
 function(ev)
 {
-	// width = 1024;
 	photo.getContext("2d", {alpha: true}).drawImage(video, 0, 0, width, height);
 	var data = photo.toDataURL("image/png");
 	photo.setAttribute("src", data);
-	// document.querySelector("#picRegBtn").style.display = "list-item";
 	var picData = document.querySelector("#photo").getAttribute("src");
 	document.querySelector("#dataSendPic").setAttribute("value", picData);
 	document.querySelector(".hiddenForm").submit();
@@ -136,6 +112,7 @@ false);
 function calcSelector(me)
 {
 	var calcs = document.getElementsByClassName("calcImg");
+	console.log("-->"+calcs+"<--"+calcs.length);
 	var calcUrl = me.getAttribute("src");
 	//je set la visualisation de la selection du calc
 	for (i = 0; i < calcs.length; i++)
@@ -145,8 +122,8 @@ function calcSelector(me)
 	}
 	me.style.border = "1px dotted #ffffff";
 	me.style.opacity = "1";
-
-
+	console.log("003");
+	var calcData = me.
 	document.querySelector("#dataSendCalc").setAttribute("value", calcData);
 
 	var btnTakePic = document.querySelector(".videoBox ul");

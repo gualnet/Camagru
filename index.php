@@ -17,6 +17,9 @@
 	define('BASE_URL', dirname(WEBROOT).DIRSEP);
 
 	require CORE."includes.php";
+	echo "<style>";
+	require ROOT."view/css/header.css";
+	echo "</style>";
 	require ROOT."view/pages/header.php";
 
 	if(!isset($_SESSION["login"]))

@@ -7,6 +7,13 @@
 	grid-template-rows: repeat(20, 10%);
 }
 
+
+.videoBox
+{
+	border: 2px solid red;
+	grid-column: 1/8;
+	grid-row: 1/8;
+}
 .videoBox ul
 {
 	/*display: none;*/
@@ -35,13 +42,6 @@
 	background-color: #33b5e5;
 	color: #ebebf5;
 }
-
-.videoBox
-{
-	border: 2px solid red;
-	grid-column: 1/8;
-	grid-row: 1/8;
-}
 .videoBox video
 {
 	/*position: absolute;*/
@@ -51,12 +51,6 @@
 	height: auto;
 	/*background: none;*/
 }
-.videoBox #videoAlpha
-{
-	position: absolute;
-	z-index: 0;
-	/*padding: auto;*/
-}
 
 
 .galerieBox
@@ -64,12 +58,6 @@
 	border: 5px dotted #e0e0f2;
 	grid-column: 8/11;
 	grid-row: 1/9;
-}
-.galerieBox canvas
-{
-	width: 70%;
-	height: auto;
-	margin-left: 15%;
 }
 .galerieBox img
 {
