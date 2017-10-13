@@ -18,11 +18,10 @@
 						}
 					}
 				?>
-				<canvas id="photo"></canvas>
 			</div>
 
-			<div class="calquesBox"	>
-				<?php
+			<div class="calquesBox">
+					<?php
 					if(isset($calcsUrl))
 					{
 						for($i=0; $i < count($calcsUrl); $i++)
@@ -30,9 +29,8 @@
 							echo "<img class=\"calcImg\" src=\"".$calcsUrl[$i]."\" onclick=\"calcSelector(this)\"/>";
 						}
 					}
-				?>
+					?>
 			</div>
-
 		</div>
 		<form class="hiddenForm" method="POST" action="/pages/picRegistration">
 			<input id="dataSendPic" type="image/png" name="picData" value="none"/>

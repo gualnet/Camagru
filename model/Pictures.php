@@ -19,6 +19,47 @@ class Pictures extends Model
 		$this->ownerId = $_SESSION["user_id"];
 	}
 
+	private function mergePng($regPath)
+	{
+		$pic = imagecreatefrompng($_POST["picData"]);
+		imagesavealpha($pic, true);
+		$picWidth = imagesx($pic);
+		$picHeight = imagesy($pic);
+		$picSRatio = $picWidth / $picHeight;
+		$calc = imagecreatefrompng($_POST["calcData"]);
+		imagesavealpha($calc, true);
+		$calcWidth = imagesx($calc);
+		$calcHeight = imagesy($calc);
+		$calcSRatio = $calcHeight / $calcWidth;
+		//calcule de la nouvelle taille du calque pour fit sur la photo
+		if($calcWidth < $calcHeight) // format portrait
+		{
+			$newCalcHeight = $picHeight;
+			$newCalcWidth = $picWidth * $calcSRatio;
+		}
+		else // format paysage
+		{
+			$newCalcWidth = $picWidth;
+			$newCalcHeight = $picHeight * $calcSRatio;
+		}
+		// creation du calques resize
+		$resizedCalc = imagecreate($newCalcWidth, $newCalcHeight);
+		imagesavealpha($resizedCalc, true);
+		$alphaBackground = imagecolorallocatealpha($resizedCalc, 0, 0, 0, 127);
+		imagefill($resizedCalc, 0, 0, $alphaBackground);
+		imagecopyresampled($resizedCalc, $calc, 0, 0, 0, 0, $newCalcWidth, $newCalcHeight, $calcWidth, $calcHeight);
+		// creation du support de l'image finale
+		$final_img = imagecreatetruecolor($picWidth, $picHeight);
+		imagesavealpha($final_img, true);
+		$alphaBackground = imagecolorallocatealpha($final_img, 0, 0, 0, 127);
+		imagefill($final_img, 0, 0, $alphaBackground);
+		// je merge l'ensemble
+		imagecopy($final_img, $pic, 0, 0, 0, 0, $picWidth, $picHeight);
+		imagecopy($final_img, $resizedCalc, 0, 0, 0, 0, $picWidth, $picHeight);
+		//enregistrement de l'image
+		imagepng($final_img, $regPath);
+	}
+
 	private function picToFolder()
 	{
 		echo "construct ownerId".$this->ownerId;
@@ -30,16 +71,7 @@ class Pictures extends Model
 		}
 		$this->curRegFileName = microtime(true);
 		$this->curRegFileName = $this->curRegFileName.".png";
-		$expl = explode(",", $_POST["picData"]);
-		$picContent = base64_decode($expl[1]);
-		$picFile = fopen($this->curRegFilePath.$this->curRegFileName, "w");
-		if($picFile === false)
-		{
-			// echo "MARTE !!!!!";
-			die();
-		}
-		fwrite($picFile, $picContent);
-		fclose($picFile);
+		$this->mergePng($this->curRegFilePath."/".$this->curRegFileName);
 	}
 
 	private function picToDatabase()
@@ -62,8 +94,8 @@ class Pictures extends Model
 
 	function picRegistration()
 	{
-		// $this->picToFolder();
-		// $this->picToDatabase();
+		$this->picToFolder();
+		$this->picToDatabase();
 	}
 
 	function getUserPics()

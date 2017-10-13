@@ -10,7 +10,7 @@
 
 .videoBox
 {
-	border: 2px solid red;
+	border: 1px solid #ebebf5;
 	grid-column: 1/8;
 	grid-row: 1/8;
 }
@@ -55,9 +55,17 @@
 
 .galerieBox
 {
-	border: 5px dotted #e0e0f2;
+	border: 1px solid #ffffff;
 	grid-column: 8/11;
 	grid-row: 1/9;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+.galerieBox:hover
+{
+	transition-property: all;
+	transition-duration: 0.5s;
+	box-shadow: 0px 0px 2px 1px rgba(163, 169, 195, 0.5);
 }
 .galerieBox img
 {
@@ -68,9 +76,16 @@
 
 .calquesBox
 {
-	/*border: 2px solid black;*/
+	border: 1px solid #ebebf5;
 	grid-column: 1/11;
 	grid-row: 9/11;
+	overflow-x: scroll;
+}
+.calquesBox:hover
+{
+	transition-property: all;
+	transition-duration: 0.5s;
+	box-shadow: 0px 0px 2px 1px rgba(163, 169, 195, 0.5);
 }
 .calquesBox img
 {

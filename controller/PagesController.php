@@ -101,6 +101,7 @@ class PagesController extends Controller
 	{
 		header("Location:acceuil");
 		$_SESSION["login"] = "none";
+		$_SESSION["user_id"] = "none";
 		$this->acceuil();
 		ob_end_flush();
 	}
@@ -151,7 +152,7 @@ class PagesController extends Controller
 			for($i = 0; $i < count($retCalcs); $i++)
 			{
 				$calcsUrl[] .= $retCalcs[$i]->file_url;
-				print($retCalcs[$i]->file_url);
+				// print($retCalcs[$i]->file_url);
 			}
 			$this->setVars("calcsUrl", $calcsUrl);
 		}
@@ -164,7 +165,7 @@ class PagesController extends Controller
 		$this->Pictures->picRegistration();
 		$this->render("picRegistration");
 
-		die("ICICICICICICICIC");
+		// die("ICICICICICICICIC");
 		header("Location:webcamTest");
 
 	}

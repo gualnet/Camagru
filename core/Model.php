@@ -52,7 +52,7 @@ class Model
 			else
 				$sqlReq .= $req["conditions"];
 		}
-		print($sqlReq);
+		// print($sqlReq);
 		try
 		{
 			$prep = $pdoConnexion->prepare($sqlReq);
