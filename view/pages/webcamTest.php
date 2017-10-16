@@ -1,41 +1,49 @@
 
-		<div class="centralView">
+<div class="centralView">
 
-			<div class="videoBox">
-				<video id="video"></video>
-				<ul>
-					<li id="picTakeBtn">Prendre une photo</li>
-				</ul>
-			</div>
-
-			<div class="galerieBox">
-				<?php
-					if(isset($userPics))
-					{
-						for ($i = 0; $i < count($userPics); $i++)
-						{
-							echo "<img src=\"".$userPics[$i]."\" />";
-						}
-					}
-				?>
-			</div>
-
-			<div class="calquesBox">
-					<?php
-					if(isset($calcsUrl))
-					{
-						for($i=0; $i < count($calcsUrl); $i++)
-						{
-							echo "<img class=\"calcImg\" src=\"".$calcsUrl[$i]."\" onclick=\"calcSelector(this)\"/>";
-						}
-					}
-					?>
-			</div>
+	<div class="videoBox">
+		<div id="uplBox">
+			<label id="uplLbl" for="uplInp" style="width: 150px; height: 40px;">Add your picture</label>
 		</div>
-		<form class="hiddenForm" method="POST" action="/pages/picRegistration">
-			<input id="dataSendPic" type="image/png" name="picData" value="none"/>
-			<input id="dataSendCalc" type="image/png" name="calcData" value="none"/>
-		</form>
+		<ul>
+			<li id="picTakeBtn">Prendre une photo</li>
+		</ul>
+		<div class="preview">
+			<video id="video"></video>
+			<canvas id="photo"></canvas>
+		</div>
+	</div>
+
+	<div class="galerieBox">
+		<?php
+			if(isset($userPics))
+			{
+				for ($i = 0; $i < count($userPics); $i++)
+				{
+					echo "<img src=\"".$userPics[$i]."\" />";
+				}
+			}
+		?>
+	</div>
+
+	<div class="calquesBox">
+			<?php
+			if(isset($calcsUrl))
+			{
+				for($i=0; $i < count($calcsUrl); $i++)
+				{
+					echo "<img class=\"calcImg\" src=\"".$calcsUrl[$i]."\" onclick=\"calcSelector(this)\"/>";
+				}
+			}
+			?>
+	</div>
+
+</div>
+<form class="hiddenForm" method="POST" action="/pages/picRegistration">
+	<input id="dataSendPic" type="image/png" name="picData" value="none"/>
+	<input id="dataSendCalc" type="image/png" name="calcData" value="none"/>
+	<input id="uplInp" type="file" name="uplData" accept="image/png, image/jpeg, image/jpg" onchange="showFile(this.files)"/>
+</form>
 
 <script type="text/javascript">
 
@@ -124,6 +132,52 @@ function calcSelector(me)
 
 	var btnTakePic = document.querySelector(".videoBox ul");
 	btnTakePic.style.display = "block";
+}
+
+// function showFile(myFiles)
+// {
+// 	for(i = 0; i < myFiles.length; i++)
+// 	{
+// 		console.log("i="+i+" - type:"+myFiles[i].type);
+// 	}
+// 	var myPic = myFiles[0];
+// 	var photo = document.querySelector("#photo");
+// 	//
+// 	var reader = new FileReader();
+// 	console.log(" 2 type:"+myPic.type);
+// 	reader.onload = (function(aImg){
+// 		return function(e){
+// 			aImg.src = e.target.result;
+// 		};
+// 	})(photo);
+// 	var content = reader.readAsDataURL(myPic);
+// 	console.log("CONTENT = "+ content);
+// }
+function showFile(files) {
+  for (var i = 0; i < files.length; i++) {
+    var file = files[i];
+    var imageType = /^image\//;
+
+    if (!imageType.test(file.type)) {
+      continue;
+    }
+
+    var img = document.createElement("img");
+    img.classList.add("obj");
+    img.file = file;
+	var video = document.getElementsByClassName("preview");
+	console.log(video);
+	console.log(video[0]);
+	var videoBox = document.getElementsByClassName("videoBox");
+	console.log(videoBox);
+	console.log(videoBox[0]);
+	videoBox[0].removeChild(video[0]);
+    document.querySelector(".videoBox").appendChild(img); // En admettant que "preview" est l'élément div qui contiendra le contenu affiché.
+
+    var reader = new FileReader();
+    reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
+    reader.readAsDataURL(file);
+  }
 }
 
 </script>

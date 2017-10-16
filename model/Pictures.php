@@ -21,7 +21,10 @@ class Pictures extends Model
 
 	private function mergePng($regPath)
 	{
+
 		$pic = imagecreatefrompng($_POST["picData"]);
+		echo "<p>".$pic."</p>";
+		die("LAAAA");
 		imagesavealpha($pic, true);
 		$picWidth = imagesx($pic);
 		$picHeight = imagesy($pic);

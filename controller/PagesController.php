@@ -133,6 +133,10 @@ class PagesController extends Controller
 
 	function webcamTest()
 	{
+		if($_SESSION["user_id"] === "none")
+		{
+			header("location:index");
+		}
 		$this->loadModel("Pictures");
 		$this->loadModel("Calcs");
 		$retCalcs = $this->Calcs->getCalcs();
@@ -164,8 +168,7 @@ class PagesController extends Controller
 		$this->loadModel("Pictures");
 		$this->Pictures->picRegistration();
 		$this->render("picRegistration");
-
-		// die("ICICICICICICICIC");
+		die("ICICICICICICICIC");
 		header("Location:webcamTest");
 
 	}
