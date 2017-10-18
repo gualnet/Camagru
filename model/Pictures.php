@@ -21,14 +21,19 @@ class Pictures extends Model
 
 	private function mergePng($regPath)
 	{
-
-		$pic = imagecreatefrompng($_POST["picData"]);
-		echo "<p>".$pic."</p>";
-		die("LAAAA");
-		imagesavealpha($pic, true);
-		$picWidth = imagesx($pic);
-		$picHeight = imagesy($pic);
-		$picSRatio = $picWidth / $picHeight;
+		if(strstr($_POST["picData"], "data:image/png;base64"))
+		{
+			$pic = imagecreatefrompng($_POST["picData"]);
+			imagesavealpha($pic, true);
+			$picWidth = imagesx($pic);
+			$picHeight = imagesy($pic);
+			$picSRatio = $picWidth / $picHeight;
+		}
+		else
+		{
+			// echo "ON SCASSE00";
+			return false;
+		}
 		$calc = imagecreatefrompng($_POST["calcData"]);
 		imagesavealpha($calc, true);
 		$calcWidth = imagesx($calc);
@@ -57,7 +62,10 @@ class Pictures extends Model
 		$alphaBackground = imagecolorallocatealpha($final_img, 0, 0, 0, 127);
 		imagefill($final_img, 0, 0, $alphaBackground);
 		// je merge l'ensemble
-		imagecopy($final_img, $pic, 0, 0, 0, 0, $picWidth, $picHeight);
+		if(strstr($_POST["picData"], "data:image/png;base64"))
+		{
+			imagecopy($final_img, $pic, 0, 0, 0, 0, $picWidth, $picHeight);
+		}
 		imagecopy($final_img, $resizedCalc, 0, 0, 0, 0, $picWidth, $picHeight);
 		//enregistrement de l'image
 		imagepng($final_img, $regPath);
@@ -74,7 +82,11 @@ class Pictures extends Model
 		}
 		$this->curRegFileName = microtime(true);
 		$this->curRegFileName = $this->curRegFileName.".png";
-		$this->mergePng($this->curRegFilePath."/".$this->curRegFileName);
+		if($this->mergePng($this->curRegFilePath."/".$this->curRegFileName) === false)
+		{
+			// echo "ON SCASSE01";
+			return false;
+		}
 	}
 
 	private function picToDatabase()
@@ -97,7 +109,11 @@ class Pictures extends Model
 
 	function picRegistration()
 	{
-		$this->picToFolder();
+		if($this->picToFolder() === false)
+		{
+			// echo "ON SCASSE02";
+			return false;
+		}
 		$this->picToDatabase();
 	}
 

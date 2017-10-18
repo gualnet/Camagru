@@ -68,6 +68,7 @@
 	},
 function(stream)
 {
+	console.log("stream:"+stream);
 	if (navigator.mozGetUserMedia)
 	{
 		video.mozSrcObject = stream;
@@ -82,8 +83,12 @@ function(stream)
 function(err)
 {
 	console.log("An error occured! " + err);
-}
-);
+	var video = document.getElementsByClassName("preview");
+	var videoBox = document.getElementsByClassName("videoBox");
+	videoBox[0].removeChild(video[0]);
+	photo = null;
+	// alert("stop");
+});
 
 video.addEventListener("canplay",
 function(ev)
@@ -97,23 +102,42 @@ function(ev)
 		photo.setAttribute("height", height);
 		streaming = true;
 	}
-},
-false);
+},false);
 
 picTakeBtn.addEventListener("click",
 function(ev)
 {
-	photo.getContext("2d", {alpha: true}).drawImage(video, 0, 0, width, height);
-	var data = photo.toDataURL("image/png");
-	photo.setAttribute("src", data);
-	var picData = document.querySelector("#photo").getAttribute("src");
-	document.querySelector("#dataSendPic").setAttribute("value", picData);
-	document.querySelector(".hiddenForm").submit();
-	ev.preventDefault();
-},
-false);
-
+	if(photo != null)
+	{
+		photo.getContext("2d", {alpha: true}).drawImage(video, 0, 0, width, height);
+		var data = photo.toDataURL("image/png");
+		photo.setAttribute("src", data);
+		var picData = document.querySelector("#photo").getAttribute("src");
+		document.querySelector("#dataSendPic").setAttribute("value", picData);
+		document.querySelector(".hiddenForm").submit();
+		ev.preventDefault();
+	}
+	else
+	{
+		var uplobj = document.querySelector(".uplobj");
+		if(uplobj)
+		{
+			var uplVal = uplobj.getAttribute("src");
+			if(uplVal === null)
+			{
+				alert("uplVal="+uplVal+" Veuillez uploder une photo ou activer votre webcam");
+			}
+			else
+			{
+				var picData = document.querySelector(".uplObj").getAttribute("src");
+				document.querySelector("#dataSendPic").setAttribute("value", picData);
+				document.querySelector(".hiddenForm").submit();
+			}
+		}
+	}
+},false);
 })();
+
 
 function calcSelector(me)
 {
@@ -134,50 +158,30 @@ function calcSelector(me)
 	btnTakePic.style.display = "block";
 }
 
-// function showFile(myFiles)
-// {
-// 	for(i = 0; i < myFiles.length; i++)
-// 	{
-// 		console.log("i="+i+" - type:"+myFiles[i].type);
-// 	}
-// 	var myPic = myFiles[0];
-// 	var photo = document.querySelector("#photo");
-// 	//
-// 	var reader = new FileReader();
-// 	console.log(" 2 type:"+myPic.type);
-// 	reader.onload = (function(aImg){
-// 		return function(e){
-// 			aImg.src = e.target.result;
-// 		};
-// 	})(photo);
-// 	var content = reader.readAsDataURL(myPic);
-// 	console.log("CONTENT = "+ content);
-// }
-function showFile(files) {
-  for (var i = 0; i < files.length; i++) {
-    var file = files[i];
-    var imageType = /^image\//;
+function showFile(files)
+{
+	for (var i = 0; i < files.length; i++)
+	{
+		var file = files[i];
+		var imageType = /^image\//;
 
-    if (!imageType.test(file.type)) {
-      continue;
-    }
-
-    var img = document.createElement("img");
-    img.classList.add("obj");
-    img.file = file;
-	var video = document.getElementsByClassName("preview");
-	console.log(video);
-	console.log(video[0]);
+		if (!imageType.test(file.type))
+		{
+			continue;
+		}
+	//ici je modifie le dom pour afficher l'image uploadé a la place de la video
+	var img = document.createElement("img");
+	img.classList.add("uplObj");
+	img.file = file;
+	// var video = document.getElementsByClassName("preview");
 	var videoBox = document.getElementsByClassName("videoBox");
-	console.log(videoBox);
-	console.log(videoBox[0]);
-	videoBox[0].removeChild(video[0]);
-    document.querySelector(".videoBox").appendChild(img); // En admettant que "preview" est l'élément div qui contiendra le contenu affiché.
-
-    var reader = new FileReader();
-    reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
-    reader.readAsDataURL(file);
-  }
+	// videoBox[0].removeChild(video[0]);
+	document.querySelector(".videoBox").appendChild(img);
+	//chargement en mode asynchrone de l'image
+	var reader = new FileReader();
+	reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
+	reader.readAsDataURL(file);
+	}
 }
 
 </script>
