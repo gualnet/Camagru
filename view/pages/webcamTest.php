@@ -18,9 +18,11 @@
 		<?php
 			if(isset($userPics))
 			{
-				for ($i = 0; $i < count($userPics); $i++)
+				$i = count($userPics) - 1;
+				while($i >= 0)
 				{
 					echo "<img src=\"".$userPics[$i]."\" />";
+					$i--;
 				}
 			}
 		?>
@@ -173,9 +175,18 @@ function showFile(files)
 	var img = document.createElement("img");
 	img.classList.add("uplObj");
 	img.file = file;
-	// var video = document.getElementsByClassName("preview");
+
+	//si il y a deja une img je l'efface pour la remplacer
+	var image = document.getElementsByClassName("uplObj");
+	console.log(image);
+	if(image[0])
+	{
+		console.log("BONGO"+image[0]);
+		var videoBox = document.getElementsByClassName("videoBox");
+		videoBox[0].removeChild(image[0]);
+	}
+
 	var videoBox = document.getElementsByClassName("videoBox");
-	// videoBox[0].removeChild(video[0]);
 	document.querySelector(".videoBox").appendChild(img);
 	//chargement en mode asynchrone de l'image
 	var reader = new FileReader();

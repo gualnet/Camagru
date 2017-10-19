@@ -24,16 +24,22 @@ class Pictures extends Model
 		if(strstr($_POST["picData"], "data:image/png;base64"))
 		{
 			$pic = imagecreatefrompng($_POST["picData"]);
-			imagesavealpha($pic, true);
-			$picWidth = imagesx($pic);
-			$picHeight = imagesy($pic);
-			$picSRatio = $picWidth / $picHeight;
+
+		}
+		elseif (strstr($_POST["picData"], "data:image/jpeg;base64"))
+		{
+			$pic = imagecreatefromjpeg($_POST["picData"]);
+
 		}
 		else
 		{
 			// echo "ON SCASSE00";
 			return false;
 		}
+		imagesavealpha($pic, true);
+		$picWidth = imagesx($pic);
+		$picHeight = imagesy($pic);
+		$picSRatio = $picWidth / $picHeight;
 		$calc = imagecreatefrompng($_POST["calcData"]);
 		imagesavealpha($calc, true);
 		$calcWidth = imagesx($calc);
@@ -62,7 +68,7 @@ class Pictures extends Model
 		$alphaBackground = imagecolorallocatealpha($final_img, 0, 0, 0, 127);
 		imagefill($final_img, 0, 0, $alphaBackground);
 		// je merge l'ensemble
-		if(strstr($_POST["picData"], "data:image/png;base64"))
+		if(strstr($_POST["picData"], "data:image/png;base64") or strstr($_POST["picData"], "data:image/jpeg;base64"))
 		{
 			imagecopy($final_img, $pic, 0, 0, 0, 0, $picWidth, $picHeight);
 		}

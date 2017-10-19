@@ -13,6 +13,7 @@
 {
 	border: 2px solid #ff0000;
 	/*border: 1px solid #ebebf5;*/
+	overflow: scroll;
 	grid-column: 1/8;
 	grid-row: 1/8;
 	/*display: grid;*/
