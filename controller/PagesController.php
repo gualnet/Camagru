@@ -33,6 +33,10 @@ class PagesController extends Controller
 
 	function profil()
 	{
+		if($_SESSION["user_id"] === "none")
+		{
+			header("location:index");
+		}
 		$this->loadModel("Users");
 		if(isset($_SESSION["user_id"]))
 		$findRet = $this->Users->findFirst(array(
@@ -140,7 +144,7 @@ class PagesController extends Controller
 		$this->loadModel("Pictures");
 		$this->loadModel("Calcs");
 		$retCalcs = $this->Calcs->getCalcs();
-		$retUserPics = $this->Pictures->getUserPics();
+		$retUserPics = $this->Pictures->getPics($_SESSION["user_id"]);
 		$userPics = array();
 		$calcsUrl = array();
 		if ($retUserPics != false)
@@ -172,6 +176,40 @@ class PagesController extends Controller
 		header("Location:webcamTest");
 
 	}
+
+	function galery()
+	{
+		$this->loadModel("Pictures");
+		$retPics = $this->Pictures->getPics();
+
+		if(isset($this->request->params[0]))
+			$pageNum = intval($this->request->params[0]);
+		else
+			$pageNum = 1;
+
+		$nbrPics = 0;
+		$nbrPics = count($retPics);
+		if($nbrPics <= 0)
+			$this->e404("SRY no picture found in the database !");
+		$picsUrl = array();
+		for($i = 0; $i < $nbrPics; $i++)
+		{
+			$picsUrl[] .= $retPics[$i]->file_url;
+		}
+
+		if($pageNum < 1 or $pageNum > ($nbrPics / 6) + 1)
+		{
+			$pageNum = 1;
+		}
+
+		$this->setVars("picsUrl", $picsUrl);
+		$this->setVars("nbrPics", $nbrPics);
+		$this->setVars("pageReq", $pageNum);
+
+		$this->render("galery");
+		// die("FIN");
+	}
+
 }
 
 ?>

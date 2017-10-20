@@ -3,9 +3,9 @@
 class Controller
 {
 
-	private $request;
-	private $vars = array();
-	private $rendered = false;
+	protected	$request;
+	private		$vars = array();
+	private		$rendered = false;
 
 	function __construct($request=null)
 	{

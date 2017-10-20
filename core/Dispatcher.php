@@ -16,7 +16,7 @@ class Dispatcher
 			$this->error("Controller ".$this->request->controller
 			." can't reach '".$this->request->action."' page");
 		}
-		$this->request->params = array();
+		// $this->request->params = array();
 		call_user_func_array(array($controller, $this->request->action), $this->request->params);
 		$controller->render($this->request->action);
 	}

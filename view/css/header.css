@@ -64,10 +64,11 @@
 
 .centralView
 {
-	/*border: 1px solid blue;*/
+	border: 1px solid blue;
 	background-color: #f0f0f5;
-	height: 80%;
-	width: 90%;
+	min-width: 90%; min-height: 85%;
 	margin-left: 5%;
 	margin-right: 5%;
+	/*display: grid;*/
 }
+	

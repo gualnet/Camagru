@@ -15,8 +15,10 @@ class Pictures extends Model
 	function __construct()
 	{
 		parent::__construct();
-		$this->ownerLogin = $_SESSION["login"];
-		$this->ownerId = $_SESSION["user_id"];
+		if(isset($_SESSION["user_id"]))
+			$this->ownerLogin = $_SESSION["login"];
+		if(isset($_SESSION["user_id"]))
+			$this->ownerId = $_SESSION["user_id"];
 	}
 
 	private function mergePng($regPath)
@@ -113,7 +115,7 @@ class Pictures extends Model
 		$this->insert($req);
 	}
 
-	function picRegistration()
+	public function picRegistration()
 	{
 		if($this->picToFolder() === false)
 		{
@@ -123,13 +125,20 @@ class Pictures extends Model
 		$this->picToDatabase();
 	}
 
-	function getUserPics()
+	public function getPics($uid=false)
 	{
-		$sqlReq = array(
-			"conditions"	=> array(
-				"user_id"	=> $_SESSION["user_id"]
-			)
-		);
+		if($uid)
+		{
+			$sqlReq = array(
+				"conditions"	=> array(
+					"user_id"	=> $uid
+				)
+			);
+		}
+		else
+		{
+			$sqlReq = array();
+		}
 		$retFind = $this->find($sqlReq);
 		if(!isset($retFind) or $retFind === array())
 		{
@@ -138,10 +147,6 @@ class Pictures extends Model
 		}
 		return $retFind;
 	}
-
-
-
-
 }
 
 
