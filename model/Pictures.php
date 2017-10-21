@@ -82,7 +82,7 @@ class Pictures extends Model
 	private function picToFolder()
 	{
 		echo "construct ownerId".$this->ownerId;
-		$this->curRegFilePath = "/Users/kriz/Documents/42/Camagru/ressources".DIRSEP."pics".DIRSEP
+		$this->curRegFilePath = HTTP_HOST."/ressources".DIRSEP."pics".DIRSEP
 		.$this->ownerId."_".$this->ownerLogin.DIRSEP;
 		if(!file_exists($this->curRegFilePath))//verif path
 		{

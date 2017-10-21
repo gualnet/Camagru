@@ -114,13 +114,16 @@
 			<button type="submit" value="submit">OK</button>
 		</form>
 		<?php
-		if($loginRedir)
-		{?><script>
-			var form = document.getElementsByClassName("signupForm")[0];
-			var centralView = document.getElementsByClassName("centralView")[0];
-			centralView.removeChild(form);
-			alert("Success ! you will soon receive a mail to confirm your registration");
-		</script><?php
-	}?>
+			if($loginRedir)
+			{?>
+				<script>
+				var form = document.getElementsByClassName("signupForm")[0];
+				var centralView = document.getElementsByClassName("centralView")[0];
+				centralView.removeChild(form);
+				alert("Success ! you will soon receive a mail to confirm your registration");
+				</script>
+			<?php
+			}
+		?>
 
 </div>

@@ -11,6 +11,7 @@
 	ini_set('display_errors', 1);
 
 	define('DIRSEP', DIRECTORY_SEPARATOR);
+	define('HTTP_HOST', $_SERVER["HTTP_HOST"]);
 	define('WEBROOT', dirname(__FILE__).DIRSEP);
 	define('ROOT', dirname(WEBROOT).DIRSEP."Camagru".DIRSEP);
 	define('CORE', ROOT.'core'.DIRSEP);
