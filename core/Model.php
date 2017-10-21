@@ -24,7 +24,9 @@ class Model
 		}
 		catch(PDOException $e)
 		{
-			die($e->getMessage());
+			if(DEBUG_MODE)
+				die($e->getMessage()); // pour le debug
+			die(); //pour la prod
 		}
 	}
 
@@ -61,7 +63,9 @@ class Model
 		}
 		catch(PDOException $e)
 		{
-			die($e->getMessage());
+			if(DEBUG_MODE)
+				die($e->getMessage()); // pour le debug
+			die(); //pour la prod
 		}
 		return $prep->fetchAll(PDO::FETCH_OBJ);
 	}
@@ -107,7 +111,9 @@ class Model
 		}
 		catch(PDOException $e)
 		{
-			die($e->getMessage());
+			if(DEBUG_MODE)
+				die($e->getMessage()); // pour le debug
+			die(); //pour la prod
 		}
 		return true;
 	}

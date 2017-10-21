@@ -9,6 +9,7 @@
 
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
+	define("DEBUG_MODE", true);
 
 	define('DIRSEP', DIRECTORY_SEPARATOR);
 	define('HTTP_HOST', $_SERVER["HTTP_HOST"]);
@@ -19,13 +20,15 @@
 
 	require CORE."includes.php";
 	echo "<style>";
-	require ROOT."view/css/header.css";
+	// require ROOT."view/css/header.css";
+	require ROOT."view/css/menubar.css";
+	require ROOT."view/css/footer.css";
 	echo "</style>";
 	require ROOT."view/pages/header.php";
 
 	if(!isset($_SESSION["login"]))
 	{
-		echo "je set session[\"login\"] = none";
+		// echo "je set session[\"login\"] = none";
 		$_SESSION["login"] = "none";
 	}
 

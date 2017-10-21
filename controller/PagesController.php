@@ -55,9 +55,7 @@ class PagesController extends Controller
 			"login" => false,
 			"mail" => false
 		)); //enable error message in case of mail already used
-		print_r($_POST);
-		if(isset($_POST["login"]) and isset($_POST["name"]) and
-		isset($_POST["surname"]) and isset($_POST["mail"]) and
+		if(isset($_POST["login"]) and isset($_POST["mail"]) and
 		isset($_POST["pwd"]))
 		{
 			$this->loadModel("Users");

@@ -74,8 +74,6 @@ class Users extends Model
 		$req = array(
 			"conditions"	=> array(
 				"login"		=> $_POST["login"],
-				"name"		=> $_POST["name"],
-				"surname"	=> $_POST["surname"],
 				"mail"		=> $_POST["mail"],
 				"password"	=> hash("sha1", $_POST["pwd"])
 			));
@@ -116,7 +114,7 @@ class Users extends Model
 		$pdoConnexion = Model::$connexions[$this->dbName];
 		$activator = $this->genHashActivator($req["conditions"]);
 		$sqlReq = "INSERT INTO ".$this->table
-		." (login, nom, prenom, mail, password, activation_hash)"
+		." (login, mail, password, activation_hash)"
 		." VALUES (";
 		foreach ($req["conditions"] as $key => $val)
 		{
@@ -135,7 +133,9 @@ class Users extends Model
 		}
 		catch(PDOException $e)
 		{
-			die($e->getMessage());
+			if(DEBUG_MODE)
+				die($e->getMessage()); // pour le debug
+			die(); //pour la prod
 		}
 		return $activator;
 	}
@@ -182,7 +182,9 @@ class Users extends Model
 			}
 			catch(PDOException $e)
 			{
-				die($e->getMessage());
+				if(DEBUG_MODE)
+					die($e->getMessage()); // pour le debug
+				die(); //pour la prod
 			}
 			return true;
 		}
