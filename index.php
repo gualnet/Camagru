@@ -18,13 +18,20 @@
 	define('CORE', ROOT.'core'.DIRSEP);
 	define('BASE_URL', dirname(WEBROOT).DIRSEP);
 
+	
+	// rgb(0, 0, 0)
+	// rgb(17, 3, 71)
+	// rgb(36, 6, 159)
+	// rgb(60, 16, 241)
+	// rgb(106, 73, 242)
+	// rgb(179, 162, 247)
+	// rgb(255, 255, 255)
+
 	require CORE."includes.php";
-	echo "<style>";
-	// require ROOT."view/css/header.css";
-	require ROOT."view/css/menubar.css";
-	require ROOT."view/css/footer.css";
-	echo "</style>";
+
 	require ROOT."view/pages/header.php";
+	require ROOT."view/pages/menubar.php";
+
 
 	if(!isset($_SESSION["login"]))
 	{

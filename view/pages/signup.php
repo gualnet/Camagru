@@ -56,6 +56,7 @@
 				var centralView = document.getElementsByClassName("centralView")[0];
 				centralView.removeChild(form);
 				alert("Success ! you will soon receive a mail to confirm your registration");
+				document.location.href="acceuil";
 				</script>
 			<?php
 			}

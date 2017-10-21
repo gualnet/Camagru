@@ -69,8 +69,7 @@ class Users extends Model
 
 	function registerNewUser()
 	{
-		print_r($_POST);
-
+		// print_r($_POST);
 		$req = array(
 			"conditions"	=> array(
 				"login"		=> $_POST["login"],
