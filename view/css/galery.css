@@ -1,19 +1,25 @@
 .flexBox
 {
-	border: 2px solid red;
-	/*width: auto; height: 75vh;*/
+	/*border: 2px solid red;*/
+	width: 99vw; height: auto;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-around;
-
 }
 
 .sticker
 {
+	margin-top: 2vh;
 	width: 30vw; height: auto;
 	text-align: center;
-	/*border-radius: 4px;*/
-	background-color: #ffffff;
+	box-shadow: 2px 2px 2px 0px;
+	background-color: rgba(255, 255, 255, 0);
+	transition: 0.5s;
+}
+.sticker:hover
+{
+	box-shadow: inset 2px 2px 5px 2px;
+	box-shadow: 2px 2px 5px 2px;
 }
 
 .img
@@ -21,16 +27,13 @@
 	min-width: auto; min-height: 35vh;
 	max-width: 30vw; max-height: 35vh;
 	margin: auto;
-	border-top-right-radius: 10px;
-	border-top-left-radius: 10px;
-	border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 .imgSubBox
 {
-	/*border: 2px solid blue;*/
 	width: auto; height: 5vh;
 	list-style-type: none;
+	background: rgba(50, 50, 50, 0.25);
 }
 .imgSubBox ul
 {
@@ -41,8 +44,18 @@
 }
 .imgSubBox li
 {
-	border: 2px solid rgb(133, 11, 111);
+	border: 1px solid rgb(91, 91, 91);
 	flex: 1 1 0;
+	text-align: center;
+	line-height: 4.5vh;
+	color: rgb(255, 255, 255);
+	transition: 0.5s;
+}
+.imgSubBox li:hover
+{
+	border: 1px solid rgb(20, 20, 20);
+	background: rgba(50, 50, 50, 0.5);
+	color: rgb(255, 255, 255);
 }
 
 /*---------#---------#---------#---------#---------#---------*/
@@ -50,6 +63,7 @@
 .pagination
 {
 	display: flex;
+	margin-top: 1vh;
 	justify-content: center;
 }
 

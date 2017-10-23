@@ -1,6 +1,5 @@
 <div class="centralView">
 
-
 	<div class="flexBox">
 		<?php
 			$pageReq -= 1;
@@ -16,9 +15,9 @@
 					.$picsUrl[$id]."\" />\n";
 					echo "<div class=\"imgSubBox\">
 					<ul>
-					<li>truc1</li>
-					<li>truc2</li>
-					<li>truc3</li>
+						<li onclick=like(this)>Like</li>
+						<li>Unlike</li>
+						<li>Comment</li>
 					</ul>
 					</div>";
 					echo "</div>";
@@ -42,5 +41,17 @@
 			?>
 		</div>
 
-
 </div>
+
+<script>
+
+	function like(me)
+	{
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", "../bckPages/galeryAjx", true);
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		data = me.parentElement.parentElement.parentElement.getElementsByClassName("img")[0].getAttribute("src");
+		xhr.send("var1=like&var2="+data+"&var3=none");
+	}
+
+</script>
