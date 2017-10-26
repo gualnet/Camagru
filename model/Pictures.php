@@ -15,7 +15,7 @@ class Pictures extends Model
 	function __construct()
 	{
 		parent::__construct();
-		if(isset($_SESSION["user_id"]))
+		if(isset($_SESSION["login"]))
 			$this->ownerLogin = $_SESSION["login"];
 		if(isset($_SESSION["user_id"]))
 			$this->ownerId = $_SESSION["user_id"];
@@ -132,6 +132,29 @@ class Pictures extends Model
 			$sqlReq = array(
 				"conditions"	=> array(
 					"user_id"	=> $uid
+				)
+			);
+		}
+		else
+		{
+			$sqlReq = array();
+		}
+		$retFind = $this->find($sqlReq);
+		if(!isset($retFind) or $retFind === array())
+		{
+			// echo "pas de retour";
+			return false;
+		}
+		return $retFind;
+	}
+
+	public function getPicsByUrl($url=false)
+	{
+		if($url)
+		{
+			$sqlReq = array(
+				"conditions"	=> array(
+					"file_url"	=> $url
 				)
 			);
 		}

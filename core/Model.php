@@ -102,7 +102,46 @@ class Model
 			$sqlReq .= implode(", ", $cond);
 			$sqlReq .= ");";
 		}
-		echo "<p>-->".$sqlReq."<--</p>";
+		// echo "<p>-->".$sqlReq."<--</p>";
+		try
+		{
+			$prep = $pdoConnexion->prepare($sqlReq);
+			// print_r($prep);
+			$prep->execute();
+		}
+		catch(PDOException $e)
+		{
+			if(DEBUG_MODE)
+				die($e->getMessage()); // pour le debug
+			die(); //pour la prod
+		}
+		return true;
+	}
+
+	protected function delete($req)
+	{
+		$pdoConnexion = Model::$connexions[$this->dbName];
+		$sqlReq = "DELETE FROM ".$this->table;
+		if(isset($req["conditions"]))
+		{
+			$sqlReq .= " WHERE ";
+			if(is_array($req["conditions"]))
+			{
+				$cond = array();
+				foreach ($req["conditions"] as $key => $val)
+				{
+					if(!is_numeric($val))
+					{
+						$val = $pdoConnexion->quote($val);
+					}
+					$cond[] = "$key=$val";
+				}
+				$sqlReq .= implode(" AND ", $cond);
+				// die($sqlReq);
+			}
+			else
+				$sqlReq .= $req["conditions"];
+		}
 		try
 		{
 			$prep = $pdoConnexion->prepare($sqlReq);

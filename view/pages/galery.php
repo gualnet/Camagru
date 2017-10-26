@@ -12,11 +12,11 @@
 					$id = $i - ($pageReq * 6);
 					echo "<div class=\"sticker\">";
 					echo "<img class=\"img\" id=\"item-".$cpt."\" src=\""
-					.$picsUrl[$id]."\" />\n";
+					.$picsUrl[$id]."\" onload=\"likeChecker(this)\"/>\n";
 					echo "<div class=\"imgSubBox\">
 					<ul>
-						<li onclick=like(this)>Like</li>
-						<li>Unlike</li>
+						<li id=\"like\" onclick=like(this)>Like</li>
+						<li id=\"unlike\" onclick=unlike(this)>Unlike</li>
 						<li>Comment</li>
 					</ul>
 					</div>";
@@ -48,10 +48,55 @@
 	function like(me)
 	{
 		var xhr = new XMLHttpRequest();
-		xhr.open("POST", "../bckPages/galeryAjx", true);
+		xhr.open("POST", "/ajax/galeryAjx", true);
 		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		data = me.parentElement.parentElement.parentElement.getElementsByClassName("img")[0].getAttribute("src");
 		xhr.send("var1=like&var2="+data+"&var3=none");
+		me.parentElement.querySelector("li").style.display = "none";
+		me.parentElement.querySelector("#unlike").style.display = "list-item";
+
+	}
+
+	function likeChecker(me)
+	{
+		var xhr = new XMLHttpRequest();
+
+		xhr.onreadystatechange = function()
+		{
+			if(this.readyState == 4 && xhr.status == 200)
+			{
+				var rspTxt = this.responseText;
+				if(rspTxt === "\nTRUE")
+					me.parentElement.querySelector("li").style.display = "none";
+			}
+		}
+		xhr.open("POST", "/ajax/likeChecker.php", true);
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		data = me.getAttribute("src");
+		xhr.send("var1=like2&var2="+data);
+	}
+
+	function unlike(me)
+	{
+		var xhr = new XMLHttpRequest();
+
+		xhr.onreadystatechange = function()
+		{
+			if(this.readyState == 4 && this.status == 200)
+			{
+				var rspTxt = this.responseText;
+				console.log("RSP:" + rspTxt);
+				if(rspTxt === "\nTRUE")
+				{
+					me.style.display = "none";
+					me.parentElement.querySelector("#like").style.display = "list-item";
+				}
+			}
+		}
+		xhr.open("POST", "/ajax/unlike.php", true);
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		data = me.parentElement.parentElement.parentElement.getElementsByClassName("img")[0].getAttribute("src");
+		xhr.send("var1=unlike3&var2="+data);
 	}
 
 </script>

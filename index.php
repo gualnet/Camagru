@@ -1,9 +1,13 @@
 <?php
 	ob_start();
 	session_start();
-
 ?>
-
+<pre>
+	<?php
+		// print_r($_SERVER);
+		// print_r($_SESSION);
+	?>
+</pre>
 <?php
 
 
@@ -18,7 +22,7 @@
 	define('CORE', ROOT.'core'.DIRSEP);
 	define('BASE_URL', dirname(WEBROOT).DIRSEP);
 
-	
+
 	// rgb(0, 0, 0)
 	// rgb(17, 3, 71)
 	// rgb(36, 6, 159)
@@ -29,8 +33,12 @@
 
 	require CORE."includes.php";
 
-	require ROOT."view/pages/header.php";
-	require ROOT."view/pages/menubar.php";
+	if(!strstr($_SERVER["REQUEST_URI"], "ajax"))
+	{
+		require ROOT."view/pages/header.php";
+		require ROOT."view/pages/menubar.php";
+
+	}
 
 
 	if(!isset($_SESSION["login"]))
@@ -49,7 +57,10 @@
 	// echo " --> BASE_URL ".BASE_URL;
 	// print_r($_SERVER);
 
-	require ROOT."view/pages/footer.php";
+	if(!strstr($_SERVER["REQUEST_URI"], "ajax"))
+	{
+		require ROOT."view/pages/footer.php";
+	}
 	// echo "BYEBYE\n";
 
 ?>
