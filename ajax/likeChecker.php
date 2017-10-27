@@ -19,7 +19,7 @@ class LikeChecker extends AjaxController
 {
 	function likeChecker()
 	{
-		if(!isset($_POST["var1"]) or !isset($_POST["var2"]) and $_POST["var1"] !== "like2")
+		if(!isset($_POST["var1"]) or !isset($_POST["pic"]) and $_POST["var1"] !== "like2")
 		{
 			echo "<p>ERROR01</p>";
 			return false;
@@ -43,9 +43,5 @@ class LikeChecker extends AjaxController
 }
 
 new LikeChecker();
-
-
-
-
 
 ?>

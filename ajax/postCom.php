@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-error_reporting(E_ALL);
+error_reporting(E_ALL);	//3 lignes pour le debug
 ini_set('display_errors', 1);
 define("DEBUG_MODE", true);
 
@@ -15,29 +15,22 @@ define('BASE_URL', dirname(WEBROOT).DIRSEP);
 require CORE."includes.php";
 require ROOT."controller/AjaxController.php";
 
-class unlike extends AjaxController
+class PostComment extends AjaxController
 {
-	function doUnlike()
+	function postComment()
 	{
-		if(!isset($_POST["var1"]) or !isset($_POST["pic"]) and $_POST["var1"] !== "unlike3")
-		{
-			echo "<p>ERROR01</p>";
+		// echo $_POST["pic"];
+		// echo $_POST["comData"];
+		if((!isset($_POST["var1"]) or !isset($_POST["pic"]) or !isset($_POST["comData"])) and $_POST["var1"] !== "postComment")
 			return false;
-		}
 
 		$picInfo = $this->getPicInfo();
-
-		$this->loadModel("Likes");
-		$result = false;
-		$result = $this->Likes->unlikePic($picInfo);
-		if($result === true)
-			echo "TRUE";
-		else
-			echo "FALSE";
+		// print_r($picInfo);
+		$this->loadModel("Comments");
+		$ret = $this->Comments->createComment($picInfo);
 	}
 }
 
-$truc = new unlike();
-$truc->doUnlike();
+new PostComment();
 
 ?>

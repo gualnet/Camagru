@@ -208,6 +208,11 @@ class PagesController extends Controller
 		// die("FIN");
 	}
 
+	function testComment()
+	{
+		
+	}
+
 }
 
 ?>

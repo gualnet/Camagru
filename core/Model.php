@@ -5,7 +5,7 @@ class Model
 
 	static $connexions = array();
 	public $dbName = "NONE";
-	public $table = false;
+	protected $table = false;
 
 	function __construct()
 	{

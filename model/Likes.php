@@ -8,14 +8,26 @@ class Likes extends Model
 	private $picId			= false;
 	private $picOwner		= false;
 
-
 	function __construct()
 	{
 		parent::__construct();
-		if(isset($_SESSION["user_id"]))
+		if(isset($_SESSION["user_id"]) and isset($_POST["var2"]))
+		{
+			if($this->currentUser === "none" or $this->currentUser === "")
+			{
+				if(DEBUG_MODE === true)
+					die("Bad session uid : 002");
+				die();
+			}
 			$this->currentUser = $_SESSION["user_id"];
-		if(isset($_POST["var2"]))
 			$this->PicUrl = $_POST["var2"];
+		}
+		else
+		{
+			if(DEBUG_MODE === true)
+				die("Err LikesModel : 001");
+			die();
+		}
 	}
 
 	function createLike($picInfo)
@@ -30,7 +42,8 @@ class Likes extends Model
 				"pic_id"	=> $this->picId
 			)
 		);
-		$this->insert($req);
+		return $this->insert($req);
+
 	}
 
 	function checkLikes($picInfo)

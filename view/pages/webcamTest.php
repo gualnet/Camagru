@@ -52,11 +52,11 @@
 (function()
 {
 	var streaming = false,
-	video	= document.querySelector("#video"),
-	photo	= document.querySelector("#photo"),
+	video		= document.querySelector("#video"),
+	photo		= document.querySelector("#photo"),
 	picTakeBtn	= document.querySelector("#picTakeBtn"),
-	width = 1024,
-	height = 0;
+	width 		= 1024,
+	height 		= 0;
 
 	navigator.getMedia	= (navigator.getUserMedia ||
 		navigator.webkitGetUserMedia ||
@@ -181,7 +181,7 @@ function showFile(files)
 	console.log(image);
 	if(image[0])
 	{
-		console.log("BONGO"+image[0]);
+		console.log("BINGO"+image[0]);
 		var videoBox = document.getElementsByClassName("videoBox");
 		videoBox[0].removeChild(image[0]);
 	}

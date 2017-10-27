@@ -1,5 +1,51 @@
 <div class="centralView">
 
+	<div class="picModal">
+			<img id="imgModal" src=""/>
+			<label id="lblCom">LE COM..</label>
+			<label id="lblSend" onclick="sendCom()">SEND</label>
+			<input id="comInp" type="text"/>
+			<div id="comments"></div>
+	</div>
+	<script>
+
+		var picModal = document.querySelector(".picModal");
+		function seeModal(me)
+		{
+			console.log("seeModal");
+			var imgData = me.getAttribute("src");
+			document.querySelector("#imgModal").setAttribute("src", imgData);
+			picModal.style.display = "grid";
+		}
+
+		window.onclick = function(event)
+		{
+			if (event.target == picModal)
+				picModal.style.display = "none";
+		}
+
+		function sendCom()
+		{
+			var comData = document.querySelector("#comInp").value;
+			console.log(comData);
+			var picData = document.querySelector("#imgModal").getAttribute("src");
+			// console.log("000");
+
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function()
+			{
+				if(this.readyState == 4 && xhr.status == 200)
+				{
+					var rspTxt = this.responseText;
+
+				}
+			}
+			xhr.open("POST", "/ajax/postCom.php", true);
+			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			xhr.send("var1=postComment2&pic="+picData+"&comData="+comData);
+		}
+	</script>
+
 	<div class="flexBox">
 		<?php
 			$pageReq -= 1;
@@ -12,7 +58,8 @@
 					$id = $i - ($pageReq * 6);
 					echo "<div class=\"sticker\">";
 					echo "<img class=\"img\" id=\"item-".$cpt."\" src=\""
-					.$picsUrl[$id]."\" onload=\"likeChecker(this)\"/>\n";
+					.$picsUrl[$id]."\" onload=\"likeChecker(this)\"
+					onclick=\"seeModal(this)\"/>\n";
 					echo "<div class=\"imgSubBox\">
 					<ul>
 						<li id=\"like\" onclick=like(this)>Like</li>
@@ -48,11 +95,11 @@
 	function like(me)
 	{
 		var xhr = new XMLHttpRequest();
-		xhr.open("POST", "/ajax/galeryAjx", true);
+		xhr.open("POST", "/ajax/createLike.php", true);
 		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		data = me.parentElement.parentElement.parentElement.getElementsByClassName("img")[0].getAttribute("src");
-		xhr.send("var1=like&var2="+data+"&var3=none");
-		me.parentElement.querySelector("li").style.display = "none";
+		xhr.send("var1=like&pic="+data+"&var3=none");
+		me.parentElement.querySelector("#like").style.display = "none";
 		me.parentElement.querySelector("#unlike").style.display = "list-item";
 
 	}
@@ -67,13 +114,16 @@
 			{
 				var rspTxt = this.responseText;
 				if(rspTxt === "\nTRUE")
-					me.parentElement.querySelector("li").style.display = "none";
+				{
+					me.parentElement.querySelector("#like").style.display = "none";
+					me.parentElement.querySelector("#unlike").style.display = "list-item";
+				}
 			}
 		}
 		xhr.open("POST", "/ajax/likeChecker.php", true);
 		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		data = me.getAttribute("src");
-		xhr.send("var1=like2&var2="+data);
+		xhr.send("var1=like2&pic="+data);
 	}
 
 	function unlike(me)
@@ -96,7 +146,7 @@
 		xhr.open("POST", "/ajax/unlike.php", true);
 		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 		data = me.parentElement.parentElement.parentElement.getElementsByClassName("img")[0].getAttribute("src");
-		xhr.send("var1=unlike3&var2="+data);
+		xhr.send("var1=unlike3&pic="+data);
 	}
 
 </script>

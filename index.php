@@ -2,12 +2,12 @@
 	ob_start();
 	session_start();
 ?>
-<pre>
+<!-- <pre>
 	<?php
 		// print_r($_SERVER);
 		// print_r($_SESSION);
 	?>
-</pre>
+</pre> -->
 <?php
 
 
