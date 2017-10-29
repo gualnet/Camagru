@@ -189,6 +189,30 @@ class Users extends Model
 		}
 		return false;
 	}
+
+	public function getUserByID($id=false)
+	{
+		if($id)
+		{
+			$sqlReq = array(
+				"conditions"	=> array(
+					"id"	=> $id
+				)
+			);
+		}
+		else
+		{
+			$sqlReq = array();
+		}
+		$retFind = $this->find($sqlReq);
+		if(!isset($retFind) or $retFind === array())
+		{
+			// echo "pas de retour";
+			return false;
+		}
+		return $retFind;
+	}
+
 }
 
 

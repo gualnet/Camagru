@@ -8,7 +8,7 @@ class Comments extends Model
 	function __construct()
 	{
 		parent::__construct();
-		if(isset($_SESSION["user_id"]) and isset($_POST["pic"]) and isset($_POST["comData"]))
+		if(isset($_SESSION["user_id"]) and isset($_POST["pic"]))
 		{
 			if($this->currentUser === "none" or $this->currentUser === "")
 			{
@@ -22,7 +22,7 @@ class Comments extends Model
 		else
 		{
 			if(DEBUG_MODE === true)
-				die("Err LikesModel : 001");
+				die("Err CommentsModel : 001");
 			die();
 		}
 	}
@@ -41,6 +41,15 @@ class Comments extends Model
 		return $this->insert($req);
 	}
 
+	function getPicComments($picInfo)
+	{
+		$req = array(
+			"conditions"	=> array(
+				"picture_id"	=> $picInfo[0]->id
+			)
+		);
+		return $this->find($req);
+	}
 
 }
 

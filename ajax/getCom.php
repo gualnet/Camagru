@@ -15,29 +15,33 @@ define('BASE_URL', dirname(WEBROOT).DIRSEP);
 require CORE."includes.php";
 require ROOT."controller/AjaxController.php";
 
-class PostComment extends AjaxController
+class GetComment extends AjaxController
 {
-	function postComment()
+	function getPicComment()
 	{
-		// echo $_POST["pic"];
-		// echo $_POST["comData"];
-		if((!isset($_POST["var1"]) or !isset($_POST["pic"]) or !isset($_POST["comData"])) and $_POST["var1"] !== "postComment")
+		if((!isset($_POST["var1"]) or !isset($_POST["pic"])) and $_POST["var1"] !== "getComment")
 			return false;
-
-		if($_POST["comData"] === "")
-		{
-			if(DEBUG_MODE)
-				die($e->getMessage("EMPTY MESSAGE !")); // pour le debug
-			die(); //pour la prod
-		}
 
 		$picInfo = $this->getPicInfo();
 		// print_r($picInfo);
 		$this->loadModel("Comments");
-		$ret = $this->Comments->createComment($picInfo);
+		$comments = $this->Comments->getPicComments($picInfo);
+		// print_r($comments);
+
+		$this->loadModel("Users");
+		foreach($comments as $com)
+		{
+			echo "<p>";
+			echo "from: ".$this->Users->getUserById($com->com_owner_id)[0]->login."</br>";
+			echo "com: ".$com->content;
+			echo "</p>";
+		}
 	}
 }
 
-new PostComment();
+$ins = new GetComment();
+$ins->getPicComment();
+
+// echo "END";
 
 ?>

@@ -1,4 +1,27 @@
 <div class="centralView">
+	<script>
+		function likeChecker(me)
+		{
+			var xhr = new XMLHttpRequest();
+
+			xhr.onreadystatechange = function()
+			{
+				if(this.readyState == 4 && xhr.status == 200)
+				{
+					var rspTxt = this.responseText;
+					if(rspTxt === "\nTRUE")
+					{
+						me.parentElement.querySelector("#like").style.display = "none";
+						me.parentElement.querySelector("#unlike").style.display = "list-item";
+					}
+				}
+			}
+			xhr.open("POST", "/ajax/likeChecker.php", true);
+			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			data = me.getAttribute("src");
+			xhr.send("var1=like2&pic="+data);
+		}
+	</script>
 
 	<div class="picModal">
 			<img id="imgModal" src=""/>
@@ -14,6 +37,7 @@
 		{
 			console.log("seeModal");
 			var imgData = me.getAttribute("src");
+			requestPicCom(imgData);
 			document.querySelector("#imgModal").setAttribute("src", imgData);
 			picModal.style.display = "grid";
 		}
@@ -27,7 +51,6 @@
 		function sendCom()
 		{
 			var comData = document.querySelector("#comInp").value;
-			console.log(comData);
 			var picData = document.querySelector("#imgModal").getAttribute("src");
 			// console.log("000");
 
@@ -38,11 +61,31 @@
 				{
 					var rspTxt = this.responseText;
 
+					document.querySelector("#comInp").value = "";
+					requestPicCom(picData);
 				}
 			}
 			xhr.open("POST", "/ajax/postCom.php", true);
 			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			xhr.send("var1=postComment2&pic="+picData+"&comData="+comData);
+		}
+
+		function requestPicCom(picData)
+		{
+			var comBox = document.querySelector("#comments");
+			comBox.innerHTML = "";
+			var xhr = new XMLHttpRequest();
+			xhr.onreadystatechange = function()
+			{
+				if(this.readyState == 4 && xhr.status == 200)
+				{
+					var rspTxt = this.responseText;
+					comBox.innerHTML = rspTxt;
+				}
+			}
+			xhr.open("POST", "/ajax/getCom.php", true);
+			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			xhr.send("var1=getComment2&pic="+picData);
 		}
 	</script>
 
@@ -101,29 +144,6 @@
 		xhr.send("var1=like&pic="+data+"&var3=none");
 		me.parentElement.querySelector("#like").style.display = "none";
 		me.parentElement.querySelector("#unlike").style.display = "list-item";
-
-	}
-
-	function likeChecker(me)
-	{
-		var xhr = new XMLHttpRequest();
-
-		xhr.onreadystatechange = function()
-		{
-			if(this.readyState == 4 && xhr.status == 200)
-			{
-				var rspTxt = this.responseText;
-				if(rspTxt === "\nTRUE")
-				{
-					me.parentElement.querySelector("#like").style.display = "none";
-					me.parentElement.querySelector("#unlike").style.display = "list-item";
-				}
-			}
-		}
-		xhr.open("POST", "/ajax/likeChecker.php", true);
-		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		data = me.getAttribute("src");
-		xhr.send("var1=like2&pic="+data);
 	}
 
 	function unlike(me)

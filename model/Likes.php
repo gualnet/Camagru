@@ -11,7 +11,7 @@ class Likes extends Model
 	function __construct()
 	{
 		parent::__construct();
-		if(isset($_SESSION["user_id"]) and isset($_POST["var2"]))
+		if(isset($_SESSION["user_id"]) and isset($_POST["pic"]))
 		{
 			if($this->currentUser === "none" or $this->currentUser === "")
 			{
@@ -20,12 +20,16 @@ class Likes extends Model
 				die();
 			}
 			$this->currentUser = $_SESSION["user_id"];
-			$this->PicUrl = $_POST["var2"];
+			$this->PicUrl = $_POST["pic"];
 		}
 		else
 		{
+			echo "session";
+			print_r($_SESSION);
+			echo "post";
+			print_r($_POST);
 			if(DEBUG_MODE === true)
-				die("Err LikesModel : 001");
+				die("Err LikesModel :001");
 			die();
 		}
 	}
