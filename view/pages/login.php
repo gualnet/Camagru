@@ -10,7 +10,7 @@
 
 <div class="centralView">
 	<form class="signinForm" method="post" action="">
-		<h2>Please Sign-in</h2>
+		<h2>SIGN-IN</h2>
 		<?php
 			if($displayErrMsg === true)
 			{

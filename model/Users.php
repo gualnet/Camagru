@@ -40,8 +40,8 @@ class Users extends Model
 		*	Verifiaction de doublon login / mail
 		*/
 		$retArr = array(
-			"login" => false,
-			"mail" => false
+			"login" => true,
+			"mail" => true
 		);
 
 		function checkIfExist($here, $key)
@@ -58,8 +58,7 @@ class Users extends Model
 			return false;
 		}
 
-		if(isset($_POST["login"]) and isset($_POST["name"]) and
-		isset($_POST["surname"]) and isset($_POST["mail"]) and isset($_POST["pwd"]))
+		if(isset($_POST["login"]) and isset($_POST["mail"]) and isset($_POST["pwd"]))
 		{
 			$retArr["login"] = checkIfExist($this, "login");
 			$retArr["mail"] = checkIfExist($this, "mail");
@@ -89,11 +88,11 @@ class Users extends Model
 		$headers .= "MIME-Version: 1.0 \r\n";
 		$headers .= "Content-type: text/html; charset=iso-8859-1 \r\n";
 		$message =
-			"<h4>Dear ".$_POST["login"]."</h4>\r\n"
+			"<h2>Dear ".$_POST["login"]."</h2>\r\n"
 			."<p>WELCOME...</p>\r\n"
-			."<p>BLABLABLA.. click -=>"
-			."<a href=http://localhost:8888/inter/accountActivation/?"."ul=".$login."&ua=".$activator.">"
-			."<span>HERE</span></a>  <=- </p>\r\n";
+			."<p>BLABLABLA.. click "
+			."<a href=http://localhost:8888/pages/accountActivation/?"."ul=".$login."&ua=".$activator.">"
+			."<span>HERE</span></a> </p>\r\n";
 
 		$ret = imap_mail($to, $subject, $message, $headers);
 		if($ret)

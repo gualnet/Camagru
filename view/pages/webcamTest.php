@@ -1,17 +1,21 @@
 
 <div class="centralView">
+	<div class="upperLayer">
+	</div>
 
 	<div class="videoBox">
+		<div class="preview">
+			<video id="video"></video>
+			<canvas id="photo"></canvas>
+		</div>
+	</div>
+	<div class="btnBox">
 		<div id="uplBox">
 			<label id="uplLbl" for="uplInp" style="width: 150px; height: 40px;">Add your picture</label>
 		</div>
 		<ul>
 			<li id="picTakeBtn">Prendre une photo</li>
 		</ul>
-		<div class="preview">
-			<video id="video"></video>
-			<canvas id="photo"></canvas>
-		</div>
 	</div>
 
 	<div class="galerieBox">
@@ -98,10 +102,10 @@ function(ev)
 	if (!streaming)
 	{
 		height = video.videoHeight / (video.videoWidth/width);
-		video.setAttribute("width", width);
-		video.setAttribute("height", height);
-		photo.setAttribute("width", width);
-		photo.setAttribute("height", height);
+		// video.setAttribute("width", width);
+		// video.setAttribute("height", height);
+		// photo.setAttribute("width", width);
+		// photo.setAttribute("height", height);
 		streaming = true;
 	}
 },false);
@@ -156,8 +160,22 @@ function calcSelector(me)
 	var calcData = me.getAttribute("src");
 	document.querySelector("#dataSendCalc").setAttribute("value", calcData);
 
-	var btnTakePic = document.querySelector(".videoBox ul");
+	var btnTakePic = document.querySelector(".btnBox ul");
 	btnTakePic.style.display = "block";
+//--------------------------test
+	var upperLayer = document.querySelector(".upperLayer");
+	upperLayer.innerHTML = "";
+	var upLayer_img = document.createElement("img");
+	var videoW = document.querySelector("#video").clientWidth;
+	var videoH = document.querySelector("#video").clientHeight;
+	console.log("W/H"+videoW+"/"+videoH);
+	upLayer_img.setAttribute("width", videoW);
+	upLayer_img.setAttribute("height", videoH);
+	upLayer_img.setAttribute("src", calcUrl);
+	upperLayer.appendChild(upLayer_img);
+
+
+
 }
 
 function showFile(files)
@@ -192,6 +210,9 @@ function showFile(files)
 	var reader = new FileReader();
 	reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
 	reader.readAsDataURL(file);
+	var video = document.querySelector("#video");
+	video.style.display = "none";
+	// document.querySelector("#uplObj").setAttribute("max-height", "768px");
 	}
 }
 

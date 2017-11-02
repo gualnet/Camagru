@@ -8,7 +8,7 @@
 
 <div class="centralView">
 
-		<form class="signupForm" method="post" action="" onsubmit="">
+		<form class="signupForm" method="post">
 			<h2>SIGN-UP</h2>
 			<?php
 				if($inUse["login"] === false)
@@ -25,10 +25,6 @@
 				}
 			?>
 			<input type="text" name="login" required="required"/>
-			<!-- <label>Name </label>
-			<input type="text" name="name" required="required"/>
-			<label>Surname </label>
-			<input type="text" name="surname" required="required"/> -->
 			<?php
 				if($inUse["mail"] === false)
 				{
@@ -43,8 +39,21 @@
 					<?php
 				}
 			?>
-			<input type="text" name="mail" required="required"/>
-			<label>Password </label>
+			<input type="email" name="mail" required="required"/>
+			<?php
+				if($badPwd === false)
+				{
+					?>
+					<label>Password </label>
+					<?php
+				}
+				else
+				{
+					?>
+					<label>Password </label><p class="errMsg">Password must at least contain:<br />6 characters, 2 numbers, 1 maj</p>
+					<?php
+				}
+			?>
 			<input type="password" name="pwd" required="required"/>
 			<button type="submit" value="submit">OK</button>
 		</form>

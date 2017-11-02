@@ -30,6 +30,17 @@ class Model
 		}
 	}
 
+	public function filterNewInput($rawInput)
+	{
+		//trim
+		$comSanit = trim($rawInput);
+		//remove backslash - html_tags - encode html entites
+		$comSanit = stripcslashes($comSanit);
+		$comSanit = strip_tags($comSanit);
+		$comSanit = htmlentities($comSanit);
+		return $comSanit;
+	}
+
 	public function find($req)
 	{
 		$pdoConnexion = Model::$connexions[$this->dbName];
@@ -118,7 +129,7 @@ class Model
 		return true;
 	}
 
-	protected function delete($req)
+	public function delete($req)
 	{
 		$pdoConnexion = Model::$connexions[$this->dbName];
 		$sqlReq = "DELETE FROM ".$this->table;

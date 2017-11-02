@@ -29,10 +29,12 @@ class Comments extends Model
 
 	function createComment($picInfo)
 	{
+
+		$com = $this->filterNewInput($_POST["comData"]);
 		$req = array(
 			"conditions"	=> array(
 				"title"			=> "none",
-				"content"		=> $_POST["comData"],
+				"content"		=> $com,
 				"com_owner_id"	=> $this->currentUser,
 				"picture_id"	=> $picInfo[0]->id,
 				"pic_owner_id"	=> $picInfo[0]->user_id

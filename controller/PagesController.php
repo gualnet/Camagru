@@ -47,28 +47,55 @@ class PagesController extends Controller
 		$this->render("profil");
 	}
 
+	private function checkPwdCplx($inputPwd)//test password complexity
+	{
+		if(($c = strlen($inputPwd)) < 6)
+			return "NOK";
+		$numCpt = 0;
+		$majCpt = 0;
+		for($i = 0; $i < strlen($inputPwd); $i++)
+		{
+			if(is_numeric($inputPwd[$i]))
+				$numCpt++;
+			if(ctype_upper($inputPwd[$i]))
+				$majCpt++;
+		}
+		if($numCpt < 2 or $majCpt < 1)
+			return "NOK";
+	}
+
 	function signup()
 	{
 		$this->setVars("displayErrMsg", false); //enable error message in case of login failure
 		$this->setVars("loginRedir", false); //Enable home redirection in case of login success
 		$this->setVars("inUse", array(
-			"login" => false,
-			"mail" => false
+			"login"	=> false,
+			"mail"	=> false
 		)); //enable error message in case of mail already used
+		$this->setVars("badPwd", false);
 		if(isset($_POST["login"]) and isset($_POST["mail"]) and
 		isset($_POST["pwd"]))
 		{
 			$this->loadModel("Users");
-			$checkRet = $this->Users->checkSignupValidity();
-			$this->setVars("inUse", $checkRet);
-			if($checkRet["login"] === false and $checkRet["mail"] === false)
+			$_POST["login"] = $this->Users->filterNewInput($_POST["login"]);
+			$_POST["mail"] = $this->Users->filterNewInput($_POST["mail"]);
+			if($this->checkPwdCplx($_POST["pwd"]) === "NOK")
 			{
-				$activator = $this->Users->registerNewUser();
-				if(!$this->Users->sendConfirmMail($_POST["login"], $activator))
+				$this->setVars("badPwd", true);
+			}
+			else
+			{
+				$checkRet = $this->Users->checkSignupValidity();
+				$this->setVars("inUse", $checkRet);
+				if($checkRet["login"] === false and $checkRet["mail"] === false)
 				{
-					$this->e404("An error occur, Confirmation mail not sent.<p>please contact the customer services !</p>");
+					$activator = $this->Users->registerNewUser();
+					if(!$this->Users->sendConfirmMail($_POST["login"], $activator))
+					{
+						$this->e404("An error occur, Confirmation mail not sent.<p>please contact the customer services !</p>");
+					}
+					$this->setVars("loginRedir", true);
 				}
-				$this->setVars("loginRedir", true);
 			}
 		}
 		else if($_POST !== array())
@@ -84,6 +111,7 @@ class PagesController extends Controller
 		if($_POST)
 		{
 			$this->loadModel("Users");
+			$_POST["login"] = $this->Users->filterNewInput($_POST["login"]);
 			$loginRes = $this->Users->checkSignin();
 			// echo " --".$loginRes."-- ";
 			if($loginRes === false)
@@ -120,10 +148,10 @@ class PagesController extends Controller
 		$userRet = $this->Users->find($reqCond);
 		if(count($userRet) != 1)
 		{
-			$this->e404("!^!^!");
+			$this->e404("Your account has already been activated");
 			die();
 		}
-		if($this->Users->confirmActivation($userRet[0]) === false)
+		else if($this->Users->confirmActivation($userRet[0]) === false)
 		{
 			$this->e404("Authentication not allowed");
 			die();
@@ -179,7 +207,10 @@ class PagesController extends Controller
 	{
 		$this->loadModel("Pictures");
 		$retPics = $this->Pictures->getPics();
-
+		if($retPics === false)
+		{
+			$this->e404("SRY no picture found !");
+		}
 		if(isset($this->request->params[0]))
 			$pageNum = intval($this->request->params[0]);
 		else
@@ -206,11 +237,6 @@ class PagesController extends Controller
 
 		$this->render("galery");
 		// die("FIN");
-	}
-
-	function testComment()
-	{
-		
 	}
 
 }
