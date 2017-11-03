@@ -35,7 +35,6 @@
 		var picModal = document.querySelector(".picModal");
 		function seeModal(me)
 		{
-			console.log("seeModal");
 			var imgData = me.getAttribute("src");
 			requestPicCom(imgData);
 			document.querySelector("#imgModal").setAttribute("src", imgData);
@@ -52,7 +51,6 @@
 		{
 			var comData = document.querySelector("#comInp").value;
 			var picData = document.querySelector("#imgModal").getAttribute("src");
-			// console.log("000");
 
 			var xhr = new XMLHttpRequest();
 			xhr.onreadystatechange = function()
@@ -107,7 +105,6 @@
 					<ul>
 						<li id=\"like\" onclick=like(this)>Like</li>
 						<li id=\"unlike\" onclick=unlike(this)>Unlike</li>
-						<li>Comment</li>
 					</ul>
 					</div>";
 					echo "</div>";
@@ -155,7 +152,6 @@
 			if(this.readyState == 4 && this.status == 200)
 			{
 				var rspTxt = this.responseText;
-				console.log("RSP:" + rspTxt);
 				if(rspTxt === "\nTRUE")
 				{
 					me.style.display = "none";

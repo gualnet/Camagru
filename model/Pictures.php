@@ -58,6 +58,9 @@ class Pictures extends Model
 			$newCalcWidth = $picWidth;
 			$newCalcHeight = $picHeight * $calcSRatio;
 		}
+		// echo "<p>picW=".$picWidth."/picH=".$picHeight."</p>";
+		// echo "<p>calcW=".$calcWidth."/calcH=".$calcHeight."</p>";
+		// echo "<p>newCalcW=".$newCalcWidth."/newCalcH=".$newCalcHeight."</p>";
 		// creation du calques resize
 		$resizedCalc = imagecreate($newCalcWidth, $newCalcHeight);
 		imagesavealpha($resizedCalc, true);
@@ -82,7 +85,7 @@ class Pictures extends Model
 	private function picToFolder()
 	{
 		echo "construct ownerId".$this->ownerId;
-		$this->curRegFilePath = HTTP_HOST."/ressources".DIRSEP."pics".DIRSEP
+		$this->curRegFilePath = "/Users/kriz/Documents/42/Camagru/ressources/pics/"
 		.$this->ownerId."_".$this->ownerLogin.DIRSEP;
 		if(!file_exists($this->curRegFilePath))//verif path
 		{
@@ -99,10 +102,11 @@ class Pictures extends Model
 
 	private function picToDatabase()
 	{
-		$curRegFileURL = "http://localhost:8888/ressources/pics/".$this->ownerId."_".$this->ownerLogin.DIRSEP;
-		echo "->".$this->ownerLogin;
-		echo "->".$this->ownerId;
-		echo "->".$this->curRegFileName;
+		$curRegFileURL = "http://localhost:8888/ressources/pics/".$this->ownerId
+		."_".$this->ownerLogin.DIRSEP;
+		// echo "->".$this->ownerLogin;
+		// echo "->".$this->ownerId;
+		// echo "->".$this->curRegFileName;
 		$req = array(
 			"conditions"	=> array(
 				"name"		=> $this->curRegFileName,

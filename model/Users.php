@@ -101,6 +101,28 @@ class Users extends Model
 			return false;
 	}
 
+	function sendPwdRecoveryMail($login, $activator)
+	{
+		$to = $_POST["email"];
+		$subject = "CAMAGROu - fail with your password ?";
+		$headers = "From: webmaster@camagrou.com \r\n";
+		$headers .= "Reply-To: no-reply@camagrou.com \r\n";
+		$headers .= "MIME-Version: 1.0 \r\n";
+		$headers .= "Content-type: text/html; charset=iso-8859-1 \r\n";
+		$message =
+			"<h2>Dear ".$login."</h2>\r\n"
+			."muhahahahahaaa !"
+			."follow the link to set your new password"
+			."<a href=http://localhost:8888/pages/rescuepwd/?ul=".$login."&ua=".$activator.">"
+			."<span>RESCUE LINK</span></a>";
+
+		$ret = imap_mail($to, $subject, $message, $headers);
+		if($ret)
+			return true;
+		else
+			return false;
+	}
+
 	private function genHashActivator($pwd)
 	{
 		$activator = hash("sha1", microtime()).$pwd["password"];
@@ -207,6 +229,28 @@ class Users extends Model
 		if(!isset($retFind) or $retFind === array())
 		{
 			// echo "pas de retour";
+			return false;
+		}
+		return $retFind;
+	}
+
+	public function getUserBy($colName, $value=false)
+	{
+		if($value)
+		{
+			$sqlReq = array(
+				"conditions"	=> array(
+					"$colName"	=> $value
+				));
+		}
+		else
+			$sqlReq = array();
+
+		$retFind = $this->find($sqlReq);
+		print_r($retFind);
+		if(!isset($retFind) or $retFind === array())
+		{
+			echo "pas de retour";
 			return false;
 		}
 		return $retFind;

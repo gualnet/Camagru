@@ -61,6 +61,7 @@
 	picTakeBtn	= document.querySelector("#picTakeBtn"),
 	width 		= 1024,
 	height 		= 0;
+	console.log(width+"/"+height);
 
 	navigator.getMedia	= (navigator.getUserMedia ||
 		navigator.webkitGetUserMedia ||
@@ -102,10 +103,10 @@ function(ev)
 	if (!streaming)
 	{
 		height = video.videoHeight / (video.videoWidth/width);
-		// video.setAttribute("width", width);
-		// video.setAttribute("height", height);
-		// photo.setAttribute("width", width);
-		// photo.setAttribute("height", height);
+		video.setAttribute("width", width);
+		video.setAttribute("height", height);
+		photo.setAttribute("width", width);
+		photo.setAttribute("height", height);
 		streaming = true;
 	}
 },false);
@@ -113,17 +114,7 @@ function(ev)
 picTakeBtn.addEventListener("click",
 function(ev)
 {
-	if(photo != null)
-	{
-		photo.getContext("2d", {alpha: true}).drawImage(video, 0, 0, width, height);
-		var data = photo.toDataURL("image/png");
-		photo.setAttribute("src", data);
-		var picData = document.querySelector("#photo").getAttribute("src");
-		document.querySelector("#dataSendPic").setAttribute("value", picData);
-		document.querySelector(".hiddenForm").submit();
-		ev.preventDefault();
-	}
-	else
+	if(document.querySelector("#uplInp").value != "")
 	{
 		var uplobj = document.querySelector(".uplobj");
 		if(uplobj)
@@ -140,6 +131,16 @@ function(ev)
 				document.querySelector(".hiddenForm").submit();
 			}
 		}
+	}
+	else if(photo != null)
+	{
+		photo.getContext("2d", {alpha: true}).drawImage(video, 0, 0, width, height);
+		var data = photo.toDataURL("image/png");
+		photo.setAttribute("src", data);
+		var picData = document.querySelector("#photo").getAttribute("src");
+		document.querySelector("#dataSendPic").setAttribute("value", picData);
+		document.querySelector(".hiddenForm").submit();
+		ev.preventDefault();
 	}
 },false);
 })();
@@ -189,30 +190,29 @@ function showFile(files)
 		{
 			continue;
 		}
-	//ici je modifie le dom pour afficher l'image uploadé a la place de la video
-	var img = document.createElement("img");
-	img.classList.add("uplObj");
-	img.file = file;
+		//ici je modifie le dom pour afficher l'image uploadé a la place de la video
+		var img = document.createElement("img");
+		img.classList.add("uplObj");
+		img.file = file;
 
-	//si il y a deja une img je l'efface pour la remplacer
-	var image = document.getElementsByClassName("uplObj");
-	console.log(image);
-	if(image[0])
-	{
-		console.log("BINGO"+image[0]);
+		//si il y a deja une img je l'efface pour la remplacer
+		var image = document.getElementsByClassName("uplObj");
+		console.log(image);
+		if(image[0])
+		{
+			console.log("BINGO"+image[0]);
+			var videoBox = document.getElementsByClassName("videoBox");
+			videoBox[0].removeChild(image[0]);
+		}
+
 		var videoBox = document.getElementsByClassName("videoBox");
-		videoBox[0].removeChild(image[0]);
-	}
-
-	var videoBox = document.getElementsByClassName("videoBox");
-	document.querySelector(".videoBox").appendChild(img);
-	//chargement en mode asynchrone de l'image
-	var reader = new FileReader();
-	reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
-	reader.readAsDataURL(file);
-	var video = document.querySelector("#video");
-	video.style.display = "none";
-	// document.querySelector("#uplObj").setAttribute("max-height", "768px");
+		document.querySelector(".videoBox").appendChild(img);
+		//chargement en mode asynchrone de l'image
+		var reader = new FileReader();
+		reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
+		reader.readAsDataURL(file);
+		var video = document.querySelector("#video");
+		video.style.display = "none";
 	}
 }
 

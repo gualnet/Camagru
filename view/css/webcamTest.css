@@ -1,12 +1,9 @@
-
 .centralView
 {
-	border: 2px solid rgb(179, 16, 159);
+	/*border: 2px solid rgb(179, 16, 159);*/
 	display: grid;
 	margin: 0px; padding: 0px;
 	width: 99vw;
-	/*max-height: 90%;*/
-
 	grid-template-columns: repeat(20, 4.95vw);
 	grid-template-rows: repeat(20, 4.5vh);
 }
@@ -16,7 +13,6 @@
 .upperLayer
 {
 	overflow: hidden;
-	border: rgb(0, 255, 46);
 	background: rgba(35, 213, 126, 0.51);
 	z-index: 1;
 	grid-column: 1/12;
@@ -34,7 +30,7 @@
 
 .videoBox
 {
-	border: 2px solid #ff0000;
+	/*border: 2px solid #ff0000;*/
 	/*border: 1px solid #ebebf5;*/
 	overflow: scroll;
 	grid-column: 1/12;
@@ -79,7 +75,8 @@
 .videoBox img
 {
 	margin: 0px; padding: 0px;
-	width: 100%; height: auto;
+	max-width: 54.45vw;
+	/*height: auto;*/
 }
 
 /*---------#---------#---------#---------#---------#---------*/
@@ -129,7 +126,7 @@
 .galerieBox
 {
 	/*display: none;*/
-	border: 2px solid #ff0000;
+	/*border: 2px solid #ff0000;*/
 	/*border: 1px solid #ffffff;*/
 	/*max-height: 30%;*/
 	grid-column: 12/21;
@@ -155,7 +152,7 @@
 
 .calquesBox
 {
-	border: 2px solid #ff0000;
+	/*border: 2px solid #ff0000;*/
 	/*border: 1px solid #ebebf5;*/
 	grid-column: 1/21;
 	grid-row: 14/21;

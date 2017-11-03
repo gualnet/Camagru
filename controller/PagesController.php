@@ -127,6 +127,32 @@ class PagesController extends Controller
 		}
 	}
 
+	function pwdRecovery()
+	{
+		print_r($_POST);
+		if(!isset($_POST["email"]))
+			header("location:login");
+
+		$this->loadModel("Users");
+		$_POST["email"] = $this->Users->filterNewInput($_POST["email"]);
+		$ret = $this->Users->getUserBy("mail", $_POST["email"]);
+		if($ret === false)
+		{
+			$this->setVars("loginRedir", false);
+			return 0;
+		}
+
+		$this->setVars("loginRedir", true);
+		$this->Users->sendPwdRecoveryMail($ret[0]->login, "activator");
+
+		die("FIN");
+	}
+
+	function rescuepwd()
+	{
+
+	}
+
 	function logout()
 	{
 		header("Location:acceuil");
@@ -165,7 +191,7 @@ class PagesController extends Controller
 	{
 		if($_SESSION["user_id"] === "none")
 		{
-			header("location:index");
+			header("location:login");
 		}
 		$this->loadModel("Pictures");
 		$this->loadModel("Calcs");
@@ -198,7 +224,7 @@ class PagesController extends Controller
 		$this->loadModel("Pictures");
 		$this->Pictures->picRegistration();
 		$this->render("picRegistration");
-		// die("ICICICICICICICIC");
+		// die("FIN");
 		header("Location:webcamTest");
 
 	}
