@@ -23,6 +23,8 @@ class Dispatcher
 
 	function loadController()
 	{
+		if(!isset($this->request->controller))
+			print("pas de controller");
 		$ctlrName = ucfirst($this->request->controller)."Controller";
 		$ctlrPath = ROOT."controller".DIRSEP.$ctlrName.".php";
 		// echo "--> ".$ctlrName;
