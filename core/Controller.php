@@ -3,9 +3,9 @@
 class Controller
 {
 
-	private $request;
-	private $vars = array();
-	private $rendered = false;
+	protected	$request;
+	protected	$vars = array();
+	protected	$rendered = false;
 
 	function __construct($request=null)
 	{
@@ -56,6 +56,7 @@ class Controller
 				.$viewName.".php";
 		}
 		$this->getCssJs($viewName);
+		// print($viewPath);
 		require $viewPath;
 		$this->rendered = true;
 	}

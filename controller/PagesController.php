@@ -33,6 +33,10 @@ class PagesController extends Controller
 
 	function profil()
 	{
+		if($_SESSION["user_id"] === "none")
+		{
+			header("location:index");
+		}
 		$this->loadModel("Users");
 		if(isset($_SESSION["user_id"]))
 		$findRet = $this->Users->findFirst(array(
@@ -43,30 +47,55 @@ class PagesController extends Controller
 		$this->render("profil");
 	}
 
+	private function checkPwdCplx($inputPwd)//test password complexity
+	{
+		if(($c = strlen($inputPwd)) < 6)
+			return "NOK";
+		$numCpt = 0;
+		$majCpt = 0;
+		for($i = 0; $i < strlen($inputPwd); $i++)
+		{
+			if(is_numeric($inputPwd[$i]))
+				$numCpt++;
+			if(ctype_upper($inputPwd[$i]))
+				$majCpt++;
+		}
+		if($numCpt < 2 or $majCpt < 1)
+			return "NOK";
+	}
+
 	function signup()
 	{
 		$this->setVars("displayErrMsg", false); //enable error message in case of login failure
 		$this->setVars("loginRedir", false); //Enable home redirection in case of login success
 		$this->setVars("inUse", array(
-			"login" => false,
-			"mail" => false
+			"login"	=> false,
+			"mail"	=> false
 		)); //enable error message in case of mail already used
-		// print_r($_POST);
-		if(isset($_POST["login"]) and isset($_POST["name"]) and
-		isset($_POST["surname"]) and isset($_POST["mail"]) and
+		$this->setVars("badPwd", false);
+		if(isset($_POST["login"]) and isset($_POST["mail"]) and
 		isset($_POST["pwd"]))
 		{
 			$this->loadModel("Users");
-			$checkRet = $this->Users->checkSignupValidity();
-			$this->setVars("inUse", $checkRet);
-			if($checkRet["login"] === false and $checkRet["mail"] === false)
+			$_POST["login"] = $this->Users->filterNewInput($_POST["login"]);
+			$_POST["mail"] = $this->Users->filterNewInput($_POST["mail"]);
+			if($this->checkPwdCplx($_POST["pwd"]) === "NOK")
 			{
-				$activator = $this->Users->registerNewUser();
-				if(!$this->Users->sendConfirmMail($_POST["login"], $activator))
+				$this->setVars("badPwd", true);
+			}
+			else
+			{
+				$checkRet = $this->Users->checkSignupValidity();
+				$this->setVars("inUse", $checkRet);
+				if($checkRet["login"] === false and $checkRet["mail"] === false)
 				{
-					$this->e404("An error occur, Confirmation mail not sent.<p>please contact the customer services !</p>");
+					$activator = $this->Users->registerNewUser();
+					if(!$this->Users->sendConfirmMail($_POST["login"], $activator))
+					{
+						$this->e404("An error occur, Confirmation mail not sent.<p>please contact the customer services !</p>");
+					}
+					$this->setVars("loginRedir", true);
 				}
-				$this->setVars("loginRedir", true);
 			}
 		}
 		else if($_POST !== array())
@@ -82,6 +111,7 @@ class PagesController extends Controller
 		if($_POST)
 		{
 			$this->loadModel("Users");
+			$_POST["login"] = $this->Users->filterNewInput($_POST["login"]);
 			$loginRes = $this->Users->checkSignin();
 			// echo " --".$loginRes."-- ";
 			if($loginRes === false)
@@ -94,6 +124,84 @@ class PagesController extends Controller
 				$_SESSION["login"] = $loginRes[0]->login;
 				$this->setVars("loginRedir", true);
 			}
+		}
+	}
+
+	function pwdRecovery()
+	{
+		if(!isset($_POST["email"]))
+			header("location:login");
+
+		$this->loadModel("Users");
+		$_POST["email"] = $this->Users->filterNewInput($_POST["email"]);
+		$ret = $this->Users->getUserBy("mail", $_POST["email"]);
+		if($ret === false)
+		{
+			$this->setVars("loginRedir", false);
+			return 0;
+		}
+
+		$this->setVars("loginRedir", true);
+		$activator = $this->Users->pwdResetStp1($ret[0]);
+		$this->Users->sendPwdRecoveryMail($ret[0]->login, $activator);
+	}
+
+	function rescuepwd()
+	{
+		$this->setVars("badPwd", false);
+		print_r($_POST);
+
+		if($_POST !== array() and $_POST["pwd"] === $_POST["pwd2"] and
+		$_GET["ul"] === $_POST["login"])
+		{
+			$this->loadModel("Users");
+			//sanit input
+			$_POST["login"] = $this->Users->filterNewInput($_POST["login"]);
+			$_POST["pwd"] = $this->Users->filterNewInput($_POST["pwd"]);
+			$_POST["pwd2"] = $this->Users->filterNewInput($_POST["pwd2"]);
+			$_GET["ul"] = $this->Users->filterNewInput($_GET["ul"]);
+			$_GET["ua"] = $this->Users->filterNewInput($_GET["ua"]);
+
+			//verif login/activator validity
+			$ret = $this->Users->find(array(
+				"conditions"	=> array(
+					"login"				=> $_POST["login"],
+					"activation_hash"	=> $_GET["ua"]
+				)));
+			if($ret === array())
+				header("Location:../acceuil");
+
+			if($this->checkPwdCplx($_POST["pwd"]) === "NOK")
+			{
+				$this->setVars("badPwd", true);
+			}
+			elseif ($ret !== array())
+			{
+				//make change in db
+				$this->Users->update(array(
+					"set"			=> array(
+						"password"			=> hash("sha1", $_POST["pwd"]),
+						"activation_hash"	=> "activated"
+					),
+					"conditions"	=> array(
+						"login"				=> $_POST["login"],
+						"activation_hash"	=> $_GET["ua"]
+					)
+				));
+			}
+		}
+		elseif(isset($_GET["ul"]) and isset($_GET["ua"]))
+		{
+			$this->loadModel("Users");
+			$_GET["ul"] = $this->Users->filterNewInput($_GET["ul"]);
+			$_GET["ua"] = $this->Users->filterNewInput($_GET["ua"]);
+			$ret = $this->Users->find(array(
+				"conditions"	=> array(
+					"login"				=> $_POST["login"],
+					"activation_hash"	=> $_GET["ua"]
+				)));
+			if($ret === array())
+				header("Location:../acceuil");
 		}
 	}
 
@@ -118,10 +226,10 @@ class PagesController extends Controller
 		$userRet = $this->Users->find($reqCond);
 		if(count($userRet) != 1)
 		{
-			$this->e404("!^!^!");
+			$this->e404("Your account has already been activated");
 			die();
 		}
-		if($this->Users->confirmActivation($userRet[0]) === false)
+		else if($this->Users->confirmActivation($userRet[0]) === false)
 		{
 			$this->e404("Authentication not allowed");
 			die();
@@ -135,12 +243,12 @@ class PagesController extends Controller
 	{
 		if($_SESSION["user_id"] === "none")
 		{
-			header("location:index");
+			header("location:login");
 		}
 		$this->loadModel("Pictures");
 		$this->loadModel("Calcs");
 		$retCalcs = $this->Calcs->getCalcs();
-		$retUserPics = $this->Pictures->getUserPics();
+		$retUserPics = $this->Pictures->getPics($_SESSION["user_id"]);
 		$userPics = array();
 		$calcsUrl = array();
 		if ($retUserPics != false)
@@ -168,10 +276,45 @@ class PagesController extends Controller
 		$this->loadModel("Pictures");
 		$this->Pictures->picRegistration();
 		$this->render("picRegistration");
-		// die("ICICICICICICICIC");
 		header("Location:webcamTest");
-
 	}
+
+	function galery()
+	{
+		$this->loadModel("Pictures");
+		$retPics = $this->Pictures->getPics();
+		if($retPics === false)
+		{
+			$this->e404("SRY no picture found !");
+		}
+		if(isset($this->request->params[0]))
+			$pageNum = intval($this->request->params[0]);
+		else
+			$pageNum = 1;
+
+		$nbrPics = 0;
+		$nbrPics = count($retPics);
+		if($nbrPics <= 0)
+			$this->e404("SRY no picture found in the database !");
+		$picsUrl = array();
+		for($i = 0; $i < $nbrPics; $i++)
+		{
+			$picsUrl[] .= $retPics[$i]->file_url;
+		}
+
+		if($pageNum < 1 or $pageNum > ($nbrPics / 6) + 1)
+		{
+			$pageNum = 1;
+		}
+
+		$this->setVars("picsUrl", $picsUrl);
+		$this->setVars("nbrPics", $nbrPics);
+		$this->setVars("pageReq", $pageNum);
+
+		$this->render("galery");
+		// die("FIN");
+	}
+
 }
 
 ?>

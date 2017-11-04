@@ -1,17 +1,21 @@
 
 <div class="centralView">
+	<div class="upperLayer">
+	</div>
 
 	<div class="videoBox">
+		<div class="preview">
+			<video id="video"></video>
+			<canvas id="photo"></canvas>
+		</div>
+	</div>
+	<div class="btnBox">
 		<div id="uplBox">
 			<label id="uplLbl" for="uplInp" style="width: 150px; height: 40px;">Add your picture</label>
 		</div>
 		<ul>
 			<li id="picTakeBtn">Prendre une photo</li>
 		</ul>
-		<div class="preview">
-			<video id="video"></video>
-			<canvas id="photo"></canvas>
-		</div>
 	</div>
 
 	<div class="galerieBox">
@@ -52,11 +56,12 @@
 (function()
 {
 	var streaming = false,
-	video	= document.querySelector("#video"),
-	photo	= document.querySelector("#photo"),
+	video		= document.querySelector("#video"),
+	photo		= document.querySelector("#photo"),
 	picTakeBtn	= document.querySelector("#picTakeBtn"),
-	width = 1024,
-	height = 0;
+	width 		= 1024,
+	height 		= 0;
+	console.log(width+"/"+height);
 
 	navigator.getMedia	= (navigator.getUserMedia ||
 		navigator.webkitGetUserMedia ||
@@ -109,17 +114,7 @@ function(ev)
 picTakeBtn.addEventListener("click",
 function(ev)
 {
-	if(photo != null)
-	{
-		photo.getContext("2d", {alpha: true}).drawImage(video, 0, 0, width, height);
-		var data = photo.toDataURL("image/png");
-		photo.setAttribute("src", data);
-		var picData = document.querySelector("#photo").getAttribute("src");
-		document.querySelector("#dataSendPic").setAttribute("value", picData);
-		document.querySelector(".hiddenForm").submit();
-		ev.preventDefault();
-	}
-	else
+	if(document.querySelector("#uplInp").value != "")
 	{
 		var uplobj = document.querySelector(".uplobj");
 		if(uplobj)
@@ -136,6 +131,16 @@ function(ev)
 				document.querySelector(".hiddenForm").submit();
 			}
 		}
+	}
+	else if(photo != null)
+	{
+		photo.getContext("2d", {alpha: true}).drawImage(video, 0, 0, width, height);
+		var data = photo.toDataURL("image/png");
+		photo.setAttribute("src", data);
+		var picData = document.querySelector("#photo").getAttribute("src");
+		document.querySelector("#dataSendPic").setAttribute("value", picData);
+		document.querySelector(".hiddenForm").submit();
+		ev.preventDefault();
 	}
 },false);
 })();
@@ -156,8 +161,22 @@ function calcSelector(me)
 	var calcData = me.getAttribute("src");
 	document.querySelector("#dataSendCalc").setAttribute("value", calcData);
 
-	var btnTakePic = document.querySelector(".videoBox ul");
+	var btnTakePic = document.querySelector(".btnBox ul");
 	btnTakePic.style.display = "block";
+//--------------------------test
+	var upperLayer = document.querySelector(".upperLayer");
+	upperLayer.innerHTML = "";
+	var upLayer_img = document.createElement("img");
+	var videoW = document.querySelector("#video").clientWidth;
+	var videoH = document.querySelector("#video").clientHeight;
+	console.log("W/H"+videoW+"/"+videoH);
+	upLayer_img.setAttribute("width", videoW);
+	upLayer_img.setAttribute("height", videoH);
+	upLayer_img.setAttribute("src", calcUrl);
+	upperLayer.appendChild(upLayer_img);
+
+
+
 }
 
 function showFile(files)
@@ -171,27 +190,29 @@ function showFile(files)
 		{
 			continue;
 		}
-	//ici je modifie le dom pour afficher l'image uploadé a la place de la video
-	var img = document.createElement("img");
-	img.classList.add("uplObj");
-	img.file = file;
+		//ici je modifie le dom pour afficher l'image uploadé a la place de la video
+		var img = document.createElement("img");
+		img.classList.add("uplObj");
+		img.file = file;
 
-	//si il y a deja une img je l'efface pour la remplacer
-	var image = document.getElementsByClassName("uplObj");
-	console.log(image);
-	if(image[0])
-	{
-		console.log("BONGO"+image[0]);
+		//si il y a deja une img je l'efface pour la remplacer
+		var image = document.getElementsByClassName("uplObj");
+		console.log(image);
+		if(image[0])
+		{
+			console.log("BINGO"+image[0]);
+			var videoBox = document.getElementsByClassName("videoBox");
+			videoBox[0].removeChild(image[0]);
+		}
+
 		var videoBox = document.getElementsByClassName("videoBox");
-		videoBox[0].removeChild(image[0]);
-	}
-
-	var videoBox = document.getElementsByClassName("videoBox");
-	document.querySelector(".videoBox").appendChild(img);
-	//chargement en mode asynchrone de l'image
-	var reader = new FileReader();
-	reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
-	reader.readAsDataURL(file);
+		document.querySelector(".videoBox").appendChild(img);
+		//chargement en mode asynchrone de l'image
+		var reader = new FileReader();
+		reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
+		reader.readAsDataURL(file);
+		var video = document.querySelector("#video");
+		video.style.display = "none";
 	}
 }
 

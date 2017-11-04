@@ -1,0 +1,44 @@
+.topMenu ul
+{
+	/*border: 2px solid rgb(200, 200, 0);*/
+
+	/*font-family: 'Syncopate', sans-serif;*/
+	margin: 0px; padding: 0px;
+	list-style-type: none;
+	height: 6vh;
+	background-color: rgb(50, 50, 50);
+}
+
+.topMenu li a
+{
+	/*background: rgb(32, 137, 213);*/
+
+	margin: 0px; padding: 0px;
+	color: rgb(220, 220, 220);
+	padding-right: 3.5vw; padding-left: 3.5vw;
+	padding-top: 2vh; padding-bottom: 2vh;
+	transition: 0.5s;
+}
+.topMenu li a:hover
+{
+	background: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
+}
+
+.menuLeft
+{
+	/*border: 2px solid rgb(100, 100, 0);*/
+
+	float: left;
+	text-align: center;
+	line-height: 6.1vh;
+}
+
+.menuRight
+{
+	/*border: 2px solid rgb(230, 230, 80);*/
+
+	float: right;
+	text-align: center;
+	line-height: 6.1vh;
+}

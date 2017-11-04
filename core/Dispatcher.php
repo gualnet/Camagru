@@ -16,13 +16,15 @@ class Dispatcher
 			$this->error("Controller ".$this->request->controller
 			." can't reach '".$this->request->action."' page");
 		}
-		$this->request->params = array();
+		// $this->request->params = array();
 		call_user_func_array(array($controller, $this->request->action), $this->request->params);
 		$controller->render($this->request->action);
 	}
 
 	function loadController()
 	{
+		if(!isset($this->request->controller))
+			print("pas de controller");
 		$ctlrName = ucfirst($this->request->controller)."Controller";
 		$ctlrPath = ROOT."controller".DIRSEP.$ctlrName.".php";
 		// echo "--> ".$ctlrName;

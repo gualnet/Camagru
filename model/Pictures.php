@@ -15,8 +15,10 @@ class Pictures extends Model
 	function __construct()
 	{
 		parent::__construct();
-		$this->ownerLogin = $_SESSION["login"];
-		$this->ownerId = $_SESSION["user_id"];
+		if(isset($_SESSION["login"]))
+			$this->ownerLogin = $_SESSION["login"];
+		if(isset($_SESSION["user_id"]))
+			$this->ownerId = $_SESSION["user_id"];
 	}
 
 	private function mergePng($regPath)
@@ -56,6 +58,9 @@ class Pictures extends Model
 			$newCalcWidth = $picWidth;
 			$newCalcHeight = $picHeight * $calcSRatio;
 		}
+		// echo "<p>picW=".$picWidth."/picH=".$picHeight."</p>";
+		// echo "<p>calcW=".$calcWidth."/calcH=".$calcHeight."</p>";
+		// echo "<p>newCalcW=".$newCalcWidth."/newCalcH=".$newCalcHeight."</p>";
 		// creation du calques resize
 		$resizedCalc = imagecreate($newCalcWidth, $newCalcHeight);
 		imagesavealpha($resizedCalc, true);
@@ -80,7 +85,7 @@ class Pictures extends Model
 	private function picToFolder()
 	{
 		echo "construct ownerId".$this->ownerId;
-		$this->curRegFilePath = "/Users/kriz/Documents/42/Camagru/ressources".DIRSEP."pics".DIRSEP
+		$this->curRegFilePath = "/Users/kriz/Documents/42/Camagru/ressources/pics/"
 		.$this->ownerId."_".$this->ownerLogin.DIRSEP;
 		if(!file_exists($this->curRegFilePath))//verif path
 		{
@@ -97,10 +102,11 @@ class Pictures extends Model
 
 	private function picToDatabase()
 	{
-		$curRegFileURL = "http://localhost:8888/ressources/pics/".$this->ownerId."_".$this->ownerLogin.DIRSEP;
-		echo "->".$this->ownerLogin;
-		echo "->".$this->ownerId;
-		echo "->".$this->curRegFileName;
+		$curRegFileURL = "http://localhost:8888/ressources/pics/".$this->ownerId
+		."_".$this->ownerLogin.DIRSEP;
+		// echo "->".$this->ownerLogin;
+		// echo "->".$this->ownerId;
+		// echo "->".$this->curRegFileName;
 		$req = array(
 			"conditions"	=> array(
 				"name"		=> $this->curRegFileName,
@@ -113,7 +119,7 @@ class Pictures extends Model
 		$this->insert($req);
 	}
 
-	function picRegistration()
+	public function picRegistration()
 	{
 		if($this->picToFolder() === false)
 		{
@@ -123,13 +129,20 @@ class Pictures extends Model
 		$this->picToDatabase();
 	}
 
-	function getUserPics()
+	public function getPics($uid=false)
 	{
-		$sqlReq = array(
-			"conditions"	=> array(
-				"user_id"	=> $_SESSION["user_id"]
-			)
-		);
+		if($uid)
+		{
+			$sqlReq = array(
+				"conditions"	=> array(
+					"user_id"	=> $uid
+				)
+			);
+		}
+		else
+		{
+			$sqlReq = array();
+		}
 		$retFind = $this->find($sqlReq);
 		if(!isset($retFind) or $retFind === array())
 		{
@@ -139,9 +152,28 @@ class Pictures extends Model
 		return $retFind;
 	}
 
-
-
-
+	public function getPicsByUrl($url=false)
+	{
+		if($url)
+		{
+			$sqlReq = array(
+				"conditions"	=> array(
+					"file_url"	=> $url
+				)
+			);
+		}
+		else
+		{
+			$sqlReq = array();
+		}
+		$retFind = $this->find($sqlReq);
+		if(!isset($retFind) or $retFind === array())
+		{
+			// echo "pas de retour";
+			return false;
+		}
+		return $retFind;
+	}
 }
 
 

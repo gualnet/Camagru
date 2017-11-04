@@ -1,0 +1,15 @@
+.footer
+{
+	margin: 0px; padding: 0px;
+	height: 6vh;
+	background-color: rgb(50, 50, 50);
+}
+
+.footer p
+{
+	margin: 0px; padding: 0px;
+	height: 6vh;
+	color: rgb(220, 220, 220);
+	text-align: center;
+	line-height: 6vh;
+}
