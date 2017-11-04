@@ -168,6 +168,70 @@ class Model
 		return true;
 	}
 
+	public function update($req)
+	{
+		$pdoConnexion = Model::$connexions[$this->dbName];
+		$sqlReq = "UPDATE ".$this->table;
+		if(isset($req["set"]))
+		{
+			$sqlReq .= " SET ";
+			if(is_array($req["set"]))
+			{
+				$cond = array();
+				foreach ($req["set"] as $key => $val)
+				{
+					if(!is_numeric($val))
+						$val = $pdoConnexion->quote($val);
+					$cond[] = "$key=$val";
+				}
+				$sqlReq .= implode(", ", $cond);
+			}
+			else
+			{
+				$sqlReq .= $req["set"];
+			}
+		}
+		else
+		{
+			if(DEBUG_MODE)
+				die("No SET in the update request"); // pour le debug
+			die(); //pour la prod
+		}
+		if(isset($req["conditions"]))
+		{
+			$sqlReq .= " WHERE ";
+			if(is_array($req["conditions"]))
+			{
+				$cond = array();
+				foreach ($req["conditions"] as $key => $val)
+				{
+					if(!is_numeric($val))
+					{
+						$val = $pdoConnexion->quote($val);
+					}
+					$cond[] = "$key=$val";
+				}
+				$sqlReq .= implode(" , ", $cond);
+				// die($sqlReq);
+			}
+			else
+				$sqlReq .= $req["conditions"];
+		}
+		print($sqlReq);
+		try
+		{
+			$prep = $pdoConnexion->prepare($sqlReq);
+			// print_r($prep);
+			$prep->execute();
+		}
+		catch(PDOException $e)
+		{
+			if(DEBUG_MODE)
+				die($e->getMessage()); // pour le debug
+			die(); //pour la prod
+		}
+	}
+
 }
 
 

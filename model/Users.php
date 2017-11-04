@@ -247,13 +247,27 @@ class Users extends Model
 			$sqlReq = array();
 
 		$retFind = $this->find($sqlReq);
-		print_r($retFind);
+		// print_r($retFind);
 		if(!isset($retFind) or $retFind === array())
 		{
 			echo "pas de retour";
 			return false;
 		}
 		return $retFind;
+	}
+
+	public function pwdResetStp1($userInfo)
+	{
+		$activator = hash("sha1", rand().$userInfo->login.rand());
+		$sqlReq = array(
+			"set"			=> array(
+				"activation_hash"	=> $activator
+			),
+			"conditions"	=> array(
+				"login"		=> $userInfo->login
+			));
+		$this->update($sqlReq);
+		return $activator;
 	}
 
 }

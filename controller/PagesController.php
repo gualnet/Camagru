@@ -129,7 +129,6 @@ class PagesController extends Controller
 
 	function pwdRecovery()
 	{
-		print_r($_POST);
 		if(!isset($_POST["email"]))
 			header("location:login");
 
@@ -143,14 +142,67 @@ class PagesController extends Controller
 		}
 
 		$this->setVars("loginRedir", true);
-		$this->Users->sendPwdRecoveryMail($ret[0]->login, "activator");
-
-		die("FIN");
+		$activator = $this->Users->pwdResetStp1($ret[0]);
+		$this->Users->sendPwdRecoveryMail($ret[0]->login, $activator);
 	}
 
 	function rescuepwd()
 	{
+		$this->setVars("badPwd", false);
+		print_r($_POST);
 
+		if($_POST !== array() and $_POST["pwd"] === $_POST["pwd2"] and
+		$_GET["ul"] === $_POST["login"])
+		{
+			$this->loadModel("Users");
+			//sanit input
+			$_POST["login"] = $this->Users->filterNewInput($_POST["login"]);
+			$_POST["pwd"] = $this->Users->filterNewInput($_POST["pwd"]);
+			$_POST["pwd2"] = $this->Users->filterNewInput($_POST["pwd2"]);
+			$_GET["ul"] = $this->Users->filterNewInput($_GET["ul"]);
+			$_GET["ua"] = $this->Users->filterNewInput($_GET["ua"]);
+
+			//verif login/activator validity
+			$ret = $this->Users->find(array(
+				"conditions"	=> array(
+					"login"				=> $_POST["login"],
+					"activation_hash"	=> $_GET["ua"]
+				)));
+			if($ret === array())
+				header("Location:../acceuil");
+
+			if($this->checkPwdCplx($_POST["pwd"]) === "NOK")
+			{
+				$this->setVars("badPwd", true);
+			}
+			elseif ($ret !== array())
+			{
+				//make change in db
+				$this->Users->update(array(
+					"set"			=> array(
+						"password"			=> hash("sha1", $_POST["pwd"]),
+						"activation_hash"	=> "activated"
+					),
+					"conditions"	=> array(
+						"login"				=> $_POST["login"],
+						"activation_hash"	=> $_GET["ua"]
+					)
+				));
+			}
+		}
+		elseif(isset($_GET["ul"]) and isset($_GET["ua"]))
+		{
+			$this->loadModel("Users");
+			$_GET["ul"] = $this->Users->filterNewInput($_GET["ul"]);
+			$_GET["ua"] = $this->Users->filterNewInput($_GET["ua"]);
+			$ret = $this->Users->find(array(
+				"conditions"	=> array(
+					"login"				=> $_POST["login"],
+					"activation_hash"	=> $_GET["ua"]
+				)));
+			if($ret === array())
+				header("Location:../acceuil");
+		}
 	}
 
 	function logout()
@@ -224,9 +276,7 @@ class PagesController extends Controller
 		$this->loadModel("Pictures");
 		$this->Pictures->picRegistration();
 		$this->render("picRegistration");
-		// die("FIN");
 		header("Location:webcamTest");
-
 	}
 
 	function galery()

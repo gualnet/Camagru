@@ -11,7 +11,20 @@
 		<h2>New Password</h2>
 		<label>Login </label>
 		<input type="text" name="login" placeholder=<?php echo $_GET["ul"] ?> required="required" >
-		<label>New Password </label>
+		<?php
+			if($badPwd === false)
+			{
+				?>
+				<label>New Password </label>
+				<?php
+			}
+			else
+			{
+				?>
+				<label>New Password </label><p class="errMsg">Password must at least contain:<br />6 characters, 2 numbers, 1 maj</p>
+				<?php
+			}
+		?>
 		<input type="password" name="pwd" required="required">
 		<label>Confirm </label>
 		<input type="password" name="pwd2" required="required" onkeyup="verif(this)">
