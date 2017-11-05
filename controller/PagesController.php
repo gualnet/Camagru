@@ -239,7 +239,7 @@ class PagesController extends Controller
 		$this->setVars("loginRedir", true);
 	}
 
-	function webcamTest()
+	function studio()
 	{
 		if($_SESSION["user_id"] === "none")
 		{
@@ -268,7 +268,42 @@ class PagesController extends Controller
 			}
 			$this->setVars("calcsUrl", $calcsUrl);
 		}
-		$this->render("webcamTest");
+		$this->render("studio");
+	}
+
+	function studioDelPic()
+	{
+		print_r($_POST);
+		// $_POST = array();//pour tester
+		// $_POST["pic"] = "<script>alert('coucou')</script>";//pour tester
+		if(!isset($_POST["pic"]) )
+		{
+			print("NON NON !!!!");
+			return 0;
+		}
+		$this->loadModel("Users");
+		$picUrl = $this->Users->filterNewInput($_POST["pic"]);
+		$this->loadModel("Pictures");
+		$sqlReq = array(
+			"conditions"	=> array(
+				"file_url"	=> $picUrl
+			));
+		$ret = $this->Pictures->find($sqlReq);
+		if($ret === array())
+		{
+			if(DEBUG_MODE)
+				echo "This picture is not listed in table Pictures";
+			return 0;
+		}
+		else
+		{
+			$req = array(
+				"conditions"	=> array(
+					"file_url"	=> $picUrl
+				));
+			$this->Pictures->delete($req);
+		}
+
 	}
 
 	function picRegistration()
@@ -276,7 +311,7 @@ class PagesController extends Controller
 		$this->loadModel("Pictures");
 		$this->Pictures->picRegistration();
 		$this->render("picRegistration");
-		header("Location:webcamTest");
+		header("Location:studio");
 	}
 
 	function galery()

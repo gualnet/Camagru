@@ -20,7 +20,7 @@
 		else
 		{
 			?>
-			<li class="menuLeft"><a href="<?php HTTP_HOST ?>/pages/webcamTest">Studio</a></li>
+			<li class="menuLeft"><a href="<?php HTTP_HOST ?>/pages/studio">Studio</a></li>
 			<li class="menuRight"><a href="<?php HTTP_HOST ?>/pages/logout">Sign-out</a></li>
 			<li class="menuRight"><a href="<?php HTTP_HOST ?>/pages/profil">Profil</a></li>
 			<?php

@@ -1,4 +1,3 @@
-
 <div class="centralView">
 	<div class="upperLayer">
 	</div>
@@ -17,7 +16,15 @@
 			<li id="picTakeBtn">Prendre une photo</li>
 		</ul>
 	</div>
+	<script>
+		function delPic(me)
+		{
+			console.log(me.parentNode.querySelector("img").getAttribute("src"));
+			var pic = me.parentNode.querySelector("img").getAttribute("src");
 
+
+		}
+	</script>
 	<div class="galerieBox">
 		<?php
 			if(isset($userPics))
@@ -25,7 +32,13 @@
 				$i = count($userPics) - 1;
 				while($i >= 0)
 				{
+					echo "<div class=\"imgWrap\" >";
 					echo "<img src=\"".$userPics[$i]."\" />";
+					echo "<form method=\"POST\" action=\"studioDelPic\">";
+					echo "<input name=\"pic\" value=\"".$userPics[$i]."\"/>";
+					echo "<button>Delete</button>";
+					echo "</form>";
+					echo "</div>";
 					$i--;
 				}
 			}
@@ -163,20 +176,25 @@ function calcSelector(me)
 
 	var btnTakePic = document.querySelector(".btnBox ul");
 	btnTakePic.style.display = "block";
-//--------------------------test
+
 	var upperLayer = document.querySelector(".upperLayer");
 	upperLayer.innerHTML = "";
 	var upLayer_img = document.createElement("img");
 	var videoW = document.querySelector("#video").clientWidth;
 	var videoH = document.querySelector("#video").clientHeight;
-	console.log("W/H"+videoW+"/"+videoH);
-	upLayer_img.setAttribute("width", videoW);
-	upLayer_img.setAttribute("height", videoH);
+	var uplObj = document.querySelector(".uplObj");
+	if(videoW == 0 && videoH == 0)
+	{
+		upLayer_img.setAttribute("width", uplObj.clientWidth);
+		upLayer_img.setAttribute("height", uplObj.clientHeight);
+	}
+	else
+	{
+		upLayer_img.setAttribute("width", videoW);
+		upLayer_img.setAttribute("height", videoH);
+	}
 	upLayer_img.setAttribute("src", calcUrl);
 	upperLayer.appendChild(upLayer_img);
-
-
-
 }
 
 function showFile(files)
@@ -207,6 +225,15 @@ function showFile(files)
 
 		var videoBox = document.getElementsByClassName("videoBox");
 		document.querySelector(".videoBox").appendChild(img);
+		//je reset le calc
+		var upperLayer = document.querySelector(".upperLayer");
+		var calcs = document.getElementsByClassName("calcImg");
+		upperLayer.innerHTML = "";
+		for (i = 0; i < calcs.length; i++)
+		{
+			calcs[i].style.border = "none";
+			calcs[i].style.opacity = "0.3";
+		}
 		//chargement en mode asynchrone de l'image
 		var reader = new FileReader();
 		reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
@@ -214,6 +241,7 @@ function showFile(files)
 		var video = document.querySelector("#video");
 		video.style.display = "none";
 	}
+
 }
 
 </script>
