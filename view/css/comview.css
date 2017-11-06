@@ -1,0 +1,61 @@
+.subCV
+{
+	display: grid;
+	margin: 0px; padding: 0px;
+	/*width: 100vw; height: 100vh;*/
+	grid-template-columns: repeat(10, 9.9vw);
+	grid-template-rows: repeat(10, 8.7vh);
+	position: absolute;
+	background: rgba(0, 0, 0, 0.6);
+
+}
+.subCV img
+{
+	/*border: 2px solid rgb(221, 249, 0);*/
+	max-width: 50vw; max-height: 60vh;
+	grid-column: 1/6;
+	grid-row: 2/7;
+
+}
+.subCV label
+{
+	/*border: 2px solid rgb(43, 193, 61);*/
+	color: rgb(255, 255, 255);
+	background: rgb(50, 50, 50);
+	color: rgb(255, 255, 255);
+	text-align: center;
+	line-height: 10vh;
+}
+.subCV #lblCom
+{
+	background: rgba(0, 0, 0, 0);
+	color: rgb(255, 255, 255);
+	grid-column: 7/10;
+	grid-row: 1;
+}
+.subCV #lblSend
+{
+	color: rgb(255, 255, 255);
+	grid-column: 6;
+	grid-row: 8;
+}
+.subCV input
+{
+	border: 2px solid rgb(2, 22, 195);
+	grid-column: 7/11;
+	grid-row: 8;
+}
+.subCV #comments
+{
+	border: 2px solid rgb(160, 160, 160);
+	background: rgb(250, 250, 250);
+	grid-column: 6/12;
+	grid-row: 2/8;
+	overflow: auto;
+}
+.subCV #comments p
+{
+	/*border: 2px solid rgb(245, 250, 0);*/
+	margin: 1vh; padding: 0.5vh;
+	background: rgba(230, 230, 230, 0.25);
+}

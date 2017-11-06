@@ -13,7 +13,7 @@
 .upperLayer
 {
 	overflow: hidden;
-	background: rgba(35, 213, 126, 0.51);
+	/*background: rgba(35, 213, 126, 0.51);*/
 	z-index: 1;
 	grid-column: 1/12;
 	grid-row: 1/13;
@@ -22,7 +22,7 @@
 {
 	max-width: 54.45vw;
 	max-height: 100%;
-	background: rgba(213, 35, 35, 0.51);
+	/*background: rgba(213, 35, 35, 0.51);*/
 }
 
 

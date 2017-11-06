@@ -205,6 +205,30 @@ class PagesController extends Controller
 		}
 	}
 
+	function comview()
+	{
+		// print_r($_GET);
+		if(!isset($_GET["up"]))
+		{
+			header("Location:../galery");
+			return 0;
+		}
+		$this->loadModel("Users");
+		$picId = $this->Users->filterNewInput($_GET["up"]);
+
+		//chercher l'adresse de la photo
+		$this->loadModel("Pictures");
+		$picInfo = $this->Pictures->getPictureBy("id", $picId);
+		if($picInfo === array())
+		{
+			header("Location:../galery");
+			return 0;
+		}
+
+		$this->setVars("picUrl", $picInfo[0]->file_url);
+
+	}
+
 	function logout()
 	{
 		header("Location:acceuil");

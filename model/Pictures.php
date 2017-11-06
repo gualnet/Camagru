@@ -174,6 +174,28 @@ class Pictures extends Model
 		}
 		return $retFind;
 	}
+
+	public function getPictureBy($colName, $value=false)
+	{
+		if($value)
+		{
+			$sqlReq = array(
+				"conditions"	=> array(
+					"$colName"	=> $value
+				));
+		}
+		else
+			$sqlReq = array();
+
+		$retFind = $this->find($sqlReq);
+		// print_r($retFind);
+		if(!isset($retFind) or $retFind === array())
+		{
+			echo "pas de retour";
+			return false;
+		}
+		return $retFind;
+	}
 }
 
 

@@ -40,7 +40,9 @@ class Comments extends Model
 				"pic_owner_id"	=> $picInfo[0]->user_id
 			)
 		);
-		return $this->insert($req);
+		$ret = $this->insert($req);
+		if($ret === true)
+			return $req["conditions"];
 	}
 
 	function getPicComments($picInfo)

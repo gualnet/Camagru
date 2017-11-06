@@ -25,7 +25,7 @@
 
 	<div class="picModal">
 			<img id="imgModal" src=""/>
-			<label id="lblCom">LE COM..</label>
+			<label id="lblCom">COMMENTS</label>
 			<label id="lblSend" onclick="sendCom()">SEND</label>
 			<input id="comInp" type="text"/>
 			<div id="comments"></div>

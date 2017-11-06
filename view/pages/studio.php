@@ -107,7 +107,6 @@ function(err)
 	var videoBox = document.getElementsByClassName("videoBox");
 	videoBox[0].removeChild(video[0]);
 	photo = null;
-	// alert("stop");
 });
 
 video.addEventListener("canplay",
@@ -215,10 +214,8 @@ function showFile(files)
 
 		//si il y a deja une img je l'efface pour la remplacer
 		var image = document.getElementsByClassName("uplObj");
-		console.log(image);
 		if(image[0])
 		{
-			console.log("BINGO"+image[0]);
 			var videoBox = document.getElementsByClassName("videoBox");
 			videoBox[0].removeChild(image[0]);
 		}

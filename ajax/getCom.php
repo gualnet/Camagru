@@ -33,7 +33,7 @@ class GetComment extends AjaxController
 		{
 			echo "<p>";
 			echo "from: ".$this->Users->getUserById($com->com_owner_id)[0]->login."</br>";
-			echo "com: ".$com->content;
+			echo "message: ".$com->content;
 			echo "</p>";
 		}
 	}
