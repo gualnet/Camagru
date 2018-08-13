@@ -13,24 +13,6 @@ class PagesController extends Controller
 		$this->render("acceuil");
 	}
 
-	function vue($id=false)
-	{
-		$this->loadModel("Comments");
-		if(!$id)
-		{
-			// $this->e404("PAGE INTROUVABLE");
-			$this->setVars("Comments", false);
-			$this->render("vue");
-			die();
-		}
-		$findRet = $this->Comments->findFirst(array(
-			"conditions" => "id=".$id));
-		if(empty($findRet))
-			$this->e404("PAGE INTROUVABLE");
-		$this->setVars("Comments", $findRet);
-		// print_r($findRet);
-	}
-
 	function profil()
 	{
 		if($_SESSION["user_id"] === "none")
@@ -47,7 +29,7 @@ class PagesController extends Controller
 		$this->render("profil");
 	}
 
-	private function checkPwdCplx($inputPwd)//test password complexity
+	private function checkPwdCplx($inputPwd)	//test password complexity
 	{
 		if(($c = strlen($inputPwd)) < 6)
 			return "NOK";
@@ -113,7 +95,6 @@ class PagesController extends Controller
 			$this->loadModel("Users");
 			$_POST["login"] = $this->Users->filterNewInput($_POST["login"]);
 			$loginRes = $this->Users->checkSignin();
-			// echo " --".$loginRes."-- ";
 			if($loginRes === false)
 			{
 				$this->setVars("displayErrMsg", true);
@@ -207,7 +188,6 @@ class PagesController extends Controller
 
 	function comview()
 	{
-		// print_r($_GET);
 		if(!isset($_GET["up"]))
 		{
 			header("Location:../galery");
@@ -226,7 +206,6 @@ class PagesController extends Controller
 		}
 
 		$this->setVars("picUrl", $picInfo[0]->file_url);
-
 	}
 
 	function logout()
@@ -278,18 +257,13 @@ class PagesController extends Controller
 		if ($retUserPics != false)
 		{
 			for ($i = 0; $i < count($retUserPics); $i++)
-			{
 				$userPics[] .= $retUserPics[$i]->file_url;
-			}
 			$this->setVars("userPics", $userPics);
 		}
 		if($retCalcs != false)
 		{
 			for($i = 0; $i < count($retCalcs); $i++)
-			{
 				$calcsUrl[] .= $retCalcs[$i]->file_url;
-				// print($retCalcs[$i]->file_url);
-			}
 			$this->setVars("calcsUrl", $calcsUrl);
 		}
 		$this->render("studio");
@@ -297,9 +271,6 @@ class PagesController extends Controller
 
 	function studioDelPic()
 	{
-		print_r($_POST);
-		// $_POST = array();//pour tester
-		// $_POST["pic"] = "<script>alert('coucou')</script>";//pour tester
 		if(!isset($_POST["pic"]) )
 		{
 			print("NON NON !!!!");
@@ -327,7 +298,6 @@ class PagesController extends Controller
 				));
 			$this->Pictures->delete($req);
 		}
-
 	}
 
 	function picRegistration()
@@ -355,6 +325,7 @@ class PagesController extends Controller
 		$nbrPics = count($retPics);
 		if($nbrPics <= 0)
 			$this->e404("SRY no picture found in the database !");
+
 		$picsUrl = array();
 		for($i = 0; $i < $nbrPics; $i++)
 		{
@@ -371,9 +342,7 @@ class PagesController extends Controller
 		$this->setVars("pageReq", $pageNum);
 
 		$this->render("galery");
-		// die("FIN");
 	}
-
 }
 
 ?>

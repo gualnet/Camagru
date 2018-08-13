@@ -30,6 +30,7 @@
 
 .videoBox
 {
+	background-color: beige;
 	/*border: 2px solid #ff0000;*/
 	/*border: 1px solid #ebebf5;*/
 	overflow: scroll;
@@ -125,6 +126,7 @@
 
 .galerieBox
 {
+	background-color: azure;
 	/*display: none;*/
 	grid-column: 12/21;
 	grid-row: 1/14;
@@ -167,6 +169,7 @@
 
 .calquesBox
 {
+	background-color: blanchedalmond;
 	/*border: 2px solid #ff0000;*/
 	/*border: 1px solid #ebebf5;*/
 	grid-column: 1/21;

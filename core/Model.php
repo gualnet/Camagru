@@ -25,8 +25,8 @@ class Model
 		catch(PDOException $e)
 		{
 			if(DEBUG_MODE)
-				die($e->getMessage()); // pour le debug
-			die(); //pour la prod
+				die($e->getMessage());
+			die();
 		}
 	}
 
@@ -60,23 +60,20 @@ class Model
 					$cond[] = "$key=$val";
 				}
 				$sqlReq .= implode(" AND ", $cond);
-				// die($sqlReq);
 			}
 			else
 				$sqlReq .= $req["conditions"];
 		}
-		// print($sqlReq);
 		try
 		{
 			$prep = $pdoConnexion->prepare($sqlReq);
-			// print_r($prep);
 			$prep->execute();
 		}
 		catch(PDOException $e)
 		{
 			if(DEBUG_MODE)
-				die($e->getMessage()); // pour le debug
-			die(); //pour la prod
+				die($e->getMessage());
+			die();
 		}
 		return $prep->fetchAll(PDO::FETCH_OBJ);
 	}
@@ -113,18 +110,16 @@ class Model
 			$sqlReq .= implode(", ", $cond);
 			$sqlReq .= ");";
 		}
-		// echo "<p>-->".$sqlReq."<--</p>";
 		try
 		{
 			$prep = $pdoConnexion->prepare($sqlReq);
-			// print_r($prep);
 			$prep->execute();
 		}
 		catch(PDOException $e)
 		{
 			if(DEBUG_MODE)
-				die($e->getMessage()); // pour le debug
-			die(); //pour la prod
+				die($e->getMessage());
+			die();
 		}
 		return true;
 	}
@@ -148,7 +143,6 @@ class Model
 					$cond[] = "$key=$val";
 				}
 				$sqlReq .= implode(" AND ", $cond);
-				// die($sqlReq);
 			}
 			else
 				$sqlReq .= $req["conditions"];
@@ -156,14 +150,13 @@ class Model
 		try
 		{
 			$prep = $pdoConnexion->prepare($sqlReq);
-			// print_r($prep);
 			$prep->execute();
 		}
 		catch(PDOException $e)
 		{
 			if(DEBUG_MODE)
-				die($e->getMessage()); // pour le debug
-			die(); //pour la prod
+				die($e->getMessage());
+			die();
 		}
 		return true;
 	}
@@ -194,8 +187,8 @@ class Model
 		else
 		{
 			if(DEBUG_MODE)
-				die("No SET in the update request"); // pour le debug
-			die(); //pour la prod
+				die("No SET in the update request");
+			die();
 		}
 		if(isset($req["conditions"]))
 		{
@@ -212,7 +205,6 @@ class Model
 					$cond[] = "$key=$val";
 				}
 				$sqlReq .= implode(" , ", $cond);
-				// die($sqlReq);
 			}
 			else
 				$sqlReq .= $req["conditions"];
@@ -221,18 +213,15 @@ class Model
 		try
 		{
 			$prep = $pdoConnexion->prepare($sqlReq);
-			// print_r($prep);
 			$prep->execute();
 		}
 		catch(PDOException $e)
 		{
 			if(DEBUG_MODE)
-				die($e->getMessage()); // pour le debug
-			die(); //pour la prod
+				die($e->getMessage());
+			die();
 		}
 	}
-
 }
-
 
 ?>

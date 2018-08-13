@@ -1,25 +1,5 @@
 <HTML>
 	<HEAD>
-		<style>
-			.infoBox
-			{
-				margin: 0; padding: 0;
-				padding-top: 2%;
-			}
-
-			.infoBox p
-			{
-				margin: 0; padding: 0;
-				text-align: center;
-				margin-top: 2%;
-			}
-
-			.galerieBox
-			{
-				margin: 0; padding: 0;
-				border: solid 1px rgb(126, 173, 6);
-			}
-		</style>
 	</HEAD>
 	<BODY>
 		<div class="centralView">

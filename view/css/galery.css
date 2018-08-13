@@ -147,6 +147,23 @@
 	margin: 1vh; padding: 0.5vh;
 	background: rgba(230, 230, 230, 0.25);
 }
+.picModal #likers
+{
+	border: 2px solid red;
+	
+	margin: 0px; padding: 0px;
+	
+	grid-column: 1/4;
+	grid-row: 7;
+	background: #000000;
+	/* z-index: -1; */
+}
+.picModal #likers p
+{
+	margin: 1vh; padding: 0.5vh;
+	background: rgba(230, 230, 230, 0.25);
+	color: #FFFFFF
+}
 
 @@keyframes mymoves
 {

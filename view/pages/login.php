@@ -53,12 +53,9 @@
 		var ctrlView = document.querySelector(".centralView");
 		var pwdModal = document.querySelector(".modal-pwdRecovery");
 		var formModal = document.querySelector(".formModal");
-		console.log("click");
 		if (event.target == pwdModal || event.target == ctrlView)
 		{
-			console.log("dispar");
 			pwdModal.style.display = "none";
-
 		}
 	}
 

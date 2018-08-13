@@ -1,6 +1,5 @@
 <?php
 
-
 class Calcs extends Model
 {
 	function getCalcs()
@@ -9,6 +8,5 @@ class Calcs extends Model
 		return $this->find($req);
 	}
 }
-
 
 ?>

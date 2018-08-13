@@ -32,14 +32,12 @@ class Controller
 			echo "<style>";
 			require_once $cssPath;
 			echo "</style>";
-			// echo "$cssPath";
 		}
 		if(file_exists($jsPath))
 		{
 			echo "<script>";
 			require_once $jsPath;
 			echo "</script>";
-			// echo "$jsPath";
 		}
 	}
 
@@ -56,7 +54,6 @@ class Controller
 				.$viewName.".php";
 		}
 		$this->getCssJs($viewName);
-		// print($viewPath);
 		require $viewPath;
 		$this->rendered = true;
 	}
@@ -71,9 +68,7 @@ class Controller
 
 	function loadModel($modelName)
 	{
-		// echo "MODEL NAME:".$modelName." | ";
 		$modelPath = ROOT."model".DIRSEP.$modelName.".php";
-		// echo "MODEL PATH:".$modelPath." | ";
 		require_once($modelPath);
 		if(!isset($this->$modelName))
 			$this->$modelName = new $modelName();
@@ -81,7 +76,6 @@ class Controller
 
 	function e404($errMsg)
 	{
-		// header("HTTP/1.0 404 NOT FOUND");
 		$this->setVars("errMsg", $errMsg);
 		$this->render("/errors/404");
 		require ROOT."view/pages/footer.php";
@@ -96,15 +90,10 @@ class Controller
 	{
 		$ctlrName .= "Controller";
 		$ctlrPath = ROOT."controller".DIRSEP.$ctlrName.".php";
-		// echo "--->".$ctlrPath;
 		require_once $ctlrPath;
 		$c = new $ctlrName();
-		// print_r($c->$request);
 		return $c->$action();
 	}
-
-
 }
-
 
 ?>
