@@ -1,6 +1,7 @@
 <?php
 
-class request{
+class request
+{
 
 	public $url;
 
@@ -8,11 +9,6 @@ class request{
 	{
 		$this->url = $_SERVER["REQUEST_URI"];
 	}
-
-
-
-
 }
-
 
 ?>

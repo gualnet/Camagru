@@ -15,7 +15,6 @@ class AjaxController extends Controller
 			$viewPath = ROOT.$this->request->controller.DIRSEP
 				.$viewName.".php";
 		}
-		// print($viewPath);
 		require $viewPath;
 		$this->rendered = true;
 	}
@@ -27,13 +26,10 @@ class AjaxController extends Controller
 		if($retPicInfo === false)
 		{
 			if(DEBUG_MODE)
-				die("Pic not listed in database"); // pour le debug
+				die("Pic not listed in database");
 		}
 		return($retPicInfo);
 	}
-
-
-
 
 }
 

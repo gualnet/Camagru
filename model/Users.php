@@ -8,7 +8,6 @@ class Users extends Model
 {
 	function checkSignin()
 	{
-		// echo "--->".$_POST["login"]. " - ".$_POST["pwd"]."<---";
 		if(isset($_POST["login"]) and isset($_POST["pwd"]))
 		{
 			$req = array(
@@ -24,7 +23,6 @@ class Users extends Model
 			}
 			else
 			{
-				// print_r($retFind);
 				return $retFind;
 			}
 		}
@@ -68,14 +66,12 @@ class Users extends Model
 
 	function registerNewUser()
 	{
-		// print_r($_POST);
 		$req = array(
 			"conditions"	=> array(
 				"login"		=> $_POST["login"],
 				"mail"		=> $_POST["mail"],
 				"password"	=> hash("sha1", $_POST["pwd"])
 			));
-		// print_r($req["conditions"]);
 		return $this->addUser($req); //return true if process ends ok
 	}
 
@@ -141,11 +137,8 @@ class Users extends Model
 			$val = $pdoConnexion->quote($val);
 			$sqlReq .= " $val,";
 		}
-		// $sqlReq .= $pdoConnexion->quote(0);
 		$sqlReq .= " ".$pdoConnexion->quote($activator);
 		$sqlReq .= ");";
-		// echo " ->".$sqlReq."<- ";
-		// die();
 		try
 		{
 			$prep = $pdoConnexion->prepare($sqlReq);
@@ -154,8 +147,8 @@ class Users extends Model
 		catch(PDOException $e)
 		{
 			if(DEBUG_MODE)
-				die($e->getMessage()); // pour le debug
-			die(); //pour la prod
+				die($e->getMessage());
+			die();
 		}
 		return $activator;
 	}
@@ -194,7 +187,6 @@ class Users extends Model
 				$sqlReq .= $req["updates"];
 			}
 			$sqlReq .= " WHERE id=$user_id";
-			// echo $sqlReq;
 			try
 			{
 				$prep = $pdoConnexion->prepare($sqlReq);
@@ -203,8 +195,8 @@ class Users extends Model
 			catch(PDOException $e)
 			{
 				if(DEBUG_MODE)
-					die($e->getMessage()); // pour le debug
-				die(); //pour la prod
+					die($e->getMessage());
+				die();
 			}
 			return true;
 		}
@@ -218,8 +210,7 @@ class Users extends Model
 			$sqlReq = array(
 				"conditions"	=> array(
 					"id"	=> $id
-				)
-			);
+			));
 		}
 		else
 		{
@@ -228,7 +219,6 @@ class Users extends Model
 		$retFind = $this->find($sqlReq);
 		if(!isset($retFind) or $retFind === array())
 		{
-			// echo "pas de retour";
 			return false;
 		}
 		return $retFind;
@@ -247,7 +237,6 @@ class Users extends Model
 			$sqlReq = array();
 
 		$retFind = $this->find($sqlReq);
-		// print_r($retFind);
 		if(!isset($retFind) or $retFind === array())
 		{
 			echo "pas de retour";
@@ -269,8 +258,6 @@ class Users extends Model
 		$this->update($sqlReq);
 		return $activator;
 	}
-
 }
-
 
 ?>

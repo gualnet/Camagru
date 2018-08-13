@@ -26,16 +26,13 @@ class Pictures extends Model
 		if(strstr($_POST["picData"], "data:image/png;base64"))
 		{
 			$pic = imagecreatefrompng($_POST["picData"]);
-
 		}
 		elseif (strstr($_POST["picData"], "data:image/jpeg;base64"))
 		{
 			$pic = imagecreatefromjpeg($_POST["picData"]);
-
 		}
 		else
 		{
-			// echo "ON SCASSE00";
 			return false;
 		}
 		imagesavealpha($pic, true);
@@ -87,7 +84,7 @@ class Pictures extends Model
 		echo "construct ownerId".$this->ownerId;
 		$this->curRegFilePath = "/Users/kriz/Documents/42/Camagru/ressources/pics/"
 		.$this->ownerId."_".$this->ownerLogin.DIRSEP;
-		if(!file_exists($this->curRegFilePath))//verif path
+		if(!file_exists($this->curRegFilePath))
 		{
 			mkdir($this->curRegFilePath, 0777, true);
 		}
@@ -95,7 +92,6 @@ class Pictures extends Model
 		$this->curRegFileName = $this->curRegFileName.".png";
 		if($this->mergePng($this->curRegFilePath."/".$this->curRegFileName) === false)
 		{
-			// echo "ON SCASSE01";
 			return false;
 		}
 	}
@@ -104,9 +100,6 @@ class Pictures extends Model
 	{
 		$curRegFileURL = "http://localhost:8888/ressources/pics/".$this->ownerId
 		."_".$this->ownerLogin.DIRSEP;
-		// echo "->".$this->ownerLogin;
-		// echo "->".$this->ownerId;
-		// echo "->".$this->curRegFileName;
 		$req = array(
 			"conditions"	=> array(
 				"name"		=> $this->curRegFileName,
@@ -114,8 +107,7 @@ class Pictures extends Model
 				"user_id"	=> $this->ownerId,
 				"nbr_post"	=> 0,
 				"nbr_like"	=> 0
-			)
-		);
+			));
 		$this->insert($req);
 	}
 
@@ -123,7 +115,6 @@ class Pictures extends Model
 	{
 		if($this->picToFolder() === false)
 		{
-			// echo "ON SCASSE02";
 			return false;
 		}
 		$this->picToDatabase();
@@ -136,8 +127,7 @@ class Pictures extends Model
 			$sqlReq = array(
 				"conditions"	=> array(
 					"user_id"	=> $uid
-				)
-			);
+			));
 		}
 		else
 		{
@@ -146,7 +136,6 @@ class Pictures extends Model
 		$retFind = $this->find($sqlReq);
 		if(!isset($retFind) or $retFind === array())
 		{
-			// echo "pas de retour";
 			return false;
 		}
 		return $retFind;
@@ -159,8 +148,7 @@ class Pictures extends Model
 			$sqlReq = array(
 				"conditions"	=> array(
 					"file_url"	=> $url
-				)
-			);
+			));
 		}
 		else
 		{
@@ -169,7 +157,6 @@ class Pictures extends Model
 		$retFind = $this->find($sqlReq);
 		if(!isset($retFind) or $retFind === array())
 		{
-			// echo "pas de retour";
 			return false;
 		}
 		return $retFind;
@@ -182,21 +169,18 @@ class Pictures extends Model
 			$sqlReq = array(
 				"conditions"	=> array(
 					"$colName"	=> $value
-				));
+			));
 		}
 		else
 			$sqlReq = array();
 
 		$retFind = $this->find($sqlReq);
-		// print_r($retFind);
 		if(!isset($retFind) or $retFind === array())
 		{
-			echo "pas de retour";
 			return false;
 		}
 		return $retFind;
 	}
 }
-
 
 ?>

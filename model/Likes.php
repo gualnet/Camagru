@@ -24,10 +24,10 @@ class Likes extends Model
 		}
 		else
 		{
-			echo "session";
-			print_r($_SESSION);
-			echo "post";
-			print_r($_POST);
+			// echo "session";
+			// print_r($_SESSION);
+			// echo "post";
+			// print_r($_POST);
 			if(DEBUG_MODE === true)
 				die("Err LikesModel :001");
 			die();
@@ -36,7 +36,6 @@ class Likes extends Model
 
 	function createLike($picInfo)
 	{
-		// print_r($picInfo);
 		$this->picId = $picInfo[0]->id;
 		$this->picOwner = $picInfo[0]->user_id;
 
@@ -47,7 +46,6 @@ class Likes extends Model
 			)
 		);
 		return $this->insert($req);
-
 	}
 
 	function checkLikes($picInfo)
@@ -58,9 +56,7 @@ class Likes extends Model
 			"conditions"	=> array(
 				"user_id"	=> $this->currentUser,
 				"pic_Id"	=> $this->picId
-			)
-		);
-		// print_r($req);
+		));
 		return $this->find($req);
 	}
 
@@ -72,11 +68,22 @@ class Likes extends Model
 			"conditions"	=> array(
 				"user_id"	=> $this->currentUser,
 				"pic_Id"	=> $this->picId
-			)
-		);
-		// print_r($req);
+		));
 		return $this->delete($req);
 	}
+
+	function getLikersList($picInfo)
+	{
+		$this->picId = $picInfo[0]->id;
+
+		$req = array(
+			"conditions" => array(
+				"pic_id" => $this->picId
+			)
+		);
+		return $this->find($req);
+	}
+
 }
 
 ?>

@@ -3,7 +3,7 @@
 class Comments extends Model
 {
 
-	private $currentUser	= false;
+	private $currentUser = false;
 
 	function __construct()
 	{
@@ -29,7 +29,6 @@ class Comments extends Model
 
 	function createComment($picInfo)
 	{
-
 		$com = $this->filterNewInput($_POST["comData"]);
 		$req = array(
 			"conditions"	=> array(
@@ -38,8 +37,7 @@ class Comments extends Model
 				"com_owner_id"	=> $this->currentUser,
 				"picture_id"	=> $picInfo[0]->id,
 				"pic_owner_id"	=> $picInfo[0]->user_id
-			)
-		);
+		));
 		$ret = $this->insert($req);
 		if($ret === true)
 			return $req["conditions"];
@@ -50,12 +48,9 @@ class Comments extends Model
 		$req = array(
 			"conditions"	=> array(
 				"picture_id"	=> $picInfo[0]->id
-			)
-		);
+		));
 		return $this->find($req);
 	}
-
 }
-
 
 ?>

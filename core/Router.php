@@ -13,11 +13,8 @@ class Router
 			$request->controller = "pages";
 		$request->action = isset($params[1]) ? $params[1] : "acceuil";
 		$request->params = array_slice($params, 2);
-		// print_r($request);
 		return true;
 	}
-
 }
-
 
 ?>

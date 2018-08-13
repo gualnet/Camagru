@@ -1,6 +1,3 @@
-<?php
-
-?>
 
 <script>
 alert("Your picture has been deleted");

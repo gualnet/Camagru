@@ -38,14 +38,7 @@ class createLike extends AjaxController
 			echo "FALSE";
 			return 0;
 		}
-		// creer un like en base de donnee,-->ok
-		// lier le like likeur_id et photoLiker_id,-->ok
-		// notifier l'owner de la photo
-
-		// incrementer le nombre de like de la photo concernées,
-		// returner un true pour le changement de bouton sur la galerie.
 	}
-
 }
 
 new createLike();

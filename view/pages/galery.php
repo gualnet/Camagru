@@ -29,6 +29,7 @@
 			<label id="lblSend" onclick="sendCom()">SEND</label>
 			<input id="comInp" type="text"/>
 			<div id="comments"></div>
+			<div id="likers"></div>
 	</div>
 	<script>
 
@@ -37,6 +38,7 @@
 		{
 			var imgData = me.getAttribute("src");
 			requestPicCom(imgData);
+			requestLikersList(imgData);
 			document.querySelector("#imgModal").setAttribute("src", imgData);
 			picModal.style.display = "grid";
 		}
@@ -85,6 +87,26 @@
 			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			xhr.send("var1=getComment2&pic="+picData);
 		}
+
+		function requestLikersList(picData)
+		{
+			// console.log("GetLikersList");
+			// console.log("picData" + picData);
+			var likersBox = document.querySelector("#likers");
+			var xhr = new XMLHttpRequest();
+
+			console.log("000");
+			xhr.onreadystatechange = function() {
+				if(this.readyState == 4 && xhr.status == 200) {
+					var rspTxt = this.responseText;
+					console.log("RSPS" + rspTxt);
+					likersBox.innerHTML = rspTxt;
+				}
+			}
+			xhr.open("POST", "/ajax/getLikers.php", true);
+			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			xhr.send("var1=getLikers&pic=" + picData);
+		}
 	</script>
 
 	<div class="flexBox">
@@ -123,7 +145,6 @@
 				for($i = 1; $i < $max; $i++)
 				{
 					echo "<a href=\"http://".HTTP_HOST."/pages/galery/".$i."\">$i</a>";
-					// echo "<a href=\"http://localhost:8888/pages/galery/".$i."\">$i</a>";
 				}
 			?>
 		</div>

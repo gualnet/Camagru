@@ -16,15 +16,6 @@
 			<li id="picTakeBtn">Prendre une photo</li>
 		</ul>
 	</div>
-	<script>
-		function delPic(me)
-		{
-			console.log(me.parentNode.querySelector("img").getAttribute("src"));
-			var pic = me.parentNode.querySelector("img").getAttribute("src");
-
-
-		}
-	</script>
 	<div class="galerieBox">
 		<?php
 			if(isset($userPics))
@@ -74,7 +65,6 @@
 	picTakeBtn	= document.querySelector("#picTakeBtn"),
 	width 		= 1024,
 	height 		= 0;
-	console.log(width+"/"+height);
 
 	navigator.getMedia	= (navigator.getUserMedia ||
 		navigator.webkitGetUserMedia ||
@@ -207,12 +197,10 @@ function showFile(files)
 		{
 			continue;
 		}
-		//ici je modifie le dom pour afficher l'image uploadé a la place de la video
 		var img = document.createElement("img");
 		img.classList.add("uplObj");
 		img.file = file;
 
-		//si il y a deja une img je l'efface pour la remplacer
 		var image = document.getElementsByClassName("uplObj");
 		if(image[0])
 		{
@@ -222,7 +210,7 @@ function showFile(files)
 
 		var videoBox = document.getElementsByClassName("videoBox");
 		document.querySelector(".videoBox").appendChild(img);
-		//je reset le calc
+
 		var upperLayer = document.querySelector(".upperLayer");
 		var calcs = document.getElementsByClassName("calcImg");
 		upperLayer.innerHTML = "";
@@ -231,14 +219,13 @@ function showFile(files)
 			calcs[i].style.border = "none";
 			calcs[i].style.opacity = "0.3";
 		}
-		//chargement en mode asynchrone de l'image
+
 		var reader = new FileReader();
 		reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
 		reader.readAsDataURL(file);
 		var video = document.querySelector("#video");
 		video.style.display = "none";
 	}
-
 }
 
 </script>

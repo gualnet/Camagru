@@ -1,9 +1,10 @@
 <?php
+
 session_start();
 
 error_reporting(E_ALL);	//3 lignes pour le debug
 ini_set('display_errors', 1);
-define("DEBUG_MODE", true);
+define("DEBUG_MODE", false);
 
 define('DIRSEP', DIRECTORY_SEPARATOR);
 define('HTTP_HOST', $_SERVER["HTTP_HOST"]);
@@ -22,11 +23,10 @@ class GetComment extends AjaxController
 		if((!isset($_POST["var1"]) or !isset($_POST["pic"])) and $_POST["var1"] !== "getComment")
 			return false;
 
+
 		$picInfo = $this->getPicInfo();
-		// print_r($picInfo);
 		$this->loadModel("Comments");
 		$comments = $this->Comments->getPicComments($picInfo);
-		// print_r($comments);
 
 		$this->loadModel("Users");
 		foreach($comments as $com)
@@ -41,7 +41,5 @@ class GetComment extends AjaxController
 
 $ins = new GetComment();
 $ins->getPicComment();
-
-// echo "END";
 
 ?>

@@ -3,7 +3,7 @@ session_start();
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-define("DEBUG_MODE", true);
+define("DEBUG_MODE", false);
 
 define('DIRSEP', DIRECTORY_SEPARATOR);
 define('HTTP_HOST', $_SERVER["HTTP_HOST"]);
@@ -21,7 +21,8 @@ class unlike extends AjaxController
 	{
 		if(!isset($_POST["var1"]) or !isset($_POST["pic"]) and $_POST["var1"] !== "unlike3")
 		{
-			echo "<p>ERROR01</p>";
+			if(DEBUG_MODE === true)
+				echo "<p>ERROR01</p>";
 			return false;
 		}
 
