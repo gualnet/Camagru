@@ -24,7 +24,7 @@
 					<?php
 				}
 			?>
-			<input type="text" name="login" required="required"/>
+			<input type="text" name="login" required="required" autocomplete="login"/>
 			<?php
 				if($inUse["mail"] === false)
 				{
@@ -39,7 +39,7 @@
 					<?php
 				}
 			?>
-			<input type="email" name="mail" required="required"/>
+			<input type="email" name="mail" required="required" autocomplete="email"/>
 			<?php
 				if($badPwd === false)
 				{
@@ -54,7 +54,7 @@
 					<?php
 				}
 			?>
-			<input type="password" name="pwd" required="required"/>
+			<input type="password" name="pwd" required="required" autocomplete="password"/>
 			<button type="submit" value="submit">OK</button>
 		</form>
 		<?php

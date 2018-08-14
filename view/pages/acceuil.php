@@ -1,6 +1,6 @@
 
 <div class="centralView">
-	MA PAGE D'acceuil loaded !
+	Welcome to camagru...
 	<?php
 	?>
 </div>

@@ -4,7 +4,7 @@
 
 	<div class="videoBox">
 		<div class="preview">
-			<video id="video"></video>
+			<video id="video" autoplay="true"></video>
 			<canvas id="photo"></canvas>
 		</div>
 	</div>
@@ -59,94 +59,73 @@
 
 (function()
 {
-	var streaming = false,
-	video		= document.querySelector("#video"),
-	photo		= document.querySelector("#photo"),
-	picTakeBtn	= document.querySelector("#picTakeBtn"),
-	width 		= 1024,
-	height 		= 0;
+	var streaming	= false;
+	var video		= document.querySelector("#video");
+	var photo		= document.querySelector("#photo");
+	var picTakeBtn	= document.querySelector("#picTakeBtn");
+	var width 		= 1024;
+	var height 		= 0;
 
-	navigator.getMedia	= (navigator.getUserMedia ||
-		navigator.webkitGetUserMedia ||
-		navigator.mozGetUserMedia ||
-		navigator.msGetUserMedia);
 
-	navigator.getMedia(
-	{
-		video: true,
-		audio: false
-	},
-function(stream)
-{
-	console.log("stream:"+stream);
-	if (navigator.mozGetUserMedia)
-	{
-		video.mozSrcObject = stream;
-	}
-	else
-	{
-		var vendorURL = window.URL || window.webkitURL;
-		video.src = vendorURL.createObjectURL(stream);
-	}
-	video.play();
-},
-function(err)
-{
-	console.log("An error occured! " + err);
-	var video = document.getElementsByClassName("preview");
-	var videoBox = document.getElementsByClassName("videoBox");
-	videoBox[0].removeChild(video[0]);
-	photo = null;
-});
+	navigator.mediaDevices.getUserMedia({video: true, audio: false})
+	.then(function(stream) {
+		video.srcObject = stream;
+	})
+	.catch(function(error) {
+		console.log("Echec MEP stream video!");
+	});
 
-video.addEventListener("canplay",
-function(ev)
-{
-	if (!streaming)
-	{
-		height = video.videoHeight / (video.videoWidth/width);
-		video.setAttribute("width", width);
-		video.setAttribute("height", height);
-		photo.setAttribute("width", width);
-		photo.setAttribute("height", height);
-		streaming = true;
-	}
-},false);
 
-picTakeBtn.addEventListener("click",
-function(ev)
-{
-	if(document.querySelector("#uplInp").value != "")
-	{
-		var uplobj = document.querySelector(".uplobj");
-		if(uplobj)
+	video.addEventListener("canplay",
+		function(ev)
 		{
-			var uplVal = uplobj.getAttribute("src");
-			if(uplVal === null)
+			if (!streaming)
 			{
-				alert("uplVal="+uplVal+" Veuillez uploder une photo ou activer votre webcam");
+				height = video.videoHeight / (video.videoWidth/width);
+				video.setAttribute("width", width);
+				video.setAttribute("height", height);
+				photo.setAttribute("width", width);
+				photo.setAttribute("height", height);
+				streaming = true;
 			}
-			else
+		},
+		false
+	);
+
+	picTakeBtn.addEventListener("click",
+	function(ev)
+	{
+		if(document.querySelector("#uplInp").value != "")
+		{
+			var uplobj = document.querySelector(".uplobj");
+			if(uplobj)
 			{
-				var picData = document.querySelector(".uplObj").getAttribute("src");
-				document.querySelector("#dataSendPic").setAttribute("value", picData);
-				document.querySelector(".hiddenForm").submit();
+				var uplVal = uplobj.getAttribute("src");
+				if(uplVal === null)
+				{
+					alert("uplVal="+uplVal+" Veuillez uploder une photo ou activer votre webcam");
+				}
+				else
+				{
+					var picData = document.querySelector(".uplObj").getAttribute("src");
+					document.querySelector("#dataSendPic").setAttribute("value", picData);
+					document.querySelector(".hiddenForm").submit();
+				}
 			}
 		}
-	}
-	else if(photo != null)
-	{
-		photo.getContext("2d", {alpha: true}).drawImage(video, 0, 0, width, height);
-		var data = photo.toDataURL("image/png");
-		photo.setAttribute("src", data);
-		var picData = document.querySelector("#photo").getAttribute("src");
-		document.querySelector("#dataSendPic").setAttribute("value", picData);
-		document.querySelector(".hiddenForm").submit();
-		ev.preventDefault();
-	}
-},false);
+		else if(photo != null)
+		{
+			photo.getContext("2d", {alpha: true}).drawImage(video, 0, 0, width, height);
+			var data = photo.toDataURL("image/png");
+			photo.setAttribute("src", data);
+			var picData = document.querySelector("#photo").getAttribute("src");
+			document.querySelector("#dataSendPic").setAttribute("value", picData);
+			document.querySelector(".hiddenForm").submit();
+			ev.preventDefault();
+		}
+	},
+	false);
 })();
-
 
 function calcSelector(me)
 {

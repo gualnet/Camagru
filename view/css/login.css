@@ -12,7 +12,6 @@
 
 .signinForm input
 {
-	/*background-color: rgb(240, 240, 245);*/
 	margin: 0; padding: 0;
 	width: 70%;
 	max-width: 200px;
@@ -22,7 +21,6 @@
 
 .signinForm h2
 {
-	/*background-color: rgb(240, 240, 245);*/
 	margin: 0;padding: 0;
 	margin-top: 10%;
 	margin-bottom: 10%;
@@ -56,15 +54,12 @@
 
 .modal-pwdRecovery
 {
-	/*border: 2px solid red;*/
-
 	display: none;
 	margin: 0px; padding: 0px;
 	width: 99.38vw; height: 50vh;
 	z-index: 1;
 	position: fixed;
 	top: 6.5vh;
-	/*background: rgb(245, 245, 245);*/
 	background: rgba(0, 0, 0, 0.9);
 }
 .modal-pwdRecovery form
@@ -81,7 +76,6 @@
 .modal-pwdRecovery label
 {
 	margin: 0px; padding: 0px;
-	/*height: 2vh;*/
 }
 .modal-pwdRecovery input
 {

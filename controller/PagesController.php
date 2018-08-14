@@ -283,7 +283,7 @@ class PagesController extends Controller
 			"conditions"	=> array(
 				"file_url"	=> $picUrl
 			));
-		$ret = $this->Pictures->find($sqlReq);
+			$ret = $this->Pictures->find($sqlReq);
 		if($ret === array())
 		{
 			if(DEBUG_MODE)
@@ -295,7 +295,7 @@ class PagesController extends Controller
 			$req = array(
 				"conditions"	=> array(
 					"file_url"	=> $picUrl
-				));
+			));
 			$this->Pictures->delete($req);
 		}
 	}

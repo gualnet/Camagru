@@ -23,9 +23,9 @@
 				}
 			?>
 			<label>Login </label>
-			<input type="text" name="login" required="required"/>
+			<input type="text" name="login" required="required" autocomplete="login"/>
 			<label>Password </label>
-			<input type="password" name="pwd"  required="required"/>
+			<input type="password" name="pwd" required="required" autocomplete="password"/>
 			<button type="submit">OK</button><br />
 			<div id="pwdHelp" onclick="pwdRecovery()">I forgot my password</div>
 		</form>

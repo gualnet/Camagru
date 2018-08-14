@@ -1,6 +1,5 @@
 .centralView
 {
-	/*border: 2px solid rgb(179, 16, 159);*/
 	display: grid;
 	margin: 0px; padding: 0px;
 	width: 99vw;
@@ -13,7 +12,6 @@
 .upperLayer
 {
 	overflow: hidden;
-	/*background: rgba(35, 213, 126, 0.51);*/
 	z-index: 1;
 	grid-column: 1/12;
 	grid-row: 1/13;
@@ -22,17 +20,12 @@
 {
 	max-width: 54.45vw;
 	max-height: 100%;
-	/*background: rgba(213, 35, 35, 0.51);*/
 }
-
 
 /*---------#---------#---------#---------#---------#---------*/
 
 .videoBox
 {
-	background-color: beige;
-	/*border: 2px solid #ff0000;*/
-	/*border: 1px solid #ebebf5;*/
 	overflow: scroll;
 	grid-column: 1/12;
 	grid-row: 1/13;
@@ -41,33 +34,11 @@
 {
 	z-index: 0;
 	max-width: 54.45vw;
-	/*max-height: 15vh;*/
 	height: auto;
 }
 .videoBox #photo
 {
 	display: none;
-}
-.btnBox #uplBox
-{
-	/*border: 2px solid #00ff32;*/
-	margin: 0px; padding: 0px;
-	width: 150px;
-	height: 40px;
-	/*grid-column: 1/2;*/
-	/*grid-row: 2;*/
-	transition-property: all;
-	transition-duration: 1s;
-	text-align: center;
-	background-color: #ebebf5;
-	color: #33b5e5;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-}
-.btnBox #uplLbl
-{
-	margin: 0px; padding: 0px;
-	width: 150px;
-	height: 40px;
 }
 #uplInp
 {
@@ -75,7 +46,6 @@
 }
 .videoBox img
 {
-	/*margin: 0px; padding: 0px;*/
 	max-width: 54.45vw;
 	max-height: 100%;
 }
@@ -86,7 +56,6 @@
 {
 	display: flex;
 	overflow: visible;
-	border: 2px solid yellow;
 	grid-column: 1/12;
 	grid-row: 13;
 }
@@ -94,8 +63,6 @@
 {
 	display: none;
 	margin: 0px; padding: 0px;
-	/*grid-column: 4/5;*/
-	/*grid-row: 2;*/
 }
 .btnBox li
 {
@@ -103,12 +70,10 @@
 	margin: 0px; padding: 0px;
 	transition-property: all;
 	transition-duration: 1s;
-	width: 150px;
-	/*width: 20%;*/
-	margin-left: 40%;
-	padding: 8px;
+	width: 10vw;
+	height: 3vh;
+	line-height: 3vh;
 	text-align: center;
-	margin-bottom: 7px;
 	background-color: #ebebf5;
 	color: #33b5e5;
 	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
@@ -116,8 +81,29 @@
 .btnBox li:hover
 {
 	list-style-type: none;
-	width: 200px;
-	margin-left: 30%;
+	width: 12vw;
+	background-color: #33b5e5;
+	color: #ebebf5;
+}
+
+.btnBox #uplBox
+{
+	margin: 0px; padding: 0px;
+	margin-left: 5vw;
+	width: 10vw;
+	height: 3vh;
+	line-height: 3vh;
+	transition-property: all;
+	transition-duration: 1s;
+	text-align: center;
+	background-color: #ebebf5;
+	color: #33b5e5;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.btnBox #uplBox:hover
+{
+	list-style-type: none;
+	width: 12vw;
 	background-color: #33b5e5;
 	color: #ebebf5;
 }
@@ -126,8 +112,6 @@
 
 .galerieBox
 {
-	background-color: azure;
-	/*display: none;*/
 	grid-column: 12/21;
 	grid-row: 1/14;
 	overflow-x: hidden;
@@ -149,7 +133,6 @@
 	margin: 0px; padding: 0px;
 	max-width: 80%;
 	max-height: 100%;
-	/*margin-left: 5%;*/
 }
 .galerieBox button
 {
@@ -169,9 +152,6 @@
 
 .calquesBox
 {
-	background-color: blanchedalmond;
-	/*border: 2px solid #ff0000;*/
-	/*border: 1px solid #ebebf5;*/
 	grid-column: 1/21;
 	grid-row: 14/21;
 	overflow-x: scroll;

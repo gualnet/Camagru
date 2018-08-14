@@ -1,1 +1,5 @@
 ressources/pics/*/*
+
+.DS_Store
+
+*old*
