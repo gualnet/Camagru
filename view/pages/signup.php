@@ -6,7 +6,7 @@
 	?>
 </HEAD>
 
-<div class="centralView">
+<div class="centralView" id="001">
 
 		<form class="signupForm" method="post">
 			<h2>SIGN-UP</h2>
@@ -58,16 +58,16 @@
 			<button type="submit" value="submit">OK</button>
 		</form>
 		<?php
-			if($loginRedir)
-			{?>
-				<script>
-				var form = document.getElementsByClassName("signupForm")[0];
-				var centralView = document.getElementsByClassName("centralView")[0];
-				centralView.removeChild(form);
-				alert("Success ! you will soon receive a mail to confirm your registration");
-				document.location.href="acceuil";
-				</script>
-			<?php
+			if($loginRedir) {
+				?>
+					<script>
+					var form = document.getElementsByClassName("signupForm")[0];
+					var centralView = document.getElementsByClassName("centralView")[0];
+					centralView.removeChild(form);
+					alert("Success ! you will soon receive a mail to confirm your registration");
+					document.location.href="acceuil";
+					</script>
+				<?php
 			}
 		?>
 

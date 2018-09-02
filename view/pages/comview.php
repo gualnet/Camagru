@@ -1,4 +1,4 @@
-<div class="centralView">
+<div class="centralView" id="001">
 	<div class="subCV">
 		<img id="imgModal" src="<?php echo $picUrl; ?>" />
 		<label id="lblCom">COMMENTS</label>

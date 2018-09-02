@@ -35,4 +35,8 @@
 		require ROOT."view/pages/footer.php";
 	}
 
+	echo "<script>";
+	require_once ROOT."view/scripts/mainView.js";
+	echo "</script>";
+
 ?>

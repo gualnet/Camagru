@@ -2,7 +2,7 @@
 	<HEAD>
 	</HEAD>
 	<BODY>
-		<div class="centralView">
+		<div class="centralView" id="001">
 			<div class="infoBox">
 				<p>User_id : <?php echo $User->id ?></p>
 				<p>Login : <?php echo $User->login ?></p>

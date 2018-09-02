@@ -18,7 +18,7 @@ class Model
 			return true;
 		try
 		{
-			$pdo = new PDO($dbConf->DB_DSN, $dbConf->DB_USER, $dbConf->DB_PASSWORD);
+			$pdo = new PDO($dbConf->DB_DSN.";dbname=".$dbConf->DB_NAME, $dbConf->DB_USER, $dbConf->DB_PASSWORD);
 			Model::$connexions[$this->dbName] = $pdo;
 			$pdo->setAttribute(PDO::ATTR_ERRMODE , PDO::ERRMODE_EXCEPTION);
 		}

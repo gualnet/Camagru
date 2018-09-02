@@ -1,6 +1,3 @@
 
-<div class="centralView">
-	Welcome to camagru...
-	<?php
-	?>
+<div class="centralView" id="001">
 </div>

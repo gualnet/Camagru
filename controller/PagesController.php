@@ -5,11 +5,31 @@ class PagesController extends Controller
 
 	function index()
 	{
-		$this->render("acceuil");
+		$this->acceuil();
 	}
 
 	function acceuil()
 	{
+		require_once ROOT."config".DIRSEP."database.php";
+		try {
+			echo "try 01";
+			$pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
+			$pdo = null;
+			try {
+				echo "try 02";
+				$pdo = new PDO($DB_DSN.";dbname=".$DB_NAME, $DB_USER, $DB_PASSWORD);
+			}
+			catch(PDOException $e) {
+				echo "catch 02";
+				die("<br>Warning: La BBD doit etre initialisé [/config/setup.php]</br>");
+			}
+			
+		}
+		catch(PDOException $e) {
+			echo "catch 01";
+			echo "<br>ERREUR: Impossible de joindre le serveur SQL</br>";
+		}
+		echo "OK";
 		$this->render("acceuil");
 	}
 
@@ -67,6 +87,7 @@ class PagesController extends Controller
 			}
 			else
 			{
+				die("signUp");
 				$checkRet = $this->Users->checkSignupValidity();
 				$this->setVars("inUse", $checkRet);
 				if($checkRet["login"] === false and $checkRet["mail"] === false)

@@ -5,8 +5,13 @@
 
 .centralView
 {
-	background-color: rgb(245, 245, 245);
+	/* max-height: 87vh; */
 	min-height: 87vh;
+	background-color: rgb(255, 255, 255);
+	background-image: url('http://localhost:8888/ressources/bird_feathers_10.jpg');
+	/* background-image: url('http://localhost:8888/ressources/cloud_background.jpg'); */
+	background-repeat: no-repeat;
+    /* background-size: contain, cover; */
 }
 
 .footer

@@ -1,1 +1,7 @@
+.backgroundImg
+{
+	background-image: url('http://localhost:8888/ressources/cloud_background.jpg');
 
+	background-size: 50vh 50vw;
+	
+}
