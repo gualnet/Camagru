@@ -39,11 +39,21 @@ class Pictures extends Model
 		$picWidth = imagesx($pic);
 		$picHeight = imagesy($pic);
 		$picSRatio = $picWidth / $picHeight;
-		$calc = imagecreatefrompng($_POST["calcData"]);
+
+		// replace l'url de la preview par la photo a utiliser pour le montage
+		$picPath = $_POST["calcData"];
+		$picPath = str_replace("_prev.png", "_full.png", $picPath);
+
+		$calc = imagecreatefrompng(ROOT.$picPath);
 		imagesavealpha($calc, true);
 		$calcWidth = imagesx($calc);
 		$calcHeight = imagesy($calc);
-		$calcSRatio = $calcHeight / $calcWidth;
+		echo "<br> Calc W:".$calcWidth." -H:".$calcHeight."</br>";
+		// $calcSRatio = $calcHeight / $calcWidth;
+
+		$calcSRatio = 1; // devient useless
+
+		echo "<br> Calc Ration :".$calcSRatio."</br>";
 		//calcule de la nouvelle taille du calque pour fit sur la photo
 		if($calcWidth < $calcHeight) // format portrait
 		{
@@ -55,6 +65,7 @@ class Pictures extends Model
 			$newCalcWidth = $picWidth;
 			$newCalcHeight = $picHeight * $calcSRatio;
 		}
+		echo "<br> Calc W:".$newCalcWidth." -H:".$newCalcHeight."</br>";
 		// echo "<p>picW=".$picWidth."/picH=".$picHeight."</p>";
 		// echo "<p>calcW=".$calcWidth."/calcH=".$calcHeight."</p>";
 		// echo "<p>newCalcW=".$newCalcWidth."/newCalcH=".$newCalcHeight."</p>";

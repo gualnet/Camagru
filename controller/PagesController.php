@@ -12,24 +12,19 @@ class PagesController extends Controller
 	{
 		require_once ROOT."config".DIRSEP."database.php";
 		try {
-			echo "try 01";
 			$pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
 			$pdo = null;
 			try {
-				echo "try 02";
 				$pdo = new PDO($DB_DSN.";dbname=".$DB_NAME, $DB_USER, $DB_PASSWORD);
 			}
 			catch(PDOException $e) {
-				echo "catch 02";
 				die("<br>Warning: La BBD doit etre initialisé [/config/setup.php]</br>");
 			}
 			
 		}
 		catch(PDOException $e) {
-			echo "catch 01";
 			echo "<br>ERREUR: Impossible de joindre le serveur SQL</br>";
 		}
-		echo "OK";
 		$this->render("acceuil");
 	}
 
@@ -87,16 +82,20 @@ class PagesController extends Controller
 			}
 			else
 			{
-				die("signUp");
+				echo " 001 ";
 				$checkRet = $this->Users->checkSignupValidity();
 				$this->setVars("inUse", $checkRet);
 				if($checkRet["login"] === false and $checkRet["mail"] === false)
 				{
+					echo " 002 ";
 					$activator = $this->Users->registerNewUser();
 					if(!$this->Users->sendConfirmMail($_POST["login"], $activator))
 					{
+						echo " 001 ";
 						$this->e404("An error occur, Confirmation mail not sent.<p>please contact the customer services !</p>");
 					}
+					echo " 004 ";
+					
 					$this->setVars("loginRedir", true);
 				}
 			}
@@ -326,7 +325,7 @@ class PagesController extends Controller
 		$this->loadModel("Pictures");
 		$this->Pictures->picRegistration();
 		$this->render("picRegistration");
-		header("Location:studio");
+		// header("Location:studio");
 	}
 
 	function galery()
