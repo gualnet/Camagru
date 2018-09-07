@@ -13,7 +13,7 @@
 		const winH = window.innerHeight;
 		console.log("w:" + winW + "h:" + winH);
 		const elem = document.getElementById("404");
-		elem.style.backgroundImage = "url('http://localhost:8888/ressources/404_Not_Found.jpg')";
+		elem.style.backgroundImage = "url('../ressources/404_Not_Found.jpg')";
 		elem.style.backgroundSize = winW+"px "+winH+"px";
 		console.log("elem:" + elem);
 	}

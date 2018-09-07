@@ -2,7 +2,6 @@
 
 class PagesController extends Controller
 {
-
 	function index()
 	{
 		$this->acceuil();
@@ -11,6 +10,7 @@ class PagesController extends Controller
 	function acceuil()
 	{
 		require_once ROOT."config".DIRSEP."database.php";
+		
 		try {
 			$pdo = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
 			$pdo = null;
@@ -20,10 +20,9 @@ class PagesController extends Controller
 			catch(PDOException $e) {
 				die("<br>Warning: La BBD doit etre initialisé [/config/setup.php]</br>");
 			}
-			
 		}
 		catch(PDOException $e) {
-			echo "<br>ERREUR: Impossible de joindre le serveur SQL</br>";
+			echo "<br>ERREUR: Impossible de joindre le serveur SQL</br>$e</br>";
 		}
 		$this->render("acceuil");
 	}

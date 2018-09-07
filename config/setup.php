@@ -1,5 +1,5 @@
 <?php
-
+ob_start();
 require_once "database.php";
 
 try
@@ -19,8 +19,6 @@ echo "OK</br>";
 $sql = "CREATE SCHEMA IF NOT EXISTS `db_camagru` DEFAULT CHARACTER SET utf8 ;
 USE `db_camagru` ;";
 $pdo->exec($sql);
-
-echo "<br>create db : ok\n</br>";
 
 
 $sql = "CREATE TABLE IF NOT EXISTS `db_camagru`.`users` (
@@ -142,5 +140,6 @@ $pdo->exec($sql);
 echo "<br>create CALCS table : ok</br>";
 
 header('Location: ../pages/index');
+ob_end_flush();
 
 ?>
