@@ -8,7 +8,8 @@
 	/* max-height: 87vh; */
 	min-height: 87vh;
 	/* background-image: url('../ressources/bird_feathers_10.jpg'); */
-	background-image: url('../ressources/cloud_background.jpg');
+	background-image: url('../ressources/cloud_background_op50.png');
+	background-color: rgb(173, 173, 173);
 	background-repeat: no-repeat;
     /* background-size: contain, cover; */
 }

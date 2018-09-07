@@ -90,7 +90,7 @@ class Users extends Model
 			."<a href=http://localhost:8888/pages/accountActivation/?"."ul=".$login."&ua=".$activator.">"
 			."<span>HERE</span></a> </p>\r\n";
 
-		$ret = imap_mail($to, $subject, $message, $headers);
+		$ret = mail($to, $subject, $message, $headers);
 		if($ret)
 			return true;
 		else
@@ -112,7 +112,7 @@ class Users extends Model
 			."<a href=http://localhost:8888/pages/rescuepwd/?ul=".$login."&ua=".$activator.">"
 			."<span>RESCUE LINK</span></a>";
 
-		$ret = imap_mail($to, $subject, $message, $headers);
+		$ret = mail($to, $subject, $message, $headers);
 		if($ret)
 			return true;
 		else
