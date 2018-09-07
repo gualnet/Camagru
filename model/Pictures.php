@@ -92,16 +92,16 @@ class Pictures extends Model
 
 	private function picToFolder()
 	{
-		echo "construct ownerId".$this->ownerId;
-		$this->curRegFilePath = "/Users/kriz/Documents/42/Camagru/ressources/pics/"
+		// echo "construct ownerId $this->ownerId <br>";
+		$this->curRegFilePath = "./ressources/pics/"
 		.$this->ownerId."_".$this->ownerLogin.DIRSEP;
 		if(!file_exists($this->curRegFilePath))
 		{
-			mkdir($this->curRegFilePath, 0777, true);
+			mkdir($this->curRegFilePath, 0755, true);
 		}
 		$this->curRegFileName = microtime(true);
 		$this->curRegFileName = $this->curRegFileName.".png";
-		if($this->mergePng($this->curRegFilePath."/".$this->curRegFileName) === false)
+		if($this->mergePng($this->curRegFilePath.$this->curRegFileName) === false)
 		{
 			return false;
 		}

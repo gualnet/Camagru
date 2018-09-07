@@ -22,7 +22,8 @@ class PagesController extends Controller
 			}
 		}
 		catch(PDOException $e) {
-			echo "<br>ERREUR: Impossible de joindre le serveur SQL</br>$e</br>";
+			// echo "<br>ERREUR: Impossible de joindre le serveur SQL</br>$e</br>";
+			echo "<br>ERREUR: Impossible de joindre le serveur SQL</br>";
 		}
 		$this->render("acceuil");
 	}
