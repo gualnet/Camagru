@@ -2,7 +2,7 @@
 {
 	display: grid;
 	margin: 0px; padding: 0px;
-	width: 99vw;
+	width: 100vw;
 	grid-template-columns: repeat(20, 4.95vw);
 	grid-template-rows: repeat(20, 4.5vh);
 }
@@ -59,11 +59,32 @@
 	grid-column: 1/12;
 	grid-row: 13;
 }
+
+@keyframes PicTakeBtn_FadeIn {
+	from {
+		opacity: 0;
+		-webkit-transform: translate3d(-100%, 0, 0);
+		transform: translate3d(-100%, 0, 0);
+	}
+
+	to {
+		opacity: 1;
+		-webkit-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+	}
+}
 .btnBox ul
 {
-	display: none;
 	margin: 0px; padding: 0px;
 }
+#picTakeBtn_off {
+	display: none
+}
+#picTakeBtn_on {
+	display: list-item;
+	animation: PicTakeBtn_FadeIn 1s forwards 0s ease-out;
+}
+
 .btnBox li
 {
 	list-style-type: none;
@@ -74,16 +95,16 @@
 	height: 3vh;
 	line-height: 3vh;
 	text-align: center;
-	background-color: #ebebf5;
-	color: #33b5e5;
+	background-color:rgb(50, 50, 50);
+	color: rgb(220, 220, 220);
 	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 .btnBox li:hover
 {
 	list-style-type: none;
 	width: 12vw;
-	background-color: #33b5e5;
-	color: #ebebf5;
+	background-color: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
 }
 
 .btnBox #uplBox
@@ -96,16 +117,16 @@
 	transition-property: all;
 	transition-duration: 1s;
 	text-align: center;
-	background-color: #ebebf5;
-	color: #33b5e5;
+	background-color:rgb(50, 50, 50);
+	color: rgb(220, 220, 220);
 	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 .btnBox #uplBox:hover
 {
 	list-style-type: none;
 	width: 12vw;
-	background-color: #33b5e5;
-	color: #ebebf5;
+	background-color: rgb(0, 0, 0);
+	color: rgb(255, 255, 255);
 }
 
 /*---------#---------#---------#---------#---------#---------*/
@@ -164,7 +185,8 @@
 }
 .calquesBox img
 {
-	height: 100%;width: auto;
+	height: 50px;
+	width: auto;
 }
 
 /*---------#---------#---------#---------#---------#---------*/

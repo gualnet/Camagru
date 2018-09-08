@@ -3,7 +3,7 @@
 	var streaming	= false;
 	var video		= document.querySelector("#video");
 	var photo		= document.querySelector("#photo");
-	var picTakeBtn	= document.querySelector("#picTakeBtn");
+	var picTakeBtn	= document.querySelector("#picTakeBtn_off");
 	var width 		= 1024;
 	var height 		= 0;
 
@@ -84,8 +84,11 @@ function calcSelector(me)
 	var calcData = me.getAttribute("src");
 	document.querySelector("#dataSendCalc").setAttribute("value", calcData);
 
-	var btnTakePic = document.querySelector(".btnBox ul");
-	btnTakePic.style.display = "block";
+	// make the picTakeBtn visible
+	var btnTakePic = document.querySelector("#picTakeBtn_off");
+	if (btnTakePic) {
+		btnTakePic.id = "picTakeBtn_on";
+	}
 
 	var upperLayer = document.querySelector(".upperLayer");
 	upperLayer.innerHTML = "";

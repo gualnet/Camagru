@@ -13,7 +13,7 @@
 			<label id="uplLbl" for="uplInp" style="width: 150px; height: 40px;">Add your picture</label>
 		</div>
 		<ul>
-			<li id="picTakeBtn">Prendre une photo</li>
+			<li id="picTakeBtn_off">Prendre une photo</li>
 		</ul>
 	</div>
 	<div class="galerieBox">
@@ -38,15 +38,10 @@
 
 	<div class="calquesBox">
 	<img class="calcImg" src="/ressources/calcs/calc_bouche_prev.png" onclick="calcSelector(this)"/>
-			<?php
-			if(isset($calcsUrl))
-			{
-				for($i=0; $i < count($calcsUrl); $i++)
-				{
-					echo "<img class=\"calcImg\" src=\"".$calcsUrl[$i]."\" onclick=\"calcSelector(this)\"/>";
-				}
-			}
-			?>
+	<img class="calcImg" src="/ressources/calcs/calc_bat_prev.png" onclick="calcSelector(this)"/>
+	<img class="calcImg" src="/ressources/calcs/calc_grass_prev.png" onclick="calcSelector(this)"/>
+	<img class="calcImg" src="/ressources/calcs/calc_hair_prev.png" onclick="calcSelector(this)"/>
+	<img class="calcImg" src="/ressources/calcs/calc_ugly_prev.png" onclick="calcSelector(this)"/>
 	</div>
 
 </div>

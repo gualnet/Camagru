@@ -325,7 +325,7 @@ class PagesController extends Controller
 		$this->loadModel("Pictures");
 		$this->Pictures->picRegistration();
 		$this->render("picRegistration");
-		// header("Location:studio");
+		header("Location:studio");
 	}
 
 	function galery()
