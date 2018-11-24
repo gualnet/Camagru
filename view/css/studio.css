@@ -40,10 +40,10 @@
 {
 	display: none;
 }
-#uplInp
+/* #uplInp
 {
-	/*display: none;*/
-}
+	display: none;
+}*/
 .videoBox img
 {
 	max-width: 54.45vw;

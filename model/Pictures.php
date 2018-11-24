@@ -109,7 +109,7 @@ class Pictures extends Model
 
 	private function picToDatabase()
 	{
-		$curRegFileURL = "http://localhost:8888/ressources/pics/".$this->ownerId
+		$curRegFileURL = "/ressources/pics/".$this->ownerId
 		."_".$this->ownerLogin.DIRSEP;
 		$req = array(
 			"conditions"	=> array(

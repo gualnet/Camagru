@@ -5,7 +5,7 @@
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-around;
-	overflow-y:
+	/* overflow-y: */
 }
 
 .sticker
@@ -95,7 +95,7 @@
 	top: 0; left: 0;
 	z-index: 1;
 	animation: mymove 5s infinite;
-	background: rgba(0, 0, 0, 0.6);
+	background: rgb(28, 34, 40, 0.98);
 
 }
 .picModal img
@@ -149,7 +149,7 @@
 }
 .picModal #likers
 {
-	border: 2px solid red;
+	/* border: 2px solid red; */
 	
 	margin: 0px; padding: 0px;
 	
@@ -165,7 +165,7 @@
 	color: #FFFFFF
 }
 
-@@keyframes mymoves
+/* @@keyframes mymoves
 {
 
-}
+} */

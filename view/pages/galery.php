@@ -28,7 +28,7 @@
 			<label id="lblCom">COMMENTS</label>
 			<label id="lblSend" onclick="sendCom()">SEND</label>
 			<input id="comInp" type="text"/>
-			<div id="comments"></div>
+			<div id="comments"><p>chattez ici</p></div>
 			<div id="likers"></div>
 	</div>
 	<script>

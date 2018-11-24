@@ -18,25 +18,40 @@
 	</div>
 	<div class="galerieBox">
 		<?php
+			// if(isset($userPics))
+			// {
+			// 	$i = count($userPics) - 1;
+			// 	while($i >= 0)
+			// 	{
+			// 		echo "<div class=\"imgWrap\" >";
+			// 		echo "<img src=\""."http://".HTTP_HOST.$userPics[$i]."\" />";
+			// 		echo "<form method=\"POST\" action=\"studioDelPic\">";
+			// 		echo "<input name=\"pic\" value=\"".$userPics[$i]."\"/>";
+			// 		echo "<button>Delete</button>";
+			// 		echo "</form>";
+			// 		echo "</div>";
+			// 		$i--;
+			// 	}
+			// }
+
 			if(isset($userPics))
 			{
 				$i = count($userPics) - 1;
-				while($i >= 0)
-				{
-					echo "<div class=\"imgWrap\" >";
-					echo "<img src=\"".$userPics[$i]."\" />";
-					echo "<form method=\"POST\" action=\"studioDelPic\">";
-					echo "<input name=\"pic\" value=\"".$userPics[$i]."\"/>";
-					echo "<button>Delete</button>";
-					echo "</form>";
-					echo "</div>";
-					$i--;
-				}
+				echo "<div class=\"imgWrap\" >";
+				echo "<img src=\""."http://".HTTP_HOST.$userPics[$i]."\" />";
+				echo "<form method=\"POST\" action=\"studioDelPic\">";
+				echo "<input name=\"pic\" value=\"".$userPics[$i]."\"/>";
+				echo "<button>Delete</button>";
+				echo "</form>";
+				echo "</div>";
 			}
 		?>
 	</div>
 
 	<div class="calquesBox">
+	<?php
+		echo ROOT;
+	?>
 	<img class="calcImg" src="/ressources/calcs/calc_bouche_prev.png" onclick="calcSelector(this)"/>
 	<img class="calcImg" src="/ressources/calcs/calc_bat_prev.png" onclick="calcSelector(this)"/>
 	<img class="calcImg" src="/ressources/calcs/calc_grass_prev.png" onclick="calcSelector(this)"/>
