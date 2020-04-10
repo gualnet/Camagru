@@ -9,16 +9,13 @@
 </HEAD>
 
 <div class="centralView">
-	<h2>SIGN-IN</h2>
-	<!-- <div id="form-login"> -->
-		<!-- <form class="signinForm" method="post" action=""> -->
 		<form method="post">
 		<?php
 				if($displayErrMsg === true)
 				{
 					?>
-					<div class="errLoginMsg">
-						<p>Login or password incorrect</p>
+					<div class="errLoginMsg form-group">
+						<p>Wrong login or possword</p>
 					</div>
 					<?php
 				}
@@ -28,35 +25,50 @@
 			</div>
 			<div class="form-group">
 				<input class="form-control" type="password" name="pwd"  required="required" placeholder="Password"/>
-				<p id="pwdHelp" class="text-primary text-right font-weight-light" onclick="pwdRecovery()"><small>Forgot password</small></p>
+				<p id="pwdHelp" class="text-primary text-right font-weight-light" ><small onclick="pwdRecovery()">Forgot password</small></p>
 			</div>
 			<button type="submit" class="btn btn-outline-dark btn-sm">Valider</button><br />
 		</form>
-	<!-- </div> -->
-	<div class="modal-pwdRecovery">
-		<form class="formModal" method="post" action="pwdRecovery">
-			<h3>Please enter your email address </h3>
-			<input type="email" name="email" required="required"/>
-			<button type="submit">OK</button>
-		</form>
-	</div>
+
+	<div class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Password recovery</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span id="btn_close_modal" aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+				<form class="formModal" method="post" action="pwdRecovery">
+					<input type="email" name="email" required="required" placeholder="Enter your email"/>
+      </div>
+      <div class="modal-footer">
+					<button type="submit" class="btn btn-primary">Send</button>
+				</form>
+				
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
 
 	function pwdRecovery()
 	{
-		var pwdModal = document.querySelector(".modal-pwdRecovery");
+		var pwdModal = document.querySelector(".modal");
 
-		pwdModal.style.display = "flex";
+		pwdModal.style.display = "block";
 	}
 
 	window.onclick = function(event)
 	{
-		var ctrlView = document.querySelector(".centralView");
-		var pwdModal = document.querySelector(".modal-pwdRecovery");
-		var formModal = document.querySelector(".formModal");
-		if (event.target == pwdModal || event.target == ctrlView)
+		console.log('click', event.target)
+		// const ctrlView = document.querySelector(".centralView");
+		const pwdModal = document.querySelector(".modal");
+		const closeModal = document.querySelector("#btn_close_modal");
+		// const formModal = document.querySelector(".formModal");
+		if (event.target == pwdModal || event.target == closeModal)
 		{
 			pwdModal.style.display = "none";
 		}

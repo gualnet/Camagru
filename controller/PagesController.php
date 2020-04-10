@@ -82,7 +82,7 @@ class PagesController extends Controller
 		}
 		else if($_POST !== array())
 		{
-			$this->e404("JOUE PAS AU CON !!!!");
+			$this->e404("NON NON :) !!!!");
 		}
 	}
 
