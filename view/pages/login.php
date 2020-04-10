@@ -9,10 +9,11 @@
 </HEAD>
 
 <div class="centralView">
-	<div>
-		<form class="signinForm" method="post" action="">
-			<h2>SIGN-IN</h2>
-			<?php
+	<h2>SIGN-IN</h2>
+	<!-- <div id="form-login"> -->
+		<!-- <form class="signinForm" method="post" action=""> -->
+		<form method="post">
+		<?php
 				if($displayErrMsg === true)
 				{
 					?>
@@ -22,14 +23,16 @@
 					<?php
 				}
 			?>
-			<label>Login </label>
-			<input type="text" name="login" required="required"/>
-			<label>Password </label>
-			<input type="password" name="pwd"  required="required"/>
-			<button type="submit">OK</button><br />
-			<div id="pwdHelp" onclick="pwdRecovery()">I forgot my password</div>
+			<div class="form-group">
+				<input class="form-control" type="text" name="login" required="required" placeholder="Login or Email"/>
+			</div>
+			<div class="form-group">
+				<input class="form-control" type="password" name="pwd"  required="required" placeholder="Password"/>
+				<p id="pwdHelp" class="text-primary text-right font-weight-light" onclick="pwdRecovery()"><small>Forgot password</small></p>
+			</div>
+			<button type="submit" class="btn btn-outline-dark btn-sm">Valider</button><br />
 		</form>
-	</div>
+	<!-- </div> -->
 	<div class="modal-pwdRecovery">
 		<form class="formModal" method="post" action="pwdRecovery">
 			<h3>Please enter your email address </h3>

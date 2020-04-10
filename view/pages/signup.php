@@ -43,7 +43,7 @@
 			?>
 		</div>
 		
-		<button type="submit" class="btn btn-outline-dark btn-sm " value="submit">Valider</button>
+		<button type="submit" class="btn btn-outline-dark btn-sm" value="submit">Valider</button>
 	</form>
 	<?php
 		if($loginRedir)

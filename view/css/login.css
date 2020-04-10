@@ -1,46 +1,12 @@
-.signinForm /*pour la vue login*/
-{
-	margin: 0; padding: 0;
-	display: flex;
+.centralView {
 	flex-direction: column;
-	width: 30vw; height: 20vh;
-	margin-left: 35%;
-	margin-right: 35%;
-	text-align: center;
-	z-index: 0;
+	justify-content: center;
+	align-items: center;
+}
+form {
+	width: 35%;
 }
 
-.signinForm input
-{
-	/*background-color: rgb(240, 240, 245);*/
-	margin: 0; padding: 0;
-	width: 70%;
-	max-width: 200px;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.signinForm h2
-{
-	/*background-color: rgb(240, 240, 245);*/
-	margin: 0;padding: 0;
-	margin-top: 10%;
-	margin-bottom: 10%;
-}
-
-.signinForm button
-{
-	margin: auto;padding: 0;
-	margin-top: 10%;
-	margin-bottom: 0%;
-	width: 50%;
-	max-width: 50px;
-}
-
-.signinForm label
-{
-	margin-top: 5%;
-}
 
 .errLoginMsg p
 {
