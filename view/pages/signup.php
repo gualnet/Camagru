@@ -1,5 +1,4 @@
 <HEAD>
-
 	<?php
 
 		ob_end_flush();
@@ -8,67 +7,56 @@
 
 <div class="centralView">
 
-		<form class="signupForm" method="post">
-			<h2>SIGN-UP</h2>
+	<!-- <h2 class="title">SIGN-UP</h2> -->
+	<form method="post">
+		<div class="form-group">
+			<input class="form-control" type="text" name="login" required="required" placeholder="Login"/>
 			<?php
-				if($inUse["login"] === false)
+				if($inUse["login"] !== false)
 				{
 					?>
-					<label>Login </label>
-					<?php
-				}
-				else
-				{
-					?>
-					<label>Login </label><p class="errMsg">already used</p>
+						<small class="form-text text-danger">already used</small>
 					<?php
 				}
 			?>
-			<input type="text" name="login" required="required"/>
+		</div>
+		<div class="form-group">
+			<input class="form-control" type="email" name="mail" required="required" placeholder="Mail"/>
 			<?php
-				if($inUse["mail"] === false)
+				if($inUse["mail"] !== false)
 				{
 					?>
-					<label>Mail </label>
-					<?php
-				}
-				else
-				{
-					?>
-					<label>Mail </label><p class="errMsg">already used</p>
+						<small class="form-text text-danger">already used</small>
 					<?php
 				}
 			?>
-			<input type="email" name="mail" required="required"/>
+		</div>
+		<div class="form-group">
+			<input class="form-control" type="password" name="pwd" required="required" placeholder="Password"/>
 			<?php
-				if($badPwd === false)
+				if($badPwd !== false)
 				{
 					?>
-					<label>Password </label>
-					<?php
-				}
-				else
-				{
-					?>
-					<label>Password </label><p class="errMsg">Password must at least contain:<br />6 characters, 2 numbers, 1 maj</p>
+						<small class="form-text text-danger">Password must at least contain:<br />6 characters, 2 numbers, 1 maj</small>
 					<?php
 				}
 			?>
-			<input type="password" name="pwd" required="required"/>
-			<button type="submit" value="submit">OK</button>
-		</form>
+		</div>
+		
+		<button type="submit" class="btn btn-outline-dark btn-sm " value="submit">Valider</button>
+	</form>
+	<?php
+		if($loginRedir)
+		{?>
+			<script>
+			var form = document.getElementsByClassName("signupForm")[0];
+			var centralView = document.getElementsByClassName("centralView")[0];
+			centralView.removeChild(form);
+			alert("Success ! you will soon receive a mail to confirm your registration");
+			document.location.href="acceuil";
+			</script>
 		<?php
-			if($loginRedir)
-			{?>
-				<script>
-				var form = document.getElementsByClassName("signupForm")[0];
-				var centralView = document.getElementsByClassName("centralView")[0];
-				centralView.removeChild(form);
-				alert("Success ! you will soon receive a mail to confirm your registration");
-				document.location.href="acceuil";
-				</script>
-			<?php
-			}
-		?>
+		}
+	?>
 
 </div>
