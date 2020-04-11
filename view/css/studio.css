@@ -6,33 +6,28 @@
 /* ---------- ---------- ---------- ---------- ---------- */
 
 #displayContainer {
-	border: 2px solid blue;
-
-	display: flex;
-	/* order: 1; */
-	width: 1024px;
-	height: 768px;
 }
 
-#displayContainer #video {
-	border: 2px solid red;
-
+#videoLayer {
 	position: absolute;
-	top: 0px;
+	top: 6vh; /*size of menu bar*/
 	left: 0px;
-	width: 1024px;
-	height: 768px;
 	z-index: 1;
 }
+#videoLayer video {
+	margin: 0;
+	padding: 0;
+}
 
-#displayContainer #videoMask {
-	border: 10px solid green;
-
+#calqueLayer {
 	position: absolute;
-	top: 0px;
+	top: 6vh; /*size of menu bar*/
 	left: 0px;
-	width: 1024px;
-	height: 768px;
 	z-index: 2;
+}
 
+/* ---------- ---------- ---------- ---------- ---------- */
+/* FORM */
+.hiddenForm {
+	display: none;
 }

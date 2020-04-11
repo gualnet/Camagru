@@ -1,12 +1,14 @@
 <div class="centralView">
-	<div id="displayContainer" class="container-fluid">
-		<video id="video"></video>
-			<div id="videoMask"></div>
-			<canvas id="photo"></canvas>
+	<div id="displayContainer">
+		<div id="calqueLayer"></div>
+		<div id="videoLayer">
+			<video id="video"></video>
+		</div>
+		<canvas id="photoLayer"></canvas>
 	</div> <!-- display-container -->
 
 	<div id="buttonContainer" class="container-fluid">
-			<button id="addPicBtn" for="uploadInput" class="btn btn-secondary btn-sm">Add your picture</button>
+		<label id="addPicBtn" for="uploadInput" class="btn btn-secondary btn-sm">Add your picture</label>
 			<button id="takePicBtn" class="btn btn-secondary-outlined btn-sm" disabled>Prendre une photo</button>
 	</div>
 	<div id="galerieContainer" class="container-fluid">
@@ -47,22 +49,20 @@
 
 
 <script type="text/javascript">
+	const media = {}; // contain data related to the video stream
 	startVideoStream();
 	async function startVideoStream() {
-		const media = {
-			width: 1024,
-			height: 768,
-			stream: undefined
-		};
+		
 
-		media.stream = await navigator.mediaDevices.getUserMedia({
-			video: true,
-			width: media.width,
-			heigth: media.height,
-		});
+		media.stream = await navigator.mediaDevices.getUserMedia({ video: true });
+		const {heigth, width, aspectRatio} = media.stream.getVideoTracks()[0].getSettings()
+		media.height = heigth;
+		media.width = width;
+		media.aspectRatio = aspectRatio;
+
 		const video = document.querySelector("#video");
-		const photo = document.querySelector("#photo");
-		const videoMask = document.querySelector("#videoMask");
+		const photo = document.querySelector("#photoLayer");
+		const calque = document.querySelector("#calqueLayer");
 
 		// Older browsers may not have srcObject
 		if ('srcObject' in video) {
@@ -77,12 +77,16 @@
 			video.src = URL.createObjectURL(media.stream);
 		}
 
+		// resize the video to half window width
+		const windowWidth = window.innerWidth;
+		media.width = (windowWidth * 50 / 100);
+		media.height = media.height / media.aspectRatio;
 		video.setAttribute("width", media.width);
 		video.setAttribute("height", media.height);
 		photo.setAttribute("width", media.width);
 		photo.setAttribute("height", media.height);
-		videoMask.setAttribute("width", media.width);
-		videoMask.setAttribute("height", media.height);
+		calque.setAttribute("width", media.width);
+		calque.setAttribute("height", media.height);
 			
 		// then press play :)
 		video.play();
@@ -106,8 +110,8 @@
 		btnTakePic.disabled = false;
 		btnTakePic.className = "btn btn-secondary btn-sm";
 
-		const videoMask = document.querySelector("#videoMask");
-		videoMask.innerHTML = "";
+		const calqueLayer = document.querySelector("#calqueLayer");
+		calqueLayer.innerHTML = "";
 
 		const upLayer_img = document.createElement("img");
 		const videoW = document.querySelector("#video").clientWidth;
@@ -121,7 +125,7 @@
 			upLayer_img.setAttribute("height", videoH);
 		}
 		upLayer_img.setAttribute("src", calcUrl);
-		videoMask.appendChild(upLayer_img);
+		calqueLayer.appendChild(upLayer_img);
 	}
 
 	function showFile(files) {
@@ -137,17 +141,16 @@
 			img.file = file;
 
 			const image = document.getElementsByClassName("uplObj");
+
+			const videoLayer = document.querySelector("#videoLayer");
 			if (image[0]) {
-				const videoBox = document.getElementsByClassName("videoBox");
-				videoBox[0].removeChild(image[0]);
+				videoLayer[0].removeChild(image[0]);
 			}
+			const imgElement = videoLayer.appendChild(img);
+			imgElement.style.width = media.width;
+			imgElement.style.heigth = media.height;
 
-			const videoBox = document.getElementsByClassName("videoBox");
-			document.querySelector(".videoBox").appendChild(img);
-
-			const upperLayer = document.querySelector(".upperLayer");
 			const calcs = document.getElementsByClassName("calcImg");
-			upperLayer.innerHTML = "";
 			for (i = 0; i < calcs.length; i++) {
 				calcs[i].style.border = "none";
 				calcs[i].style.opacity = "0.3";
@@ -164,4 +167,8 @@
 			video.style.display = "none";
 		}
 	}
+
+	function takePic() {
+		console.log('take pic');
+	};
 </script>
