@@ -1,16 +1,29 @@
 <div class="centralView">
-	<div id="displayContainer">
-		<div id="calqueLayer"></div>
-		<div id="videoLayer">
-			<video id="video"></video>
-		</div>
-		<canvas id="photoLayer"></canvas>
-	</div> <!-- display-container -->
+	<div id="firstColumnContainer">
+		<div id="displayContainer">
+			<div id="calqueLayer"></div>
+			<div id="videoLayer">
+				<video id="video"></video>
+			</div>
+			<canvas id="photoLayer"></canvas>
+		</div> <!-- display-container -->
 
-	<div id="buttonContainer" class="container-fluid">
-		<label id="addPicBtn" for="uploadInput" class="btn btn-secondary btn-sm">Add your picture</label>
-			<button id="takePicBtn" class="btn btn-secondary-outlined btn-sm" disabled>Prendre une photo</button>
+		<div id="buttonContainer" class="container-fluid">
+			<label id="addPicBtn" for="uploadInput" class="btn btn-secondary btn-sm">Add your picture</label>
+				<label id="takePicBtn" class="btn btn-secondary btn-sm disabled" disabled>Prendre une photo</button>
+		</div>
+
+		<div id="calquesContainer">
+			<?php
+			if (isset($calcsMiniUrl)) {
+				for ($i = 0; $i < count($calcsMiniUrl); $i++) {
+					echo "<img class=\"calcImg\" src=\"" . $calcsMiniUrl[$i] . "\" onclick=\"calcSelector(this)\"/>";
+				}
+			}
+			?>
+		</div>
 	</div>
+	
 	<div id="galerieContainer" class="container-fluid">
 		<?php
 		if (isset($userPics)) {
@@ -29,15 +42,7 @@
 		?>
 	</div>
 
-	<div class="calquesBox">
-		<?php
-		if (isset($calcsUrl)) {
-			for ($i = 0; $i < count($calcsUrl); $i++) {
-				echo "<img class=\"calcImg\" src=\"" . $calcsUrl[$i] . "\" onclick=\"calcSelector(this)\"/>";
-			}
-		}
-		?>
-	</div>
+
 
 </div>
 <form class="hiddenForm" method="POST" action="/pages/picRegistration">
@@ -50,10 +55,10 @@
 
 <script type="text/javascript">
 	const media = {}; // contain data related to the video stream
+	
+	// on page load start the video stream
 	startVideoStream();
 	async function startVideoStream() {
-		
-
 		media.stream = await navigator.mediaDevices.getUserMedia({ video: true });
 		const {heigth, width, aspectRatio} = media.stream.getVideoTracks()[0].getSettings()
 		media.height = heigth;
@@ -80,22 +85,25 @@
 		// resize the video to half window width
 		const windowWidth = window.innerWidth;
 		media.width = (windowWidth * 50 / 100);
-		media.height = media.height / media.aspectRatio;
+		media.height = media.width / media.aspectRatio;
 		video.setAttribute("width", media.width);
 		video.setAttribute("height", media.height);
 		photo.setAttribute("width", media.width);
 		photo.setAttribute("height", media.height);
 		calque.setAttribute("width", media.width);
 		calque.setAttribute("height", media.height);
-			
-		// then press play :)
+
+		const firstColumnElem = document.getElementById("firstColumnContainer");
+		firstColumnElem.style.maxWidth = media.width;
+
+		// and press play
 		video.play();
 	};
 
 
 	function calcSelector(me) {
 		const calcs = document.getElementsByClassName("calcImg");
-		const calcUrl = me.getAttribute("src");
+		const calcUrl = me.getAttribute("src").replace("_origin", "");
 		//je set la visualisation de la selection du calc
 		for (i = 0; i < calcs.length; i++) {
 			calcs[i].style.border = "none";

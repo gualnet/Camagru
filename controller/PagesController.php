@@ -244,8 +244,7 @@ class PagesController extends Controller
 
 	function studio()
 	{
-		if($_SESSION["user_id"] === "none")
-		{
+		if($_SESSION["user_id"] === "none") {
 			header("location:login");
 		}
 		$this->loadModel("Pictures");
@@ -254,17 +253,20 @@ class PagesController extends Controller
 		$retUserPics = $this->Pictures->getPics($_SESSION["user_id"]);
 		$userPics = array();
 		$calcsUrl = array();
-		if ($retUserPics != false)
-		{
+		$calcsMiniUrl = array();
+		
+		if ($retUserPics != false) {
 			for ($i = 0; $i < count($retUserPics); $i++)
 				$userPics[] .= $retUserPics[$i]->file_url;
 			$this->setVars("userPics", $userPics);
 		}
-		if($retCalcs != false)
-		{
-			for($i = 0; $i < count($retCalcs); $i++)
+		if($retCalcs != false) {
+			for($i = 0; $i < count($retCalcs); $i++) {
 				$calcsUrl[] .= $retCalcs[$i]->file_url;
+				$calcsMiniUrl[] .= str_replace(".png", "_origin.png", $retCalcs[$i]->file_url);
+			}
 			$this->setVars("calcsUrl", $calcsUrl);
+			$this->setVars("calcsMiniUrl", $calcsMiniUrl);
 		}
 		$this->render("studio");
 	}
