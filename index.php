@@ -5,7 +5,7 @@
 
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
-	define("DEBUG_MODE", false);
+	define("DEBUG_MODE", true);
 
 	define('DIRSEP', DIRECTORY_SEPARATOR);
 	define('HTTP_HOST', $_SERVER["HTTP_HOST"]);
@@ -15,7 +15,7 @@
 	define('BASE_URL', dirname(WEBROOT).DIRSEP);
 
 	require CORE."includes.php";
-
+	
 	if(!strstr($_SERVER["REQUEST_URI"], "ajax"))
 	{
 		require ROOT."view/pages/header.php";

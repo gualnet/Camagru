@@ -1,231 +1,207 @@
 <div class="centralView">
-	<div class="upperLayer">
-	</div>
+	<div id="firstColumnContainer">
+		<div id="displayContainer">
+			<div id="calqueLayer"></div>
+			<div id="videoLayer">
+				<video id="video"></video>
+			</div>
+			<canvas id="photoLayer"></canvas>
+		</div> <!-- display-container -->
 
-	<div class="videoBox">
-		<div class="preview">
-			<video id="video"></video>
-			<canvas id="photo"></canvas>
+		<div id="buttonContainer" class="container-fluid">
+			<label id="addPicBtn" for="uploadInput" class="btn btn-secondary btn-sm">Add your picture</label>
+<label id="takePictureBtn" class="btn btn-secondary btn-sm disabled" disabled onclick="takePicture()">Prendre une photo</button>
 		</div>
-	</div>
-	<div class="btnBox">
-		<div id="uplBox">
-			<label id="uplLbl" for="uplInp" style="width: 150px; height: 40px;">Add your picture</label>
-		</div>
-		<ul>
-			<li id="picTakeBtn">Prendre une photo</li>
-		</ul>
-	</div>
-	<div class="galerieBox">
-		<?php
-			if(isset($userPics))
-			{
-				$i = count($userPics) - 1;
-				while($i >= 0)
-				{
-					echo "<div class=\"imgWrap\" >";
-					echo "<img src=\"".$userPics[$i]."\" />";
-					echo "<form method=\"POST\" action=\"studioDelPic\">";
-					echo "<input name=\"pic\" value=\"".$userPics[$i]."\"/>";
-					echo "<button>Delete</button>";
-					echo "</form>";
-					echo "</div>";
-					$i--;
-				}
-			}
-		?>
-	</div>
 
-	<div class="calquesBox">
+		<div id="calquesContainer">
 			<?php
-			if(isset($calcsUrl))
-			{
-				for($i=0; $i < count($calcsUrl); $i++)
-				{
-					echo "<img class=\"calcImg\" src=\"".$calcsUrl[$i]."\" onclick=\"calcSelector(this)\"/>";
+			if (isset($calcsMiniUrl)) {
+				for ($i = 0; $i < count($calcsMiniUrl); $i++) {
+					echo "<img class=\"calcImg\" src=\"" . $calcsMiniUrl[$i] . "\" onclick=\"calcSelector(this)\"/>";
 				}
 			}
 			?>
+		</div>
 	</div>
+	
+	<div id="galerieContainer" class="container-fluid">
+		<?php
+		if (isset($userPics)) {
+			$i = count($userPics) - 1;
+			while ($i >= 0) {
+				echo "<div class=\"imgWrap\" >";
+				echo "<img src=\"" . $userPics[$i] . "\" />";
+				echo "<form method=\"POST\" action=\"studioDelPic\">";
+				echo "<input name=\"pic\" value=\"" . $userPics[$i] . "\"/>";
+				echo "<button>Delete</button>";
+				echo "</form>";
+				echo "</div>";
+				$i--;
+			}
+		}
+		?>
+	</div>
+
+
 
 </div>
 <form class="hiddenForm" method="POST" action="/pages/picRegistration">
-	<input id="dataSendPic" type="image/png" name="picData" value="none"/>
-	<input id="dataSendCalc" type="image/png" name="calcData" value="none"/>
-	<input id="uplInp" type="file" name="uplData" accept="image/png, image/jpeg, image/jpg" onchange="showFile(this.files)"/>
+	<input id="dataSendPic" type="image/png" name="picData" value="none1" />
+	<input id="dataSendCalc" type="image/png" name="calcData" value="none2" />
+	<input id="uploadInput" type="file" name="uplData" accept="image/png, image/jpeg, image/jpg" onchange="showFile(this.files)" />
 </form>
 
+
+
 <script type="text/javascript">
+	const media = {}; // contain data related to the video stream
+	
+	// on page load start the video stream
+	startVideoStream();
+	async function startVideoStream() {
+		media.stream = await navigator.mediaDevices.getUserMedia({ video: true });
+		const {heigth, width, aspectRatio} = media.stream.getVideoTracks()[0].getSettings()
+		media.height = heigth;
+		media.width = width;
+		media.aspectRatio = aspectRatio;
 
-(function()
-{
-	var streaming = false,
-	video		= document.querySelector("#video"),
-	photo		= document.querySelector("#photo"),
-	picTakeBtn	= document.querySelector("#picTakeBtn"),
-	width 		= 1024,
-	height 		= 0;
+		const video = document.querySelector("#video");
+		const photo = document.querySelector("#photoLayer");
+		const calque = document.querySelector("#calqueLayer");
 
-	navigator.getMedia	= (navigator.getUserMedia ||
-		navigator.webkitGetUserMedia ||
-		navigator.mozGetUserMedia ||
-		navigator.msGetUserMedia);
-
-	navigator.getMedia(
-	{
-		video: true,
-		audio: false
-	},
-function(stream)
-{
-	console.log("stream:"+stream);
-	if (navigator.mozGetUserMedia)
-	{
-		video.mozSrcObject = stream;
-	}
-	else
-	{
-		var vendorURL = window.URL || window.webkitURL;
-		video.src = vendorURL.createObjectURL(stream);
-	}
-	video.play();
-},
-function(err)
-{
-	console.log("An error occured! " + err);
-	var video = document.getElementsByClassName("preview");
-	var videoBox = document.getElementsByClassName("videoBox");
-	videoBox[0].removeChild(video[0]);
-	photo = null;
-});
-
-video.addEventListener("canplay",
-function(ev)
-{
-	if (!streaming)
-	{
-		height = video.videoHeight / (video.videoWidth/width);
-		video.setAttribute("width", width);
-		video.setAttribute("height", height);
-		photo.setAttribute("width", width);
-		photo.setAttribute("height", height);
-		streaming = true;
-	}
-},false);
-
-picTakeBtn.addEventListener("click",
-function(ev)
-{
-	if(document.querySelector("#uplInp").value != "")
-	{
-		var uplobj = document.querySelector(".uplobj");
-		if(uplobj)
-		{
-			var uplVal = uplobj.getAttribute("src");
-			if(uplVal === null)
-			{
-				alert("uplVal="+uplVal+" Veuillez uploder une photo ou activer votre webcam");
+		// Older browsers may not have srcObject
+		if ('srcObject' in video) {
+			try {
+				video.srcObject = media.stream;
+			} catch (error) {
+				console.error(error);
+				// Even if they do, they may only support MediaStream
+				video.src = URL.createObjectURL(media.stream);
 			}
-			else
-			{
-				var picData = document.querySelector(".uplObj").getAttribute("src");
-				document.querySelector("#dataSendPic").setAttribute("value", picData);
-				document.querySelector(".hiddenForm").submit();
-			}
-		}
-	}
-	else if(photo != null)
-	{
-		photo.getContext("2d", {alpha: true}).drawImage(video, 0, 0, width, height);
-		var data = photo.toDataURL("image/png");
-		photo.setAttribute("src", data);
-		var picData = document.querySelector("#photo").getAttribute("src");
-		document.querySelector("#dataSendPic").setAttribute("value", picData);
-		document.querySelector(".hiddenForm").submit();
-		ev.preventDefault();
-	}
-},false);
-})();
-
-
-function calcSelector(me)
-{
-	var calcs = document.getElementsByClassName("calcImg");
-	var calcUrl = me.getAttribute("src");
-	//je set la visualisation de la selection du calc
-	for (i = 0; i < calcs.length; i++)
-	{
-		calcs[i].style.border = "none";
-		calcs[i].style.opacity = "0.3";
-	}
-	me.style.border = "1px dotted #ffffff";
-	me.style.opacity = "1";
-	var calcData = me.getAttribute("src");
-	document.querySelector("#dataSendCalc").setAttribute("value", calcData);
-
-	var btnTakePic = document.querySelector(".btnBox ul");
-	btnTakePic.style.display = "block";
-
-	var upperLayer = document.querySelector(".upperLayer");
-	upperLayer.innerHTML = "";
-	var upLayer_img = document.createElement("img");
-	var videoW = document.querySelector("#video").clientWidth;
-	var videoH = document.querySelector("#video").clientHeight;
-	var uplObj = document.querySelector(".uplObj");
-	if(videoW == 0 && videoH == 0)
-	{
-		upLayer_img.setAttribute("width", uplObj.clientWidth);
-		upLayer_img.setAttribute("height", uplObj.clientHeight);
-	}
-	else
-	{
-		upLayer_img.setAttribute("width", videoW);
-		upLayer_img.setAttribute("height", videoH);
-	}
-	upLayer_img.setAttribute("src", calcUrl);
-	upperLayer.appendChild(upLayer_img);
-}
-
-function showFile(files)
-{
-	for (var i = 0; i < files.length; i++)
-	{
-		var file = files[i];
-		var imageType = /^image\//;
-
-		if (!imageType.test(file.type))
-		{
-			continue;
-		}
-		var img = document.createElement("img");
-		img.classList.add("uplObj");
-		img.file = file;
-
-		var image = document.getElementsByClassName("uplObj");
-		if(image[0])
-		{
-			var videoBox = document.getElementsByClassName("videoBox");
-			videoBox[0].removeChild(image[0]);
+		} else {
+			video.src = URL.createObjectURL(media.stream);
 		}
 
-		var videoBox = document.getElementsByClassName("videoBox");
-		document.querySelector(".videoBox").appendChild(img);
+		// resize the video to half window width
+		const windowWidth = window.innerWidth;
+		media.width = (windowWidth * 50 / 100);
+		media.height = media.width / media.aspectRatio;
+		video.setAttribute("width", media.width);
+		video.setAttribute("height", media.height);
+		photo.setAttribute("width", media.width);
+		photo.setAttribute("height", media.height);
+		calque.setAttribute("width", media.width);
+		calque.setAttribute("height", media.height);
 
-		var upperLayer = document.querySelector(".upperLayer");
-		var calcs = document.getElementsByClassName("calcImg");
-		upperLayer.innerHTML = "";
-		for (i = 0; i < calcs.length; i++)
-		{
+		const firstColumnElem = document.getElementById("firstColumnContainer");
+		firstColumnElem.style.maxWidth = media.width;
+
+		// and press play
+		video.play();
+	};
+
+
+	function calcSelector(me) {
+		const calcs = document.getElementsByClassName("calcImg");
+		const calcUrl = me.getAttribute("src").replace("_origin", "");
+		//je set la visualisation de la selection du calc
+		for (i = 0; i < calcs.length; i++) {
 			calcs[i].style.border = "none";
 			calcs[i].style.opacity = "0.3";
 		}
+		me.style.border = "1px dotted #ffffff";
+		me.style.opacity = "1";
+		const calcData = me.getAttribute("src");
+		document.querySelector("#dataSendCalc").setAttribute("value", calcData);
 
-		var reader = new FileReader();
-		reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
-		reader.readAsDataURL(file);
-		var video = document.querySelector("#video");
-		video.style.display = "none";
+		const btnTakePic = document.querySelector("#takePictureBtn");
+		btnTakePic.disabled = false;
+		btnTakePic.className = "btn btn-secondary btn-sm";
+
+		const calqueLayer = document.querySelector("#calqueLayer");
+		calqueLayer.innerHTML = "";
+
+		const upLayer_img = document.createElement("img");
+		const videoW = document.querySelector("#video").clientWidth;
+		const videoH = document.querySelector("#video").clientHeight;
+		const uploadObject = document.querySelector(".uploadObject");
+		if (videoW == 0 && videoH == 0) {
+			upLayer_img.setAttribute("width", uploadObject.clientWidth);
+			upLayer_img.setAttribute("height", uploadObject.clientHeight);
+		} else {
+			upLayer_img.setAttribute("width", videoW);
+			upLayer_img.setAttribute("height", videoH);
+		}
+		upLayer_img.setAttribute("src", calcUrl);
+		calqueLayer.appendChild(upLayer_img);
 	}
-}
 
+	function showFile(files) {
+		for (let i = 0; i < files.length; i++) {
+			const file = files[i];
+			const imageType = /^image\//;
+
+			if (!imageType.test(file.type)) {
+				continue;
+			}
+			const img = document.createElement("img");
+			img.classList.add("uploadObject");
+			img.file = file;
+
+			const image = document.getElementsByClassName("uploadObject");
+
+			const videoLayer = document.querySelector("#videoLayer");
+			if (image[0]) {
+				videoLayer[0].removeChild(image[0]);
+			}
+			const imgElement = videoLayer.appendChild(img);
+			imgElement.style.width = media.width;
+			imgElement.style.heigth = media.height;
+
+			const calcs = document.getElementsByClassName("calcImg");
+			for (i = 0; i < calcs.length; i++) {
+				calcs[i].style.border = "none";
+				calcs[i].style.opacity = "0.3";
+			}
+
+			const reader = new FileReader();
+			reader.onload = (function(aImg) {
+				return function(e) {
+					aImg.src = e.target.result;
+				};
+			})(img);
+			reader.readAsDataURL(file);
+			const video = document.querySelector("#video");
+			video.style.display = "none";
+		}
+	}
+
+	function takePicture(event) {
+		const btn = document.querySelector("#takePictureBtn");
+		if (btn.disabled !== false) return;
+
+		const photo = document.querySelector("#photoLayer");
+
+		if(document.querySelector("#uploadInput").value != "") {
+			const uploadObject = document.querySelector(".uploadObject");
+			if(uploadObject) {
+				const uploadedValue = uploadObject.getAttribute("src");
+				if(uploadedValue === null) {
+					alert("Value="+uploadedValue+" Veuillez uploder une photo ou activer votre webcam");
+				} else {
+					const picData = document.querySelector(".uploadObject").getAttribute("src");
+					document.querySelector("#dataSendPic").setAttribute("value", picData);
+					document.querySelector(".hiddenForm").submit();
+				}
+			}
+		} else if(photo != null) {
+			photo.getContext("2d", {alpha: true}).drawImage(video, 0, 0, media.width, media.height);
+			const data = photo.toDataURL("image/png");
+			photo.setAttribute("src", data);
+			const picData = photo.getAttribute("src");
+			document.querySelector("#dataSendPic").setAttribute("value", picData);
+			document.querySelector(".hiddenForm").submit();
+			btn.preventDefault();
+		}
+	};
 </script>

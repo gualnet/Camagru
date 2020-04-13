@@ -29,7 +29,7 @@ class PagesController extends Controller
 		$this->render("profil");
 	}
 
-	private function checkPwdCplx($inputPwd)	//test password complexity
+	private function checkPasswordComplexity($inputPwd)
 	{
 		if(($c = strlen($inputPwd)) < 6)
 			return "NOK";
@@ -61,7 +61,7 @@ class PagesController extends Controller
 			$this->loadModel("Users");
 			$_POST["login"] = $this->Users->filterNewInput($_POST["login"]);
 			$_POST["mail"] = $this->Users->filterNewInput($_POST["mail"]);
-			if($this->checkPwdCplx($_POST["pwd"]) === "NOK")
+			if($this->checkPasswordComplexity($_POST["pwd"]) === "NOK")
 			{
 				$this->setVars("badPwd", true);
 			}
@@ -82,7 +82,7 @@ class PagesController extends Controller
 		}
 		else if($_POST !== array())
 		{
-			$this->e404("JOUE PAS AU CON !!!!");
+			$this->e404("NON NON :) !!!!");
 		}
 	}
 
@@ -152,7 +152,7 @@ class PagesController extends Controller
 			if($ret === array())
 				header("Location:../acceuil");
 
-			if($this->checkPwdCplx($_POST["pwd"]) === "NOK")
+			if($this->checkPasswordComplexity($_POST["pwd"]) === "NOK")
 			{
 				$this->setVars("badPwd", true);
 			}
@@ -244,8 +244,7 @@ class PagesController extends Controller
 
 	function studio()
 	{
-		if($_SESSION["user_id"] === "none")
-		{
+		if($_SESSION["user_id"] === "none") {
 			header("location:login");
 		}
 		$this->loadModel("Pictures");
@@ -254,17 +253,20 @@ class PagesController extends Controller
 		$retUserPics = $this->Pictures->getPics($_SESSION["user_id"]);
 		$userPics = array();
 		$calcsUrl = array();
-		if ($retUserPics != false)
-		{
+		$calcsMiniUrl = array();
+		
+		if ($retUserPics != false) {
 			for ($i = 0; $i < count($retUserPics); $i++)
 				$userPics[] .= $retUserPics[$i]->file_url;
 			$this->setVars("userPics", $userPics);
 		}
-		if($retCalcs != false)
-		{
-			for($i = 0; $i < count($retCalcs); $i++)
+		if($retCalcs != false) {
+			for($i = 0; $i < count($retCalcs); $i++) {
 				$calcsUrl[] .= $retCalcs[$i]->file_url;
+				$calcsMiniUrl[] .= str_replace(".png", "_origin.png", $retCalcs[$i]->file_url);
+			}
 			$this->setVars("calcsUrl", $calcsUrl);
+			$this->setVars("calcsMiniUrl", $calcsMiniUrl);
 		}
 		$this->render("studio");
 	}

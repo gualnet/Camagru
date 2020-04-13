@@ -2,9 +2,8 @@
 
 session_start();
 
-error_reporting(E_ALL);	//3 lignes pour le debug
-ini_set('display_errors', 1);
-define("DEBUG_MODE", false);
+// error_reporting(E_ALL);	//3 lignes pour le debug
+// ini_set('display_errors', 1);
 
 define('DIRSEP', DIRECTORY_SEPARATOR);
 define('HTTP_HOST', $_SERVER["HTTP_HOST"]);
