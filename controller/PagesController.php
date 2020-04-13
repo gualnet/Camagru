@@ -29,7 +29,7 @@ class PagesController extends Controller
 		$this->render("profil");
 	}
 
-	private function checkPwdCplx($inputPwd)	//test password complexity
+	private function checkPasswordComplexity($inputPwd)
 	{
 		if(($c = strlen($inputPwd)) < 6)
 			return "NOK";
@@ -61,7 +61,7 @@ class PagesController extends Controller
 			$this->loadModel("Users");
 			$_POST["login"] = $this->Users->filterNewInput($_POST["login"]);
 			$_POST["mail"] = $this->Users->filterNewInput($_POST["mail"]);
-			if($this->checkPwdCplx($_POST["pwd"]) === "NOK")
+			if($this->checkPasswordComplexity($_POST["pwd"]) === "NOK")
 			{
 				$this->setVars("badPwd", true);
 			}
@@ -152,7 +152,7 @@ class PagesController extends Controller
 			if($ret === array())
 				header("Location:../acceuil");
 
-			if($this->checkPwdCplx($_POST["pwd"]) === "NOK")
+			if($this->checkPasswordComplexity($_POST["pwd"]) === "NOK")
 			{
 				$this->setVars("badPwd", true);
 			}

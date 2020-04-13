@@ -14,8 +14,7 @@
 
 /* ---------- ---------- ---------- ---------- ---------- */
 
-#displayContainer {
-}
+#displayContainer {}
 
 #videoLayer {
 	position: absolute;
@@ -46,12 +45,6 @@
 	flex-direction: row;
 	justify-content: space-evenly;
 }
-/* ---------- ---------- ---------- ---------- ---------- */
-
-#galerieContainer {
-	/* border: 1px solid red; */
-}
-
 
 /* ---------- ---------- ---------- ---------- ---------- */
 
@@ -62,6 +55,7 @@
 	height: 24vh;
 	overflow: scroll;
 }
+
 #calquesContainer img {
 	border-top: 1px solid lightgray;
 
@@ -71,10 +65,7 @@
 
 /* ---------- ---------- ---------- ---------- ---------- */
 
-
-
-
 /* FORM */
 .hiddenForm {
-	display: none;
+	/* display: none; */
 }

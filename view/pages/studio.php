@@ -10,7 +10,7 @@
 
 		<div id="buttonContainer" class="container-fluid">
 			<label id="addPicBtn" for="uploadInput" class="btn btn-secondary btn-sm">Add your picture</label>
-				<label id="takePicBtn" class="btn btn-secondary btn-sm disabled" disabled>Prendre une photo</button>
+<label id="takePictureBtn" class="btn btn-secondary btn-sm disabled" disabled onclick="takePicture()">Prendre une photo</button>
 		</div>
 
 		<div id="calquesContainer">
@@ -46,8 +46,8 @@
 
 </div>
 <form class="hiddenForm" method="POST" action="/pages/picRegistration">
-	<input id="dataSendPic" type="image/png" name="picData" value="none" />
-	<input id="dataSendCalc" type="image/png" name="calcData" value="none" />
+	<input id="dataSendPic" type="image/png" name="picData" value="none1" />
+	<input id="dataSendCalc" type="image/png" name="calcData" value="none2" />
 	<input id="uploadInput" type="file" name="uplData" accept="image/png, image/jpeg, image/jpg" onchange="showFile(this.files)" />
 </form>
 
@@ -114,7 +114,7 @@
 		const calcData = me.getAttribute("src");
 		document.querySelector("#dataSendCalc").setAttribute("value", calcData);
 
-		const btnTakePic = document.querySelector("#takePicBtn");
+		const btnTakePic = document.querySelector("#takePictureBtn");
 		btnTakePic.disabled = false;
 		btnTakePic.className = "btn btn-secondary btn-sm";
 
@@ -124,10 +124,10 @@
 		const upLayer_img = document.createElement("img");
 		const videoW = document.querySelector("#video").clientWidth;
 		const videoH = document.querySelector("#video").clientHeight;
-		const uplObj = document.querySelector(".uplObj");
+		const uploadObject = document.querySelector(".uploadObject");
 		if (videoW == 0 && videoH == 0) {
-			upLayer_img.setAttribute("width", uplObj.clientWidth);
-			upLayer_img.setAttribute("height", uplObj.clientHeight);
+			upLayer_img.setAttribute("width", uploadObject.clientWidth);
+			upLayer_img.setAttribute("height", uploadObject.clientHeight);
 		} else {
 			upLayer_img.setAttribute("width", videoW);
 			upLayer_img.setAttribute("height", videoH);
@@ -145,10 +145,10 @@
 				continue;
 			}
 			const img = document.createElement("img");
-			img.classList.add("uplObj");
+			img.classList.add("uploadObject");
 			img.file = file;
 
-			const image = document.getElementsByClassName("uplObj");
+			const image = document.getElementsByClassName("uploadObject");
 
 			const videoLayer = document.querySelector("#videoLayer");
 			if (image[0]) {
@@ -176,7 +176,32 @@
 		}
 	}
 
-	function takePic() {
-		console.log('take pic');
+	function takePicture(event) {
+		const btn = document.querySelector("#takePictureBtn");
+		if (btn.disabled !== false) return;
+
+		const photo = document.querySelector("#photoLayer");
+
+		if(document.querySelector("#uploadInput").value != "") {
+			const uploadObject = document.querySelector(".uploadObject");
+			if(uploadObject) {
+				const uploadedValue = uploadObject.getAttribute("src");
+				if(uploadedValue === null) {
+					alert("Value="+uploadedValue+" Veuillez uploder une photo ou activer votre webcam");
+				} else {
+					const picData = document.querySelector(".uploadObject").getAttribute("src");
+					document.querySelector("#dataSendPic").setAttribute("value", picData);
+					document.querySelector(".hiddenForm").submit();
+				}
+			}
+		} else if(photo != null) {
+			photo.getContext("2d", {alpha: true}).drawImage(video, 0, 0, media.width, media.height);
+			const data = photo.toDataURL("image/png");
+			photo.setAttribute("src", data);
+			const picData = photo.getAttribute("src");
+			document.querySelector("#dataSendPic").setAttribute("value", picData);
+			document.querySelector(".hiddenForm").submit();
+			btn.preventDefault();
+		}
 	};
 </script>
