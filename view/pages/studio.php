@@ -1,16 +1,37 @@
 <div class="centralView">
-	<div id="firstColumnContainer">
+	<div id="firstColumn">
 		<div id="displayContainer">
 			<div id="calqueLayer"></div>
 			<div id="videoLayer">
 				<video id="video"></video>
 			</div>
 			<canvas id="photoLayer"></canvas>
-		</div> <!-- display-container -->
+		</div>
 
 		<div id="buttonContainer" class="container-fluid">
 			<label id="addPicBtn" for="uploadInput" class="btn btn-secondary btn-sm">Add your picture</label>
-<label id="takePictureBtn" class="btn btn-secondary btn-sm disabled" disabled onclick="takePicture()">Prendre une photo</button>
+			<div><label id="takePictureBtn" class="btn btn-secondary btn-sm disabled" disabled onclick="takePicture()">Prendre une photo</button></div>
+			<div class="dropdown">
+				<button class="btn btn-sm btn-secondary dropdown-toggle" type="button" onclick="toggleDropDownMenu()" aria-haspopup="true" aria-expanded="false">
+					Dropdown button
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<!-- <a class="dropdown-item" href="#">Action</a>
+					<a class="dropdown-item" href="#">Another action</a>
+					<a class="dropdown-item" href="#">Something else here</a> -->
+					<?php
+					$text = str_replace(".png", "", explode("/", $calcsUrl[1])[3]);
+					echo "<a class=\"dropdown-item\" href='#' onclick=\"calcSelector2(this, $calcsUrl[1])\">$text</a>";
+						// if (isset($calcsMiniUrl)) {
+						// 	for ($i = 0; $i < count($calcsMiniUrl); $i++) {
+						// 		// echo "<img class=\"calcImg\" src=\"" . $calcsMiniUrl[$i] . "\" onclick=\"calcSelector(this)\"/>";
+						// 		$text = str_replace(".png", "", explode("/", $calcsUrl[$i])[3]);
+						// 		echo "<a class=\"dropdown-item\" onclick=\"calcSelector2(this, $calcsUrl[$i])\">$text</a>";
+						// 	}
+						// }
+					?>
+				</div>
+			</div>
 		</div>
 
 		<div id="calquesContainer">
@@ -23,24 +44,27 @@
 			?>
 		</div>
 	</div>
-	
-	<div id="galerieContainer" class="container-fluid">
-		<?php
-		if (isset($userPics)) {
-			$i = count($userPics) - 1;
-			while ($i >= 0) {
-				echo "<div class=\"imgWrap\" >";
-				echo "<img src=\"" . $userPics[$i] . "\" />";
-				echo "<form method=\"POST\" action=\"studioDelPic\">";
-				echo "<input name=\"pic\" value=\"" . $userPics[$i] . "\"/>";
-				echo "<button>Delete</button>";
-				echo "</form>";
-				echo "</div>";
-				$i--;
+
+	<div id="secondColumn">
+		<div id="galerieContainer" class="container-fluid">
+			<?php
+			if (isset($userPics)) {
+				$i = count($userPics) - 1;
+				while ($i >= 0) {
+					echo "<div class=\"imgWrap\" >";
+					echo "<img src=\"" . $userPics[$i] . "\" />";
+					echo "<form class=\"\" method=\"POST\" action=\"studioDelPic\">";
+					echo "<input id=\"deletePicInput\" name=\"pic\" value=\"" . $userPics[$i] . "\"/>";
+					echo "<button>Delete</button>";
+					echo "</form>";
+					echo "</div>";
+					$i--;
+				}
 			}
-		}
-		?>
+			?>
+		</div>
 	</div>
+	
 
 
 
@@ -86,32 +110,70 @@
 		const windowWidth = window.innerWidth;
 		media.width = (windowWidth * 50 / 100);
 		media.height = media.width / media.aspectRatio;
-		video.setAttribute("width", media.width);
-		video.setAttribute("height", media.height);
-		photo.setAttribute("width", media.width);
-		photo.setAttribute("height", media.height);
-		calque.setAttribute("width", media.width);
-		calque.setAttribute("height", media.height);
+		// video.setAttribute("width", media.width);
+		// video.setAttribute("height", media.height);
+		// photo.setAttribute("width", media.width);
+		// photo.setAttribute("height", media.height);
+		// calque.setAttribute("width", media.width);
+		// calque.setAttribute("height", media.height);
 
-		const firstColumnElem = document.getElementById("firstColumnContainer");
-		firstColumnElem.style.maxWidth = media.width;
+		// const firstColumnElem = document.getElementById("firstColumnContainer");
+		// firstColumnElem.style.maxWidth = media.width;
 
 		// and press play
 		video.play();
 	};
 
-
-	function calcSelector(me) {
+	function calcSelector2(me, calcUrl) {
+		console.log(me, calcUrl);
 		const calcs = document.getElementsByClassName("calcImg");
-		const calcUrl = me.getAttribute("src").replace("_origin", "");
-		//je set la visualisation de la selection du calc
+		// const calcUrl = me.getAttribute("src").replace("_origin", "");
+		
+		// Make the selected img more visible
 		for (i = 0; i < calcs.length; i++) {
 			calcs[i].style.border = "none";
 			calcs[i].style.opacity = "0.3";
 		}
 		me.style.border = "1px dotted #ffffff";
 		me.style.opacity = "1";
-		const calcData = me.getAttribute("src");
+
+		const calcData = me.getAttribute("src").replace("_origin", "");
+		document.querySelector("#dataSendCalc").setAttribute("value", calcData);
+
+		const btnTakePic = document.querySelector("#takePictureBtn");
+		btnTakePic.disabled = false;
+		btnTakePic.className = "btn btn-secondary btn-sm";
+
+		const calqueLayer = document.querySelector("#calqueLayer");
+		calqueLayer.innerHTML = "";
+
+		const upLayer_img = document.createElement("img");
+		const videoW = document.querySelector("#video").clientWidth;
+		const videoH = document.querySelector("#video").clientHeight;
+		const uploadObject = document.querySelector(".uploadObject");
+		if (videoW == 0 && videoH == 0) {
+			upLayer_img.setAttribute("width", uploadObject.clientWidth);
+			upLayer_img.setAttribute("height", uploadObject.clientHeight);
+		} else {
+			upLayer_img.setAttribute("width", videoW);
+			upLayer_img.setAttribute("height", videoH);
+		}
+		upLayer_img.setAttribute("src", calcUrl);
+		calqueLayer.appendChild(upLayer_img);
+	}
+	function calcSelector(me) {
+		const calcs = document.getElementsByClassName("calcImg");
+		const calcUrl = me.getAttribute("src").replace("_origin", "");
+		
+		// Make the selected img more visible
+		for (i = 0; i < calcs.length; i++) {
+			calcs[i].style.border = "none";
+			calcs[i].style.opacity = "0.3";
+		}
+		me.style.border = "1px dotted #ffffff";
+		me.style.opacity = "1";
+
+		const calcData = me.getAttribute("src").replace("_origin", "");
 		document.querySelector("#dataSendCalc").setAttribute("value", calcData);
 
 		const btnTakePic = document.querySelector("#takePictureBtn");
@@ -176,12 +238,21 @@
 		}
 	}
 
-	function takePicture(event) {
+	async function takePicture(event) {
 		const btn = document.querySelector("#takePictureBtn");
 		if (btn.disabled !== false) return;
+		const videoLayer = document.getElementById("videoLayer");
+		console.log("VL", videoLayer.offsetWidth);
+		console.log("VL", videoLayer.offsetHeight);
 
+		console.log("VL", videoLayer.getAttribute("height"));
 		const photo = document.querySelector("#photoLayer");
-
+		photo.width = video.offsetWidth;
+		photo.height = video.offsetHeight;
+		// photo.width = media.width;
+		// photo.height = media.height;
+		console.log("media", media);
+		// return ;
 		if(document.querySelector("#uploadInput").value != "") {
 			const uploadObject = document.querySelector(".uploadObject");
 			if(uploadObject) {
@@ -195,13 +266,31 @@
 				}
 			}
 		} else if(photo != null) {
-			photo.getContext("2d", {alpha: true}).drawImage(video, 0, 0, media.width, media.height);
+			try {
+
+				// console.log("test video", video.offsetWidth)
+				// console.log("test photo", photo.offsetWidth)
+				photo.getContext("2d", {alpha: true}).drawImage(video, 0, 0, videoLayer.offsetWidth, videoLayer.offsetHeight);
+			} catch (error) {
+				console.error(error);
+			}
 			const data = photo.toDataURL("image/png");
 			photo.setAttribute("src", data);
+			// await sleep(10000);
 			const picData = photo.getAttribute("src");
 			document.querySelector("#dataSendPic").setAttribute("value", picData);
 			document.querySelector(".hiddenForm").submit();
-			btn.preventDefault();
+			
+			// btn.preventDefault();
 		}
 	};
+
+	function toggleDropDownMenu() {
+		const menuElem = document.querySelector(".dropdown-menu");
+		menuElem.style.display = (getComputedStyle(menuElem).display === "none") ? "block" : "none";
+	}
+
+	function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+	}
 </script>

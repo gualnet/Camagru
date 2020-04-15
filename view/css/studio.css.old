@@ -1,0 +1,192 @@
+.centralView
+{
+	border: 2px solid rgb(179, 16, 159);
+}
+
+/*---------#---------#---------#---------#---------#---------*/
+
+.upperLayer
+{
+	overflow: hidden;
+	/*background: rgba(35, 213, 126, 0.51);*/
+	z-index: 1;
+	grid-column: 1/12;
+	grid-row: 1/13;
+}
+.upperLayer img
+{
+	max-width: 54.45vw;
+	max-height: 100%;
+	/*background: rgba(213, 35, 35, 0.51);*/
+}
+
+
+/*---------#---------#---------#---------#---------#---------*/
+
+.videoBox
+{
+	border: 2px solid red;
+
+	background-color: beige;
+	overflow: scroll;
+	grid-column: 1/12;
+	grid-row: 1/13;
+}
+.videoBox video
+{
+	border: 2px solid red;
+
+	z-index: 0;
+	/* max-width: 54.45vw; */
+	/*max-height: 15vh;*/
+	height: auto;
+}
+.videoBox #photo
+{
+	display: none;
+}
+.btnBox #uplBox
+{
+	/*border: 2px solid #00ff32;*/
+	margin: 0px; padding: 0px;
+	width: 150px;
+	height: 40px;
+	/*grid-column: 1/2;*/
+	/*grid-row: 2;*/
+	transition-property: all;
+	transition-duration: 1s;
+	text-align: center;
+	background-color: #ebebf5;
+	color: #33b5e5;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.btnBox #uplLbl
+{
+	margin: 0px; padding: 0px;
+	width: 150px;
+	height: 40px;
+}
+#uplInp
+{
+	/*display: none;*/
+}
+.videoBox img
+{
+	/*margin: 0px; padding: 0px;*/
+	max-width: 54.45vw;
+	max-height: 100%;
+}
+
+/*---------#---------#---------#---------#---------#---------*/
+
+.btnBox
+{
+	display: flex;
+	overflow: visible;
+	border: 2px solid yellow;
+	grid-column: 1/12;
+	grid-row: 13;
+}
+.btnBox ul
+{
+	display: none;
+	margin: 0px; padding: 0px;
+	/*grid-column: 4/5;*/
+	/*grid-row: 2;*/
+}
+.btnBox li
+{
+	list-style-type: none;
+	margin: 0px; padding: 0px;
+	transition-property: all;
+	transition-duration: 1s;
+	width: 150px;
+	/*width: 20%;*/
+	margin-left: 40%;
+	padding: 8px;
+	text-align: center;
+	margin-bottom: 7px;
+	background-color: #ebebf5;
+	color: #33b5e5;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.btnBox li:hover
+{
+	list-style-type: none;
+	width: 200px;
+	margin-left: 30%;
+	background-color: #33b5e5;
+	color: #ebebf5;
+}
+
+/*---------#---------#---------#---------#---------#---------*/
+
+.galerieBox
+{
+	background-color: azure;
+	/*display: none;*/
+	grid-column: 12/21;
+	grid-row: 1/14;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	text-align: center;
+}
+.galerieBox:hover
+{
+	transition-property: all;
+	transition-duration: 0.5s;
+	box-shadow: 0px 0px 2px 1px rgba(163, 169, 195, 0.5);
+}
+.galerieBox .imgWrap
+{
+	margin-bottom: 2.5%;
+}
+.galerieBox img
+{
+	margin: 0px; padding: 0px;
+	max-width: 80%;
+	max-height: 100%;
+	/*margin-left: 5%;*/
+}
+.galerieBox button
+{
+	display: block;
+	margin-left: 45%;
+	width: 10%;
+	background: rgb(230, 42, 42);
+	color: rgb(255, 255, 255);
+}
+.galerieBox input
+{
+	position: fixed;
+	left: -500vw;
+}
+
+/*---------#---------#---------#---------#---------#---------*/
+
+.calquesBox
+{
+	background-color: blanchedalmond;
+	/*border: 2px solid #ff0000;*/
+	/*border: 1px solid #ebebf5;*/
+	grid-column: 1/21;
+	grid-row: 14/21;
+	overflow-x: scroll;
+}
+.calquesBox:hover
+{
+	transition-property: all;
+	transition-duration: 0.5s;
+	box-shadow: 0px 0px 2px 1px rgba(163, 169, 195, 0.5);
+}
+.calquesBox img
+{
+	height: 100%;width: auto;
+}
+
+/*---------#---------#---------#---------#---------#---------*/
+
+.hiddenForm
+{
+	display: none;
+}
