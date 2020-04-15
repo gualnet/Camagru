@@ -1,46 +1,55 @@
 <div class="centralView">
-	<div id="firstColumnContainer">
+
+	<div id="firstColumn">
 		<div id="displayContainer">
 			<div id="calqueLayer"></div>
 			<div id="videoLayer">
 				<video id="video"></video>
 			</div>
 			<canvas id="photoLayer"></canvas>
-		</div> <!-- display-container -->
+		</div>
 
 		<div id="buttonContainer" class="container-fluid">
 			<label id="addPicBtn" for="uploadInput" class="btn btn-secondary btn-sm">Add your picture</label>
-<label id="takePictureBtn" class="btn btn-secondary btn-sm disabled" disabled onclick="takePicture()">Prendre une photo</button>
+			<div><label id="takePictureBtn" class="btn btn-secondary btn-sm disabled" disabled onclick="takePicture()">Prendre une photo</button></div>
+			<div class="dropdown">
+				<button class="btn btn-sm btn-secondary dropdown-toggle" type="button" onclick="toggleDropDownMenu()" aria-haspopup="true" aria-expanded="false">
+					Dropdown button
+				</button>
+				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<?php
+						if (isset($calcsMiniUrl)) {
+							for ($i = 0; $i < count($calcsMiniUrl); $i++) {
+								$text = str_replace(".png", "", explode("/", $calcsUrl[$i])[3]);
+								echo "<a class=\"dropdown-item\" href='#' onclick=\"calcSelector(this, '$calcsUrl[$i]')\">$text</a>";
+							}
+						}
+					?>
+				</div>
+			</div>
 		</div>
+	</div>
 
-		<div id="calquesContainer">
+	<div id="secondColumn">
+		<div id="galerieContainer" class="container-fluid">
 			<?php
-			if (isset($calcsMiniUrl)) {
-				for ($i = 0; $i < count($calcsMiniUrl); $i++) {
-					echo "<img class=\"calcImg\" src=\"" . $calcsMiniUrl[$i] . "\" onclick=\"calcSelector(this)\"/>";
+			if (isset($userPics)) {
+				$i = count($userPics) - 1;
+				while ($i >= 0) {
+					echo "<div class=\"imgWrap\" >";
+					echo "<img src=\"" . $userPics[$i] . "\" />";
+					echo "<form class=\"\" method=\"POST\" action=\"studioDelPic\">";
+					echo "<input id=\"deletePicInput\" name=\"pic\" value=\"" . $userPics[$i] . "\"/>";
+					echo "<button>Delete</button>";
+					echo "</form>";
+					echo "</div>";
+					$i--;
 				}
 			}
 			?>
 		</div>
 	</div>
 	
-	<div id="galerieContainer" class="container-fluid">
-		<?php
-		if (isset($userPics)) {
-			$i = count($userPics) - 1;
-			while ($i >= 0) {
-				echo "<div class=\"imgWrap\" >";
-				echo "<img src=\"" . $userPics[$i] . "\" />";
-				echo "<form method=\"POST\" action=\"studioDelPic\">";
-				echo "<input name=\"pic\" value=\"" . $userPics[$i] . "\"/>";
-				echo "<button>Delete</button>";
-				echo "</form>";
-				echo "</div>";
-				$i--;
-			}
-		}
-		?>
-	</div>
 
 
 
@@ -86,33 +95,22 @@
 		const windowWidth = window.innerWidth;
 		media.width = (windowWidth * 50 / 100);
 		media.height = media.width / media.aspectRatio;
-		video.setAttribute("width", media.width);
-		video.setAttribute("height", media.height);
-		photo.setAttribute("width", media.width);
-		photo.setAttribute("height", media.height);
-		calque.setAttribute("width", media.width);
-		calque.setAttribute("height", media.height);
-
-		const firstColumnElem = document.getElementById("firstColumnContainer");
-		firstColumnElem.style.maxWidth = media.width;
 
 		// and press play
 		video.play();
 	};
 
-
-	function calcSelector(me) {
+	function calcSelector(me, calcUrl) {
+		console.log(me, calcUrl);
 		const calcs = document.getElementsByClassName("calcImg");
-		const calcUrl = me.getAttribute("src").replace("_origin", "");
-		//je set la visualisation de la selection du calc
+		// const calcUrl = me.getAttribute("src").replace("_origin", "");
+		
+		// Make the selected img more visible
 		for (i = 0; i < calcs.length; i++) {
 			calcs[i].style.border = "none";
 			calcs[i].style.opacity = "0.3";
 		}
-		me.style.border = "1px dotted #ffffff";
-		me.style.opacity = "1";
-		const calcData = me.getAttribute("src");
-		document.querySelector("#dataSendCalc").setAttribute("value", calcData);
+		document.querySelector("#dataSendCalc").setAttribute("value", calcUrl);
 
 		const btnTakePic = document.querySelector("#takePictureBtn");
 		btnTakePic.disabled = false;
@@ -134,6 +132,7 @@
 		}
 		upLayer_img.setAttribute("src", calcUrl);
 		calqueLayer.appendChild(upLayer_img);
+		toggleDropDownMenu();
 	}
 
 	function showFile(files) {
@@ -176,11 +175,14 @@
 		}
 	}
 
-	function takePicture(event) {
+	async function takePicture(event) {
 		const btn = document.querySelector("#takePictureBtn");
 		if (btn.disabled !== false) return;
 
+		const videoLayer = document.getElementById("videoLayer");
 		const photo = document.querySelector("#photoLayer");
+		photo.width = video.offsetWidth;
+		photo.height = video.offsetHeight;
 
 		if(document.querySelector("#uploadInput").value != "") {
 			const uploadObject = document.querySelector(".uploadObject");
@@ -195,13 +197,21 @@
 				}
 			}
 		} else if(photo != null) {
-			photo.getContext("2d", {alpha: true}).drawImage(video, 0, 0, media.width, media.height);
+			try {
+				photo.getContext("2d", {alpha: true}).drawImage(video, 0, 0, videoLayer.offsetWidth, videoLayer.offsetHeight);
+			} catch (error) {
+				console.error(error);
+			}
 			const data = photo.toDataURL("image/png");
 			photo.setAttribute("src", data);
 			const picData = photo.getAttribute("src");
 			document.querySelector("#dataSendPic").setAttribute("value", picData);
 			document.querySelector(".hiddenForm").submit();
-			btn.preventDefault();
 		}
 	};
+
+	function toggleDropDownMenu() {
+		const menuElem = document.querySelector(".dropdown-menu");
+		menuElem.style.display = (getComputedStyle(menuElem).display === "none") ? "block" : "none";
+	}
 </script>

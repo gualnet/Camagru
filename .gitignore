@@ -1,2 +1,3 @@
 ressources/pics/*/*
 config/database.php
+.DS_Store

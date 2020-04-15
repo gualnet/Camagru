@@ -1,71 +1,148 @@
-.centralView {
-	/* border: 2px solid rgb(179, 16, 159); */
-	display: flex;
-	max-height: 0;
-}
+/* From 0 to 1000px */
+	.centralView {
+		/* border: 2px solid rgb(179, 16, 159); */
 
-#firstColumnContainer {
-	/* border: 4px solid gold; */
+		flex-direction: column;
+		justify-content: flex-start;
+		width: 100%;
+	}
+	
+	#firstColumn {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+	#displayContainer{
+		display: flex;
+		flex-direction: column;
+	}
+	#calqueLayer {
+		position: absolute;
+		top: 6vh;
+		z-index: 1;
+	}
+	#videoLayer video {
+		width: 100%;
+		margin: 0;
+		padding: 0;
+	}
+	#photoLayer {
+		position: absolute;
+		top: 6vh;
+		z-index: -1;
+	}
+	
+	#secondColumn {
+		display: flex;
+	}
+	
+	
 
-	display: flex;
-	max-width: 960px;
-	flex-direction: column;
-}
+	#calquesContainer {
+		display: flex;
+    flex-direction: row;
+		overflow: scroll;
+		height: 10vh;
+	}
+	#calquesContainer img {
+		max-width: 25%;
+	}
 
-/* ---------- ---------- ---------- ---------- ---------- */
+	#galerieContainer {
+		display: flex;
+    flex-direction: row;
+		flex-wrap: wrap;
+		padding: 10 0 10 0;
+	}
+	#galerieContainer img {
+		margin: 0 5 0 5;
+	}
 
-#displayContainer {}
+	/* FORM */
+	.hiddenForm {
+		display: none;
+	}
 
-#videoLayer {
-	position: absolute;
-	top: 6vh; /*size of menu bar*/
-	left: 0px;
-	z-index: 1;
-}
-#videoLayer video {
-	margin: 0;
-	padding: 0;
-}
 
-#calqueLayer {
-	position: absolute;
-	top: 6vh; /*size of menu bar*/
-	left: 0px;
-	z-index: 2;
-}
+	@media (min-width: 1000px) {
+		.centralView {
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: center;
+		}
+	
+		#firstColumn {
+			width: 50%;
+			display: flex;
+			flex-direction: column;
+		}
+	
 
-#buttonContainer {
-	/* border: 1px solid yellow; */
-	padding-top: 5px;
-}
+	
+		/* ---------- ---------- ---------- ---------- ---------- */
+	
+		#displayContainer {
+			display: flex;
+			width: 100%;
+		}
 
-/* ---------- ---------- ---------- ---------- ---------- */
-#buttonContainer {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-evenly;
-}
+		#videoLayer {
+			min-width: 100%;
+			/* width: 100%; */
+			/* position: absolute; */
+			/* top: 6vh; size of menu bar */
+			/* left: 0px; */
+			/* z-index: 1; */
+		}
+		#videoLayer video {
+		width: 100%;
+			margin: 0;
+			padding: 0;
+		}
+	
+		
+	
+		#buttonContainer {
+			padding-top: 5px;
+		}
+	
+		#buttonContainer {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-evenly;
+		}
+	
+	
+		#calquesContainer {
+			border: 1px solid lightgray;
+	
+			display: flex;
+			/* height: 24vh; */
+			overflow: scroll;
+		}
+	
+		#calquesContainer img {
+			border-top: 1px solid lightgray;
+	
+			height: 100%;
+			/* width: 30%; */
+		}
+	
+		/* ---------- ---------- ---------- ---------- ---------- */
+	
+		#secondColumn {
+			width: 50%;
+			display: flex;
+		}
 
-/* ---------- ---------- ---------- ---------- ---------- */
-
-#calquesContainer {
-	border: 1px solid lightgray;
-
-	display: flex;
-	height: 24vh;
-	overflow: scroll;
-}
-
-#calquesContainer img {
-	border-top: 1px solid lightgray;
-
-	height: 100%;
-	width: 30%;
-}
-
-/* ---------- ---------- ---------- ---------- ---------- */
-
-/* FORM */
-.hiddenForm {
-	/* display: none; */
-}
+		#galerieContainer {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			padding: 10 0 10 0;
+		}
+		#galerieContainer img {
+			margin: 0 5 0 5;
+		}
+	
+	}

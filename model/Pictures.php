@@ -21,8 +21,8 @@ class Pictures extends Model
 			$this->ownerId = $_SESSION["user_id"];
 	}
 
-	private function mergePng($regPath)
-	{
+	private function mergePng($regPath) {
+
 		if (strstr($_POST["picData"], "data:image/png;base64")) {
 			$pic = imagecreatefrompng($_POST["picData"]);
 		} elseif (strstr($_POST["picData"], "data:image/jpeg;base64")) {
@@ -34,30 +34,27 @@ class Pictures extends Model
 		$picWidth = imagesx($pic);
 		$picHeight = imagesy($pic);
 		$picSRatio = $picWidth / $picHeight;
-		$calc = imagecreatefrompng($_POST["calcData"]);
+		$calc = imagecreatefrompng(".".$_POST["calcData"]);
 		imagesavealpha($calc, true);
 		$calcWidth = imagesx($calc);
 		$calcHeight = imagesy($calc);
 		$calcSRatio = $calcHeight / $calcWidth;
 		//calcule de la nouvelle taille du calque pour fit sur la photo
-		if ($calcWidth < $calcHeight) // format portrait
-		{
+		if ($calcWidth < $calcHeight) { // format portrait
 			$newCalcHeight = $picHeight;
 			$newCalcWidth = $picWidth * $calcSRatio;
-		} else // format paysage
-		{
+		} else {// format paysage
 			$newCalcWidth = $picWidth;
 			$newCalcHeight = $picHeight * $calcSRatio;
 		}
-		// echo "<p>picW=".$picWidth."/picH=".$picHeight."</p>";
-		// echo "<p>calcW=".$calcWidth."/calcH=".$calcHeight."</p>";
-		// echo "<p>newCalcW=".$newCalcWidth."/newCalcH=".$newCalcHeight."</p>";
 		// creation du calques resize
-		$resizedCalc = imagecreate($newCalcWidth, $newCalcHeight);
+		// $resizedCalc = imagecreate($newCalcWidth, $newCalcHeight);
+		$resizedCalc = imagecreate($picWidth, $picHeight);
+
 		imagesavealpha($resizedCalc, true);
 		$alphaBackground = imagecolorallocatealpha($resizedCalc, 0, 0, 0, 127);
 		imagefill($resizedCalc, 0, 0, $alphaBackground);
-		imagecopyresampled($resizedCalc, $calc, 0, 0, 0, 0, $newCalcWidth, $newCalcHeight, $calcWidth, $calcHeight);
+		imagecopyresampled($resizedCalc, $calc, 0, 0, 0, 0, $picWidth, $picHeight, $calcWidth, $calcHeight);
 		// creation du support de l'image finale
 		$final_img = imagecreatetruecolor($picWidth, $picHeight);
 		imagesavealpha($final_img, true);
@@ -72,11 +69,10 @@ class Pictures extends Model
 		imagepng($final_img, $regPath);
 	}
 
-	private function picToFolder()
-	{
-		echo "construct ownerId" . $this->ownerId;
-		$this->curRegFilePath = "/Users/kriz/Documents/42/Camagru/ressources/pics/"
-			. $this->ownerId . "_" . $this->ownerLogin . DIRSEP;
+	private function picToFolder() {
+		
+		// echo "construct ownerId: " . $this->ownerId;
+		$this->curRegFilePath = "/Users/kriz/Documents/42/Camagru/ressources/pics/" . $this->ownerId . "_" . $this->ownerLogin . DIRSEP;
 		if (!file_exists($this->curRegFilePath)) {
 			mkdir($this->curRegFilePath, 0777, true);
 		}
@@ -103,8 +99,7 @@ class Pictures extends Model
 		$this->insert($req);
 	}
 
-	public function picRegistration()
-	{
+	public function picRegistration() {
 		if ($this->picToFolder() === false) {
 			return false;
 		}
