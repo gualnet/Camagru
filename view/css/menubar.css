@@ -1,44 +1,35 @@
-.topMenu ul
-{
-	/*border: 2px solid rgb(200, 200, 0);*/
-
-	/*font-family: 'Syncopate', sans-serif;*/
-	margin: 0px; padding: 0px;
-	list-style-type: none;
+.topMenu {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 	height: 6vh;
-	background-color: rgb(50, 50, 50);
+	border-bottom: 1px solid #0000001a;
+	/* line-height: 6vh; */
+	padding: 0 10vw 0 10vw;
 }
 
-.topMenu li a
-{
-	/*background: rgb(32, 137, 213);*/
+#btnContainer{
+	flex-grow: 2;
 
-	margin: 0px; padding: 0px;
-	color: rgb(220, 220, 220);
-	padding-right: 3.5vw; padding-left: 3.5vw;
-	padding-top: 2vh; padding-bottom: 2vh;
-	transition: 0.5s;
-}
-.topMenu li a:hover
-{
-	background: rgb(0, 0, 0);
-	color: rgb(255, 255, 255);
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+
 }
 
-.menuLeft
-{
-	/*border: 2px solid rgb(100, 100, 0);*/
+.button {
+	/* background-color: hotpink; */
+	/* border: 1px solid black; */
 
-	float: left;
-	text-align: center;
-	line-height: 6.1vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 35px;
+	width: 80px;
 }
-
-.menuRight
-{
-	/*border: 2px solid rgb(230, 230, 80);*/
-
-	float: right;
-	text-align: center;
-	line-height: 6.1vh;
-}
+#logo a {
+	color: black;
+ }
+ #btnContainer a {
+	 color: black;
+ }
