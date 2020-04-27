@@ -1,6 +1,15 @@
+<?php
+		if((isset($_SESSION["login"]) and $_SESSION["login"] === "none") or !isset($_SESSION["login"]))
+		{
+			echo "To Sign in";
+			header('Location: /pages/login');
 
-<div class="centralView">
-	MA PAGE D'acceuil loaded !
-	<?php
+		} else {
+			echo "To Galery";
+			header('Location: /pages/galery');
+
+		}
 	?>
-</div>
+<!-- <div class="centralView"> -->
+	<!-- MA PAGE D'acceuil loaded ! -->
+<!-- </div> -->
