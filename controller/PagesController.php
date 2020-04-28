@@ -1,5 +1,4 @@
 <?php
-
 class PagesController extends Controller
 {
 
@@ -278,6 +277,8 @@ class PagesController extends Controller
 
 	function galery() {
 		$this->loadModel("Pictures");
+		$this->loadModel("Users");
+
 		$retPics = $this->Pictures->getPics();
 		if ($retPics === false) {
 			$this->e404("SRY no picture found !");
@@ -293,8 +294,19 @@ class PagesController extends Controller
 			$this->e404("SRY no picture found in the database !");
 
 		$picsUrl = array();
+		$picsDate = array();
+		$picsUserLogin = array();
+		$UsersMap = array();
 		for ($i = 0; $i < $nbrPics; $i++) {
 			$picsUrl[] .= $retPics[$i]->file_url;
+			$picsDate[] .= $retPics[$i]->crea_date;
+			if (empty($UsersMap[$retPics[$i]->user_id])) {
+				$userData = $this->Users->getUserByID($retPics[$i]->user_id);
+				$UsersMap[$retPics[$i]->user_id] = $userData[0]->login;
+				$picsUserLogin[] .= $userData[0]->login;
+			} else {
+				$picsUserLogin[] .= $UsersMap[$retPics[$i]->user_id];
+			}
 		}
 
 		if ($pageNum < 1 or $pageNum > ($nbrPics / 6) + 1) {
@@ -304,6 +316,8 @@ class PagesController extends Controller
 		$this->setVars("picsUrl", $picsUrl);
 		$this->setVars("nbrPics", $nbrPics);
 		$this->setVars("pageReq", $pageNum);
+		$this->setVars("picsDate", $picsDate);
+		$this->setVars("picsUserLogin", $picsUserLogin);
 
 		$this->render("galery");
 	}
