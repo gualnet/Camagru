@@ -1,3 +1,6 @@
+.centralView {
+	flex-direction: column;
+}
 
 #galeryContainer {
 	display: flex;
