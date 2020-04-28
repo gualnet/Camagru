@@ -6,25 +6,22 @@
 ?>
 
 <div class="topMenu">
-	<ul>
-	<li class="menuLeft"><a href="<?php HTTP_HOST ?>/pages/acceuil">Home</a></li>
-	<li class="menuLeft"><a href="<?php HTTP_HOST ?>/pages/galery">Galery</a></li>
-	<?php
-		if((isset($_SESSION["login"]) and $_SESSION["login"] === "none") or !isset($_SESSION["login"]))
-		{
+	<div id="logo"><a href="<?php HTTP_HOST ?>/pages/acceuil">CAMAGRU</a></div>
+	<div id="btnContainer">
+		<div class="button"><a href="<?php HTTP_HOST ?>/pages/galery">Galery</a></div>
+		<?php
+		if((isset($_SESSION["login"]) and $_SESSION["login"] === "none") or !isset($_SESSION["login"])) {
 			?>
-			<li class="menuRight"><a href="<?php HTTP_HOST ?>/pages/login">Sign-in</a></li>
-			<li class="menuRight"><a href="<?php HTTP_HOST ?>/pages/signup">Sign-up</a></li>
+			<div class="button"><a href="<?php HTTP_HOST ?>/pages/login">Login</a></div>
+			<div class="button"><a href="<?php HTTP_HOST ?>/pages/signup">Signup</a></div>
 			<?php
-		}
-		else
-		{
+		} else {
 			?>
-			<li class="menuLeft"><a href="<?php HTTP_HOST ?>/pages/studio">Studio</a></li>
-			<li class="menuRight"><a href="<?php HTTP_HOST ?>/pages/logout">Sign-out</a></li>
-			<li class="menuRight"><a href="<?php HTTP_HOST ?>/pages/profil">Profil</a></li>
+			<div class="button"><a href="<?php HTTP_HOST ?>/pages/studio">Studio</a></div>
+			<div class="button"><a href="<?php HTTP_HOST ?>/pages/profil">Profil</a></div>
+			<div class="button"><a href="<?php HTTP_HOST ?>/pages/logout">Sign-out</a></div>
 			<?php
 		}
 		?>
-	</ul>
+	</div>
 </div>
