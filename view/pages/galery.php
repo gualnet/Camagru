@@ -20,12 +20,17 @@
 	</script>
 
 	<div class="picModal">
+			<h1 id="commentTitle">COMMENTS</h1>
 			<img id="imgModal" src=""/>
-			<label id="lblCom">COMMENTS</label>
-			<label id="lblSend" onclick="sendCom()">SEND</label>
-			<input id="comInp" type="text"/>
-			<div id="comments"></div>
-			<div id="likers"></div>
+			<div id="commentsContainer">
+				<div id="comments"></div>
+				<div id="likers"></div>
+			</div>
+			<!-- <label id="sendButton" onclick="sendCom()">SEND</label> -->
+			<div id="inputContainer">
+				<input id="commentInput" class="form-control" type="text"/>
+				<button type="button" class="btn btn-outline-light" onclick="sendCom()">></button>
+			</div>
 	</div>
 	<script>
 
@@ -35,23 +40,24 @@
 			requestPicCom(imgData);
 			requestLikersList(imgData);
 			document.querySelector("#imgModal").setAttribute("src", imgData);
-			picModal.style.display = "grid";
+			picModal.className = "picModal show";
 		}
 
 		window.onclick = function(event) {
-			if (event.target == picModal)
-				picModal.style.display = "none";
+			if (event.target == picModal) {
+				picModal.className = "picModal out";
+			}
 		}
 
 		function sendCom() {
-			var comData = document.querySelector("#comInp").value;
+			var comData = document.querySelector("#commentInput").value;
 			var picData = document.querySelector("#imgModal").getAttribute("src");
 
 			var xhr = new XMLHttpRequest();
 			xhr.onreadystatechange = function() {
 				if(this.readyState == 4 && xhr.status == 200) {
 					var rspTxt = this.responseText;
-					document.querySelector("#comInp").value = "";
+					document.querySelector("#commentInput").value = "";
 					requestPicCom(picData);
 				}
 			}
