@@ -131,6 +131,8 @@
 		<div class="pagination">
 			<?php
 				$maxPages = ($nbrPics / 6);
+				if(is_float($maxPages))
+					$maxPages += 1;
 				$url =  "{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 				$url = explode("/", $url);
 				if (count($url) == 4 && (int)$url[3] > 0 && (int)$url[3] < $maxPages) {
@@ -138,8 +140,7 @@
 				} else {
 					$currentPageNumber = 1;
 				}
-				if(is_float($maxPages))
-					$maxPages += 1;
+				
 				for($i = 1; $i < $maxPages; $i++) {
 					if ($i == $currentPageNumber) {
 						echo "<a style=\"background-color: #000000; color: #FFFFFF\" href=\"http://".HTTP_HOST."/pages/galery/".$i."\">$i</a>";
