@@ -1,20 +1,18 @@
-/* From 0 to 1000px */
 	.centralView {
-		/* border: 2px solid rgb(179, 16, 159); */
-
 		flex-direction: column;
-		justify-content: flex-start;
-		width: 100%;
+		justify-content: space-between;
 	}
 	
 	#firstColumn {
 		width: 100%;
 		display: flex;
 		flex-direction: column;
+		align-items: center;
 	}
 	#displayContainer{
 		display: flex;
 		flex-direction: column;
+		width: 50%;
 	}
 	#calqueLayer {
 		position: absolute;
@@ -31,48 +29,49 @@
 		top: 6vh;
 		z-index: -1;
 	}
+	#buttonContainer {
+		width: 50%;
+    display: flex;
+    flex-direction: row;
+		justify-content: space-evenly;
+		margin-top: 10px;
+	}
 	
 	#secondColumn {
 		display: flex;
 	}
-	
-	
-
-	#calquesContainer {
-		display: flex;
-    flex-direction: row;
-		overflow: scroll;
-		height: 10vh;
-	}
-	#calquesContainer img {
-		max-width: 25%;
-	}
 
 	#galerieContainer {
 		display: flex;
-    flex-direction: row;
-		flex-wrap: wrap;
-		padding: 10 0 10 0;
+		flex-direction: row;
+		overflow: scroll;
+		max-height: 40vh;
 	}
-	#galerieContainer img {
-		margin: 0 5 0 5;
+	.imgMiniContainer {
+    display: flex;
+    flex-direction: column;
+    max-height: 95%;
+    align-items: center;
 	}
-
+	.imgMiniContainer img {
+		max-height: 90%;
+	}
 	/* FORM */
 	.hiddenForm {
 		display: none;
 	}
 
 
-	@media (min-width: 1000px) {
+	@media screen and (max-width: 1000px) {
 		.centralView {
-			flex-direction: row;
+			flex-direction: column;
 			flex-wrap: wrap;
-			justify-content: center;
+			justify-content: space-around;
+			align-items: center;
 		}
 	
 		#firstColumn {
-			width: 50%;
+			/* width: 50%; */
 			display: flex;
 			flex-direction: column;
 		}
@@ -88,11 +87,6 @@
 
 		#videoLayer {
 			min-width: 100%;
-			/* width: 100%; */
-			/* position: absolute; */
-			/* top: 6vh; size of menu bar */
-			/* left: 0px; */
-			/* z-index: 1; */
 		}
 		#videoLayer video {
 		width: 100%;
@@ -100,38 +94,17 @@
 			padding: 0;
 		}
 	
-		
-	
-		#buttonContainer {
-			padding-top: 5px;
-		}
-	
 		#buttonContainer {
 			display: flex;
 			flex-direction: row;
 			justify-content: space-evenly;
-		}
-	
-	
-		#calquesContainer {
-			border: 1px solid lightgray;
-	
-			display: flex;
-			/* height: 24vh; */
-			overflow: scroll;
-		}
-	
-		#calquesContainer img {
-			border-top: 1px solid lightgray;
-	
-			height: 100%;
-			/* width: 30%; */
+			padding-top: 5px;
+
 		}
 	
 		/* ---------- ---------- ---------- ---------- ---------- */
 	
 		#secondColumn {
-			width: 50%;
 			display: flex;
 		}
 
@@ -139,9 +112,16 @@
 			display: flex;
 			flex-direction: row;
 			flex-wrap: wrap;
-			padding: 10 0 10 0;
+			width: 100%;
+			justify-content: space-evenly;
+		}
+		.imgMiniContainer {
+			display: flex;
+			flex-direction: column;
+			width: 40%;
 		}
 		#galerieContainer img {
+			width: 100%;
 			margin: 0 5 0 5;
 		}
 	

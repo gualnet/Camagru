@@ -11,12 +11,11 @@
 
 		<div id="buttonContainer" class="container-fluid">
 			<label id="addPicBtn" for="uploadInput" class="btn btn-secondary btn-sm">Add your picture</label>
-			<div><label id="takePictureBtn" class="btn btn-secondary btn-sm disabled" disabled onclick="takePicture()">Prendre une photo</button></div>
 			<div class="dropdown">
-				<button class="btn btn-sm btn-secondary dropdown-toggle" type="button" onclick="toggleDropDownMenu()" aria-haspopup="true" aria-expanded="false">
-					Dropdown button
+				<button class="btn btn-sm btn-secondary dropdown-toggle" type="button" onclick="toggleDropDownMenu()" aria-haspopup="true" aria-expanded="false">Select Cama
 				</button>
 				<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+				<a class="dropdown-item" href='#' onclick="calcSelector(this, false)">None</a>
 					<?php
 						if (isset($calcsMiniUrl)) {
 							for ($i = 0; $i < count($calcsMiniUrl); $i++) {
@@ -27,6 +26,8 @@
 					?>
 				</div>
 			</div>
+			<div><label id="takePictureBtn" class="btn btn-secondary btn-sm disabled" disabled onclick="takePicture()">Prendre une photo</button></div>
+			
 		</div>
 	</div>
 
@@ -36,11 +37,11 @@
 			if (isset($userPics)) {
 				$i = count($userPics) - 1;
 				while ($i >= 0) {
-					echo "<div class=\"imgWrap\" >";
+					echo "<div class=\"imgMiniContainer\" >";
 					echo "<img src=\"" . $userPics[$i] . "\" />";
 					echo "<form class=\"\" method=\"POST\" action=\"studioDelPic\">";
-					echo "<input id=\"deletePicInput\" name=\"pic\" value=\"" . $userPics[$i] . "\"/>";
-					echo "<button>Delete</button>";
+					echo "<input id=\"deletePicInput\" style=\"display: none;\" name=\"pic\" value=\"" . $userPics[$i] . "\"/>";
+					echo "<button class=\"btn btn-sm btn-secondary\">Delete</button>";
 					echo "</form>";
 					echo "</div>";
 					$i--;
@@ -102,22 +103,24 @@
 
 	function calcSelector(me, calcUrl) {
 		console.log(me, calcUrl);
-		const calcs = document.getElementsByClassName("calcImg");
-		// const calcUrl = me.getAttribute("src").replace("_origin", "");
-		
-		// Make the selected img more visible
-		for (i = 0; i < calcs.length; i++) {
-			calcs[i].style.border = "none";
-			calcs[i].style.opacity = "0.3";
+		// reset calque layer
+		const calqueLayer = document.querySelector("#calqueLayer");
+		toggleDropDownMenu();
+		if (!calcUrl) {
+			calqueLayer.innerHTML = "";
+			document.querySelector("#dataSendCalc").setAttribute("value", '');
+			// disable take picture button
+			const btnTakePic = document.querySelector("#takePictureBtn");
+			btnTakePic.disabled = true;
+			btnTakePic.className = "btn btn-secondary btn-sm disabled";
+			return;
 		}
 		document.querySelector("#dataSendCalc").setAttribute("value", calcUrl);
-
+		// enable take picture button
 		const btnTakePic = document.querySelector("#takePictureBtn");
 		btnTakePic.disabled = false;
 		btnTakePic.className = "btn btn-secondary btn-sm";
 
-		const calqueLayer = document.querySelector("#calqueLayer");
-		calqueLayer.innerHTML = "";
 
 		const upLayer_img = document.createElement("img");
 		const videoW = document.querySelector("#video").clientWidth;
@@ -131,8 +134,8 @@
 			upLayer_img.setAttribute("height", videoH);
 		}
 		upLayer_img.setAttribute("src", calcUrl);
+		calqueLayer.innerHTML = "";
 		calqueLayer.appendChild(upLayer_img);
-		toggleDropDownMenu();
 	}
 
 	function showFile(files) {
